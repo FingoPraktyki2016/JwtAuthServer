@@ -15,8 +15,7 @@ namespace JwtAuthServer.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string version = Assembly.GetEntryAssembly().GetName().Version.ToString();
-            Debug.WriteLine(version);
+            string version = Assembly.GetEntryAssembly().GetName().Version.ToString();          
             return Json(version);
         }
     }
