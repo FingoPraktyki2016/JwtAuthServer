@@ -17,7 +17,8 @@
     "System.IdentityModel.Tokens.Jwt": "5.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Serilog": "2.3.0",
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0"
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
+    "DataAccess": "1.0.0-*"
   },
 
   "tools": {
