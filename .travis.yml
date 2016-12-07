@@ -1,3 +1,5 @@
+dist: trusty
+sudo: false
 language: csharp
 mono: none
 solution: JwtAuthServer.sln
