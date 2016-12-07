@@ -244,3 +244,4 @@ ModelManifest.xml
 
 ####	Our gitignore rules
 src/*/*.Production.json
+

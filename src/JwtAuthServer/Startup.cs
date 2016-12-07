@@ -36,7 +36,7 @@ namespace JwtAuthServer
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddMvc();
 
-            services.AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
+           services.AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database"), assembly => assembly.MigrationsAssembly("JwtAuthServer")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
