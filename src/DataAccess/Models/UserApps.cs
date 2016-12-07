@@ -1,7 +1,7 @@
 ﻿
 namespace LegnicaIT.DataAccess.Models
 {
-    public class UserApps
+    public class UserApps : BaseEntity
     {
         public User User { set; get; }
 

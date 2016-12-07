@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LegnicaIT.DataAccess.Models
 {
-    public class User
+    public class User : BaseEntity
     {
-        [Key]
-        [Required]
-        public int Id { set; get; }
-
         [Column(TypeName = "NVCHAR")]
         [StringLength(256)]
         [Required]
@@ -29,10 +25,5 @@ namespace LegnicaIT.DataAccess.Models
 
         public DateTime LockedOn { set; get; }
 
-        public DateTime CreatedOn { set; get; }
-
-        public DateTime ModifiedOn { set; get; }
-
-        public DateTime DeletedOn { set; get; }
     }
 }
