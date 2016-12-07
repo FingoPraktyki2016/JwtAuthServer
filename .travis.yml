@@ -1,0 +1,4 @@
+language: csharp
+mono: none
+solution: JwtAuthServer.sln
+dotnet: 1.0.0-preview2-003131
