@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/version",
+      "launchUrl": "api/version/tester",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
