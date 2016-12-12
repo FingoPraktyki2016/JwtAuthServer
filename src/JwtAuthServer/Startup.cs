@@ -1,4 +1,5 @@
-﻿using LegnicaIT.DataAccess.Context;
+﻿using System;
+using LegnicaIT.DataAccess.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,8 +43,10 @@ namespace JwtAuthServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            string debugValue = Configuration.GetSection("Logging").GetSection("LogLevel").GetSection("Default").Value;
+            var logLevel = (LogLevel) Enum.Parse(typeof(LogLevel), debugValue);
+
+            loggerFactory.AddConsole(Configuration.GetSection("Logging")).AddDebug(logLevel);
 
             app.UseApplicationInsightsRequestTelemetry();
 
