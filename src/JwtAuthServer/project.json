@@ -14,7 +14,6 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
-    "System.IdentityModel.Tokens.Jwt": "5.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Serilog": "2.3.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
@@ -22,7 +21,8 @@
     "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "BusinessLogic": "1.0.0-*"
   },
 
   "tools": {
