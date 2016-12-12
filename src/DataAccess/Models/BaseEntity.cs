@@ -14,6 +14,5 @@ namespace LegnicaIT.DataAccess.Models
         public DateTime ModifiedOn { set; get; }
 
         public DateTime DeletedOn { set; get; }
-
     }
 }

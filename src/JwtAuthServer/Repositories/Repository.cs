@@ -1,19 +1,21 @@
 ﻿using LegnicaIT.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 
 namespace JwtAuthServer
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        private readonly IJwtDbContext _db;
+        private readonly IJwtDbContext db;
 
-        public UserRepository(IJwtDbContext context) : base(context)
+        public UserRepository(IJwtDbContext _context) : base(_context)
         {
-            _db = context;
+            this.db = _context;
+        }
+
+        public IQueryable<User> GetUsers()
+        {
+            return this.Table();
         }
     }
 
@@ -25,44 +27,35 @@ namespace JwtAuthServer
     {
         DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity;
 
-        EntityEntry Entry(object entity);
-
         int SaveChanges();
     }
 
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        protected IJwtDbContext Entities;
-        protected readonly DbSet<T> Dbset;
+        protected IJwtDbContext context;
+        protected readonly DbSet<T> dbSet;
 
-        protected GenericRepository(IJwtDbContext context)
+        protected GenericRepository(IJwtDbContext _context)
         {
-            Entities = context;
-            Dbset = context.Set<T>();
-        }
-
-        public virtual IEnumerable<T> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
-        {
-            throw new NotImplementedException();
+            this.context = _context;
+            this.dbSet = _context.Set<T>();
         }
 
         public virtual T GetById(int id)
         {
-            throw new NotImplementedException();
+            return this.dbSet.Find(id);
+        }
+
+        public virtual IQueryable<T> Table()
+        {
+            return this.dbSet;
         }
     }
 
     public interface IGenericRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
-
-        IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
-
         T GetById(int id);
+
+        IQueryable<T> Table();
     }
 }
