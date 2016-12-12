@@ -6,21 +6,18 @@ namespace LegnicaIT.DataAccess.Models
 {
     public class User : BaseEntity
     {
-        [MaxLength]
-        [Column(TypeName = "ntext")]
+        [Column(TypeName = "NVARCHAR(256)")]       
         [Required]
         public String Email { set; get; }
 
-        [MaxLength]
-        [Column(TypeName = "ntext")]
+        [Column(TypeName = "NVARCHAR(256)")]
         [Required]
         public String Password { set; get; }
 
         public DateTime EmailConfirmedOn { set; get; }
 
-        [MaxLength]
-        [Column(TypeName = "ntext")]
-        [StringLength(100)]
+        [Column(TypeName = "NVARCHAR(100)")]
+        [StringLength(150)]
         public String Name { set; get; }
 
         public DateTime LockedOn { set; get; }
