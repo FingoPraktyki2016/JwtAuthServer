@@ -5,6 +5,7 @@ mono: none
 dotnet: 1.0.0-preview2-003131
 notifications:
   slack:
+    on_success: change
     matrix:
     - legnica-itfingo:tBMc3pYTdlTFVw3L33p5EEPJ
     rooms:
