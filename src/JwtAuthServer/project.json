@@ -23,7 +23,8 @@
       "type": "build"
     },
     "BusinessLogic": "1.0.0-*",
-    "Autofac": "4.2.1"
+    "Autofac": "4.2.1",
+    "xunit.runner.visualstudio": "2.1.0"
   },
 
   "tools": {
@@ -38,6 +39,7 @@
     "netcoreapp1.0": {
       "imports": [
         "dotnet5.6",
+        "dnxcore50",
         "portable-net45+win8"
       ]
     }
@@ -56,7 +58,7 @@
 
   "runtimes": {
     "win10-x64": {},
-    "ubuntu.14.04-x64": {} 
+    "ubuntu.14.04-x64": {}
   },
 
   "publishOptions": {
