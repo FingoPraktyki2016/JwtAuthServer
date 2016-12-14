@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace JwtAuthServer.Models
+namespace LegnicaIT.JwtAuthServer.Models
 {
     public class LoginModel
     {

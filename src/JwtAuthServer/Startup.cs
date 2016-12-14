@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using JwtAuthServer.Autofac;
 using LegnicaIT.DataAccess.Context;
+using LegnicaIT.JwtAuthServer.Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace JwtAuthServer
+namespace LegnicaIT.JwtAuthServer
 {
     public class Startup
     {

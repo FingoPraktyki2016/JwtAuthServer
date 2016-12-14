@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Reflection;
 
-namespace JwtAuthServer.Controllers
+namespace LegnicaIT.JwtAuthServer.Controllers
 {
     [Route("api/[controller]")]
     public class VersionController : Controller
