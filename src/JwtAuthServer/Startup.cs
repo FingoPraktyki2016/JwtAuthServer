@@ -29,7 +29,8 @@ namespace JwtAuthServer
             }
 
             builder.AddEnvironmentVariables();
-            this.ApplicationContainer = AutofacBuilder.RegisterComponents();
+            var autofacBuilder = new AutofacHelper().RegisterComponents();
+            autofacBuilder.Build();
             Configuration = builder.Build();
         }
 
