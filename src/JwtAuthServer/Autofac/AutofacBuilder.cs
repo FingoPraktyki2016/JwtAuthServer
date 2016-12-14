@@ -4,17 +4,16 @@ using LegnicaIT.DataAccess.Context;
 
 namespace JwtAuthServer.Autofac
 {
-    public static class AutofacBuilder
+    public class AutofacHelper
     {
-        public static IContainer RegisterComponents()
+        public ContainerBuilder RegisterComponents()
         {
             var autofacBuilder = new ContainerBuilder();
             autofacBuilder.RegisterType<UserRepository>().As<IUserRepository>();
             autofacBuilder.RegisterType<AppRepository>().As<IAppRepository>();
             autofacBuilder.RegisterType<JwtDbContext>().As<IJwtDbContext>();
-            IContainer _ApplicationContainer = autofacBuilder.Build();
 
-            return _ApplicationContainer;
+            return autofacBuilder;
         }
     }
 }
