@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LegnicaIT.BusinessLogic
 {
     public class JwtParser
     {
+        // Move away from GIT repo!!!!
         private static string SecretKey = "LegnicaIT-Fingo-JWT-KEY";
+
+        private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(SecretKey));
 
         public JwtParser()
         {   
@@ -43,6 +47,31 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
+        public string AcquireToken(string formName = "Test")
+        {
+            var handler = new JwtSecurityTokenHandler();
+
+            var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
+
+            // FIXME: Debug
+            formName = "Teeeeest";
+
+            var identity = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, formName)
+            });
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = identity,
+                SigningCredentials = credentials
+            };
+
+            var plainToken = handler.CreateToken(tokenDescriptor);
+
+            // Encoded token
+            return handler.WriteToken(plainToken);
+        }
 
     }
 }
