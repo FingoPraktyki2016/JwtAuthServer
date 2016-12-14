@@ -13,6 +13,12 @@ namespace JwtAuthServer.Controllers
         [HttpPost("verify")]
         public JsonResult Verify(VerifyTokenModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                // TODO: error class
+                return Json("error");
+            }
+
             var parser = new JwtParser();
             var result = parser.Verify(model.Token);
 
@@ -22,6 +28,12 @@ namespace JwtAuthServer.Controllers
         [HttpPost("acquiretoken")]
         public JsonResult AcquireToken(LoginModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                // TODO: error class
+                return Json("error");
+            }
+
             var parser = new JwtParser();
             var token = parser.AcquireToken(model.Email, model.Password, model.AppId);
 
