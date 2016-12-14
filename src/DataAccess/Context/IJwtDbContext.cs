@@ -1,7 +1,7 @@
 ﻿using LegnicaIT.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LegnicaIT.BusinessLogic.Repositories
+namespace LegnicaIT.DataAccess.Context
 {
     public interface IJwtDbContext
     {

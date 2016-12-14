@@ -1,16 +1,22 @@
 ﻿using LegnicaIT.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace LegnicaIT.DataAccess.Context
 {
-    public class JwtDbContext : DbContext
+    public class JwtDbContext : DbContext, IJwtDbContext
     {
         //public JwtDbContext(DbContextOptions options) : base(options)
         //{
         //}
 
-        public DbSet<User> User { set; get; }
+        public new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
+        {
+            return base.Set<TEntity>();
+        }
+
+        public DbSet<User> Users { set; get; }
         public DbSet<UserApps> UserApps { set; get; }
-        public DbSet<App> App { set; get; }
+        public DbSet<App> Apps { set; get; }
     }
 }
