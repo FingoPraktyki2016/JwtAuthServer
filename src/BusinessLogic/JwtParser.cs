@@ -47,18 +47,21 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
-        public string AcquireToken(string formName = "Test")
+        public string AcquireToken(string formEmail, string formPassword, int formAppId)
         {
+            // TODO: Password validation
+            if (!AuthPasswordValidation(formPassword))
+            {
+                return "invalid";
+            }
+
             var handler = new JwtSecurityTokenHandler();
-
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
-
-            // FIXME: Debug
-            formName = "Teeeeest";
 
             var identity = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, formName)
+                new Claim(ClaimTypes.Email, formEmail),
+                new Claim("AppId", formAppId.ToString())
             });
 
             var tokenDescriptor = new SecurityTokenDescriptor()
@@ -71,6 +74,17 @@ namespace LegnicaIT.BusinessLogic
 
             // Encoded token
             return handler.WriteToken(plainToken);
+        }
+
+        protected bool AuthPasswordValidation(string password)
+        {
+            // TODO: Valid in database
+            if (String.IsNullOrEmpty(password))
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }

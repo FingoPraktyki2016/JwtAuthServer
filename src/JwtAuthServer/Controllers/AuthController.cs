@@ -14,17 +14,16 @@ namespace JwtAuthServer.Controllers
         public JsonResult Verify(VerifyTokenModel model)
         {
             var parser = new JwtParser();
-            parser.Verify(model.Token);
+            var result = parser.Verify(model.Token);
 
-            return Json($"verify-result: ...");
+            return Json($"verify-result: {result}");
         }
 
-        // FIXME: POST
-        [HttpGet("acquiretoken")]
-        public JsonResult AcquireToken(VerifyTokenModel model)
+        [HttpPost("acquiretoken")]
+        public JsonResult AcquireToken(LoginModel model)
         {
             var parser = new JwtParser();
-            var token = parser.AcquireToken(model.Token);
+            var token = parser.AcquireToken(model.Email, model.Password, model.AppId);
 
             return Json($"acquireToken-result: {token}");
         }
