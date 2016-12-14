@@ -8,6 +8,7 @@ namespace LegnicaIT.BusinessLogic
     public class JwtParser
     {
         // Move away from GIT repo!!!!
+        private static string IssuerName = "LegnicaIT";
         private static string SecretKey = "LegnicaIT-Fingo-JWT-KEY";
 
         private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(SecretKey));
@@ -21,12 +22,15 @@ namespace LegnicaIT.BusinessLogic
             var handler = new JwtSecurityTokenHandler();
             SecurityToken validatedToken = null;
             TokenValidationParameters parameters = new TokenValidationParameters()
-            { 
+            {
                 ValidateLifetime = true,
-                ValidateAudience = true,
+                ValidateAudience = false,
                 ValidateIssuer = true,
-                ValidateIssuerSigningKey = true
+                ValidIssuer = IssuerName,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = encodedSecretKey,
             };
+
             bool result = false;
 
             try
@@ -61,6 +65,7 @@ namespace LegnicaIT.BusinessLogic
             var identity = new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Email, formEmail),
+                new Claim("iss", IssuerName), 
                 new Claim("AppId", formAppId.ToString())
             });
 
