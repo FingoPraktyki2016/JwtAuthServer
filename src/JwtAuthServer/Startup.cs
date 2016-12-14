@@ -29,9 +29,10 @@ namespace LegnicaIT.JwtAuthServer
             }
 
             builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+
             var autofacBuilder = new AutofacHelper().RegisterComponents();
             autofacBuilder.Build();
-            Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }

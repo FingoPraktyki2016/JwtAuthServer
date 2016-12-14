@@ -7,7 +7,7 @@ namespace LegnicaIT.DataAccess.Models
     public class App : BaseEntity
     {
         [Required]
-        [Column(TypeName = "NVARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(150)")]
         public String Name { set; get; }
     }
 }
