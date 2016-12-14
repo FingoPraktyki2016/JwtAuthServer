@@ -66,7 +66,9 @@ namespace LegnicaIT.BusinessLogic
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = identity,
-                SigningCredentials = credentials
+                SigningCredentials = credentials,
+                // TODO: hardcoded. Move to ex. appsettings
+                Expires = DateTime.Now.AddDays(14),
             };
 
             var plainToken = handler.CreateToken(tokenDescriptor);
