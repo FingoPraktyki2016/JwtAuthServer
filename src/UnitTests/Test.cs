@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace UnitTests
+namespace LegnicaIT.UnitTests
 {
     public class Test
     {
