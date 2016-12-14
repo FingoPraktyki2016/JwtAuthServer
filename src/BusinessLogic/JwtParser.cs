@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 
 namespace LegnicaIT.BusinessLogic
 {
@@ -14,7 +14,7 @@ namespace LegnicaIT.BusinessLogic
         private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(SecretKey));
 
         public JwtParser()
-        {   
+        {
         }
 
         public bool Verify(string token)
@@ -53,12 +53,6 @@ namespace LegnicaIT.BusinessLogic
 
         public string AcquireToken(string formEmail, string formPassword, int formAppId)
         {
-            // TODO: Password validation
-            if (!AuthPasswordValidation(formPassword))
-            {
-                return "invalid";
-            }
-
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
 
@@ -80,17 +74,5 @@ namespace LegnicaIT.BusinessLogic
             // Encoded token
             return handler.WriteToken(plainToken);
         }
-
-        protected bool AuthPasswordValidation(string password)
-        {
-            // TODO: Valid in database
-            if (String.IsNullOrEmpty(password))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
     }
 }

@@ -26,10 +26,11 @@ namespace JwtAuthServer
             {
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
-            }              
+            }
 
             builder.AddEnvironmentVariables();
-            this.ApplicationContainer = AutofacBuilder.RegisterComponents();
+            var autofacBuilder = new AutofacHelper().RegisterComponents();
+            autofacBuilder.Build();
             Configuration = builder.Build();
         }
 

@@ -17,6 +17,5 @@ namespace UnitTests
             int sum = a + b;
             Assert.Equal(expectedResult, sum);
         }
-
     }
 }
