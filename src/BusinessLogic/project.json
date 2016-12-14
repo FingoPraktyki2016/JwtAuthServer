@@ -2,13 +2,21 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "DataAccess": "1.0.0-*",
     "NETStandard.Library": "1.6.1",
-    "System.IdentityModel.Tokens.Jwt": "5.1.0"
+    "System.IdentityModel.Tokens.Jwt": "5.1.0",
+    "Microsoft.EntityFrameworkCore": "1.1.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0"
   },
 
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "ubuntu.14.04-x64": {}
   }
 }
