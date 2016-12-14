@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 
 namespace LegnicaIT.BusinessLogic
 {
@@ -13,7 +13,7 @@ namespace LegnicaIT.BusinessLogic
         private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(SecretKey));
 
         public JwtParser()
-        {   
+        {
         }
 
         public bool Verify(string token)
@@ -21,7 +21,7 @@ namespace LegnicaIT.BusinessLogic
             var handler = new JwtSecurityTokenHandler();
             SecurityToken validatedToken = null;
             TokenValidationParameters parameters = new TokenValidationParameters()
-            { 
+            {
                 ValidateLifetime = true,
                 ValidateAudience = true,
                 ValidateIssuer = true,
@@ -69,6 +69,5 @@ namespace LegnicaIT.BusinessLogic
             // Encoded token
             return handler.WriteToken(plainToken);
         }
-
     }
 }

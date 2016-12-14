@@ -9,7 +9,6 @@ namespace JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-       
         [HttpPost("verify")]
         public JsonResult Verify(VerifyTokenModel model)
         {
