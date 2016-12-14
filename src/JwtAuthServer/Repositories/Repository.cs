@@ -4,37 +4,28 @@ using System.Linq;
 
 namespace JwtAuthServer
 {
-    public class UserRepository : GenericRepository<User>, IUserRepository
+    public interface IGenericRepository<T> where T : class
     {
-        private readonly IJwtDbContext db;
+        T GetById(int id);
 
-        public UserRepository(IJwtDbContext _context) : base(_context)
-        {
-            this.db = _context;
-        }
+        IQueryable<T> Table();
+    }
 
-        public IQueryable<User> GetUsers()
-        {
-            return this.Table();
-        }
+    public interface IJwtDbContext
+    {
+        int SaveChanges();
+
+        DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity;
     }
 
     public interface IUserRepository
     {
     }
 
-    public interface IJwtDbContext
-    {
-        DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity;
-
-        int SaveChanges();
-    }
-
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        protected IJwtDbContext context;
         protected readonly DbSet<T> dbSet;
-
+        protected IJwtDbContext context;
         protected GenericRepository(IJwtDbContext _context)
         {
             this.context = _context;
@@ -52,10 +43,18 @@ namespace JwtAuthServer
         }
     }
 
-    public interface IGenericRepository<T> where T : class
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        T GetById(int id);
+        private readonly IJwtDbContext db;
 
-        IQueryable<T> Table();
+        public UserRepository(IJwtDbContext _context) : base(_context)
+        {
+            this.db = _context;
+        }
+
+        public IQueryable<User> GetUsers()
+        {
+            return this.Table();
+        }
     }
 }
