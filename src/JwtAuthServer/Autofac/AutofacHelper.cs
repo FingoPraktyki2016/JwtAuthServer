@@ -2,7 +2,7 @@
 using LegnicaIT.BusinessLogic.Repositories;
 using LegnicaIT.DataAccess.Context;
 
-namespace JwtAuthServer.Autofac
+namespace LegnicaIT.JwtAuthServer.Autofac
 {
     public class AutofacHelper
     {

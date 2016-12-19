@@ -1,6 +1,5 @@
 ﻿using LegnicaIT.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace LegnicaIT.DataAccess.Context
 {

@@ -1,10 +1,10 @@
-﻿using JwtAuthServer.Models;
-using LegnicaIT.BusinessLogic;
+﻿using LegnicaIT.BusinessLogic;
+using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace JwtAuthServer.Controllers
+namespace LegnicaIT.JwtAuthServer.Controllers
 {
     [Route("api/[controller]")]
     public class AuthController : Controller

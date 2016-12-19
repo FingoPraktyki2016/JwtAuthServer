@@ -15,8 +15,8 @@ namespace LegnicaIT.BusinessLogic.Repositories
 
         protected GenericRepository(IJwtDbContext _context)
         {
-            this.context = _context;
-            this.dbSet = _context.Set<T>();
+            context = _context;
+            dbSet = _context.Set<T>();
         }
 
         public virtual void Add(T entity)

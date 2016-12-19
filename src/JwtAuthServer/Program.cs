@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace JwtAuthServer
+namespace LegnicaIT.JwtAuthServer
 {
     public class Program
     {
