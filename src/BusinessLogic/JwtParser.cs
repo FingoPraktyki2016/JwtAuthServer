@@ -1,5 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.BusinessLogic.Properties;
+using LegnicaIT.BusinessLogic.Providers;
+using LegnicaIT.BusinessLogic.Providers.Interface;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,8 +28,11 @@ namespace LegnicaIT.BusinessLogic
 
         private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(getSecretKey()));
 
-        public JwtParser()
+        private IDateTimeProvider dateTimeProvider;
+
+        public JwtParser(IDateTimeProvider dateTimeProvider = null)
         {
+            this.dateTimeProvider = (dateTimeProvider == null) ? new DateTimeProvider() : dateTimeProvider;
         }
 
 
@@ -98,7 +103,7 @@ namespace LegnicaIT.BusinessLogic
             {
                 Subject = identity,
                 SigningCredentials = credentials,
-                Expires = DateTime.Now.AddDays(getExpiredDays()),
+                Expires = dateTimeProvider.GetNow().AddDays(getExpiredDays()),
             };
 
             var plainToken = handler.CreateToken(tokenDescriptor);

@@ -1,7 +1,8 @@
-﻿using LegnicaIT.BusinessLogic;
-using LegnicaIT.BusinessLogic.Models;
+﻿using LegnicaIT.BusinessLogic.Models;
 using System;
+using LegnicaIT.BusinessLogic.Providers.Interface;
 using Xunit;
+using Moq;
 
 namespace LegnicaIT.BusinessLogic.Tests
 {
@@ -49,6 +50,24 @@ namespace LegnicaIT.BusinessLogic.Tests
 
             Assert.Equal(true, result.IsValid);
             Assert.NotNull(result.ExpiryDate);
+        }
+
+        [Fact]
+        public void Verify_ForFreshToken_ReturnsCorrectExpiryDate()
+        {
+            var mockedDateTimeProvider = new Mock<IDateTimeProvider>();
+            var dateFormat = "yyyy-MM-dd HH:mm";
+            var dateNow = DateTime.UtcNow;
+            // we are using mocked IDateTimeProvider to make sure we are refering to same "now"
+            mockedDateTimeProvider.Setup(p => p.GetNow()).Returns(dateNow);
+            var parser = new JwtParser(mockedDateTimeProvider.Object);
+            var dateNowFutureString = dateNow.AddDays(JwtParser.getExpiredDays()).ToString(dateFormat);
+
+            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", "test", 1);
+            VerifyResultModel result = parser.Verify(tokenModel.Token);
+            string expiryDateString = result.ExpiryDate.Value.ToString(dateFormat);
+
+            Assert.Equal(dateNowFutureString, expiryDateString);
         }
     }
 }
