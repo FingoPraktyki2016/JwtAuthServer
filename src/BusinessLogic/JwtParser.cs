@@ -9,14 +9,22 @@ namespace LegnicaIT.BusinessLogic
 {
     public class JwtParser
     {
-        // Move away from GIT repo!!!!
-        private static readonly string IssuerName = tokensettings.IssuerName;
+        public static string getIssuerName()
+        {
+            return tokensettings.IssuerName;
+        }
 
-        private static readonly string SecretKey = tokensettings.SecretKey;
+        public static string getSecretKey()
+        {
+            return tokensettings.SecretKey;
+        }
 
-        private readonly int ExpiredDays = Convert.ToInt32(tokensettings.ExpiredDays);
+        public static int getExpiredDays()
+        {
+            return Convert.ToInt32(tokensettings.ExpiredDays);
+        }
 
-        private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(SecretKey));
+        private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(getSecretKey()));
 
         public JwtParser()
         {
@@ -30,7 +38,7 @@ namespace LegnicaIT.BusinessLogic
                 ValidateLifetime = true,
                 ValidateAudience = false,
                 ValidateIssuer = true,
-                ValidIssuer = IssuerName,
+                ValidIssuer = getIssuerName(),
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = encodedSecretKey,
             };
@@ -61,18 +69,28 @@ namespace LegnicaIT.BusinessLogic
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
 
-            var identity = new ClaimsIdentity(new[]
+            ClaimsIdentity identity;
+
+            try
             {
-                new Claim(ClaimTypes.Email, formEmail),
-                new Claim("iss", IssuerName),
-                new Claim("AppId", formAppId.ToString())
-            });
+                identity = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Email, formEmail),
+                    new Claim("iss", getIssuerName()),
+                    new Claim("AppId", formAppId.ToString())
+                });
+            }
+            catch (Exception e)
+            {
+                // TODO: Logger
+                return null;
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = identity,
                 SigningCredentials = credentials,
-                Expires = DateTime.Now.AddDays(ExpiredDays),
+                Expires = DateTime.Now.AddDays(getExpiredDays()),
             };
 
             var plainToken = handler.CreateToken(tokenDescriptor);

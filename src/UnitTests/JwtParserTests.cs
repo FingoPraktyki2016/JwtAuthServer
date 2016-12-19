@@ -18,6 +18,16 @@ namespace LegnicaIT.BusinessLogic.Tests
         }
 
         [Fact]
+        public void AcquireToken_ForInvalidInput_ReturnsNull()
+        {
+            var parser = new JwtParser();
+
+            AcquireTokenModel tokenModel = parser.AcquireToken(null, null, 0);
+
+            Assert.Null(tokenModel.Token);
+        }
+
+        [Fact]
         public void Verify_ForExpiredToken_ReturnsError()
         {
             var parser = new JwtParser();
