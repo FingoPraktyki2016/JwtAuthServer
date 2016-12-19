@@ -85,5 +85,11 @@ namespace LegnicaIT.BusinessLogic
 
             return result;
         }
+
+        public string Restricted(string data)
+        {
+            return data;
+        }
+
     }
 }

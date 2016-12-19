@@ -23,7 +23,8 @@
     },
     "BusinessLogic": "1.0.0-*",
     "Autofac": "4.2.1",
-    "xunit.runner.visualstudio": "2.1.0"
+    "xunit.runner.visualstudio": "2.1.0",
+    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.0"
   },
 
   "tools": {
