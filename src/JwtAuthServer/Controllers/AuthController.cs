@@ -21,7 +21,7 @@ namespace JwtAuthServer.Controllers
             var parser = new JwtParser();
             var result = parser.Verify(model.Token);
 
-            return Json($"verify-result: {result}");
+            return Json(result);
         }
 
         [HttpPost("acquiretoken")]

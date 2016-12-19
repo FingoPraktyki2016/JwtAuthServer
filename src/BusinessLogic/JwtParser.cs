@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using LegnicaIT.BusinessLogic.Models;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,7 +18,7 @@ namespace LegnicaIT.BusinessLogic
         {
         }
 
-        public bool Verify(string token)
+        public VerifyResultModel Verify(string token)
         {
             var handler = new JwtSecurityTokenHandler();
             SecurityToken validatedToken = null;
@@ -31,21 +32,19 @@ namespace LegnicaIT.BusinessLogic
                 IssuerSigningKey = encodedSecretKey,
             };
 
-            bool result = false;
+            var result = new VerifyResultModel()
+            {
+                IsValid = false
+            };
 
             try
             {
                 handler.ValidateToken(token, parameters, out validatedToken);
-                result = true;
-            }
-            catch (ArgumentNullException e)
-            {
-            }
-            catch (ArgumentException e)
-            {
+                result.IsValid = true;
             }
             catch (Exception e)
             {
+                //TODO Logger
             }
 
             return result;
