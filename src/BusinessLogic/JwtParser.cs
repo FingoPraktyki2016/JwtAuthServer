@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Models;
-﻿using LegnicaIT.BusinessLogic.Properties;
+using LegnicaIT.BusinessLogic.Properties;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -53,7 +54,7 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
-        public string AcquireToken(string formEmail, string formPassword, int formAppId)
+        public AcquireTokenModel AcquireToken(string formEmail, string formPassword, int formAppId)
         {
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
@@ -75,7 +76,12 @@ namespace LegnicaIT.BusinessLogic
             var plainToken = handler.CreateToken(tokenDescriptor);
 
             // Encoded token
-            return handler.WriteToken(plainToken);
+            var result = new AcquireTokenModel()
+            {
+                Token = handler.WriteToken(plainToken)
+            };
+
+            return result;
         }
     }
 }

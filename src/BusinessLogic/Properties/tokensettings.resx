@@ -121,9 +121,9 @@
     <value>14</value>
   </data>
   <data name="IssuerName" xml:space="preserve">
-    <value>LegnicaIT-Prod</value>
+    <value>LegnicaIT</value>
   </data>
   <data name="SecretKey" xml:space="preserve">
-    <value>LegnicaIT-Fingo-JWT-Prod-KEY</value>
+    <value>LegnicaIT-Fingo-JWT-KEY</value>
   </data>
 </root>

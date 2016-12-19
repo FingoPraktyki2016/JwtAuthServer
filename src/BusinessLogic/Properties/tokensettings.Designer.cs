@@ -69,7 +69,7 @@ namespace LegnicaIT.BusinessLogic.Properties {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to LegnicaIT-Prod.
+        ///    Looks up a localized string similar to LegnicaIT.
         /// </summary>
         public static string IssuerName {
             get {
@@ -78,7 +78,7 @@ namespace LegnicaIT.BusinessLogic.Properties {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to LegnicaIT-Fingo-JWT-Prod-KEY.
+        ///    Looks up a localized string similar to LegnicaIT-Fingo-JWT-KEY.
         /// </summary>
         public static string SecretKey {
             get {

@@ -36,7 +36,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             var parser = new JwtParser();
             var token = parser.AcquireToken(model.Email, model.Password, model.AppId);
 
-            return Json($"acquireToken-result: {token}");
+            return Json(token);
         }
     }
 }
