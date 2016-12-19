@@ -10,13 +10,19 @@ namespace LegnicaIT.BusinessLogic.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private DbSet<T> dbSet;
-        private IJwtDbContext context;
+        protected DbSet<T> dbSet;
+        protected IJwtDbContext context;
 
         protected GenericRepository(IJwtDbContext _context)
         {
             context = _context;
             dbSet = _context.Set<T>();
+        }
+
+        public virtual void Update(T entity)
+        {
+            dbSet.Attach(entity);
+            // context.SetModified(entity);
         }
 
         public virtual void Add(T entity)
