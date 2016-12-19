@@ -10,8 +10,8 @@ namespace LegnicaIT.BusinessLogic.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        protected readonly DbSet<T> dbSet;
-        protected IJwtDbContext context;
+        private DbSet<T> dbSet;
+        private IJwtDbContext context;
 
         protected GenericRepository(IJwtDbContext _context)
         {
@@ -31,7 +31,8 @@ namespace LegnicaIT.BusinessLogic.Repositories
 
         public virtual void Edit(T entity)
         {
-            dbSet.Attach(entity);
+            throw new NotImplementedException();
+            //dbSet.Attach(entity);
         }
 
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)

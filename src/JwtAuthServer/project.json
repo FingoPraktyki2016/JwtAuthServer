@@ -15,7 +15,6 @@
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
-    "Serilog": "2.3.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "DataAccess": "1.0.0-*",
     "Microsoft.EntityFrameworkCore.Tools": {
@@ -24,8 +23,7 @@
     },
     "BusinessLogic": "1.0.0-*",
     "Autofac": "4.2.1",
-    "xunit.runner.visualstudio": "2.1.0",
-    "UnitTests": "1.0.0-*"
+    "xunit.runner.visualstudio": "2.1.0"
   },
 
   "tools": {

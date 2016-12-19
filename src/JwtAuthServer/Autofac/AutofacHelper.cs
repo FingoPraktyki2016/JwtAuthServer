@@ -6,14 +6,15 @@ namespace LegnicaIT.JwtAuthServer.Autofac
 {
     public class AutofacHelper
     {
-        public ContainerBuilder RegisterComponents()
-        {
-            var autofacBuilder = new ContainerBuilder();
-            autofacBuilder.RegisterType<UserRepository>().As<IUserRepository>();
-            autofacBuilder.RegisterType<AppRepository>().As<IAppRepository>();
-            autofacBuilder.RegisterType<JwtDbContext>().As<IJwtDbContext>();
+        //Might need later?
+        //public ContainerBuilder RegisterComponents()
+        //{
+        //    var autofacBuilder = new ContainerBuilder();
+        //    autofacBuilder.RegisterType<UserRepository>().As<IUserRepository>();
+        //    autofacBuilder.RegisterType<AppRepository>().As<IAppRepository>();
+        //    autofacBuilder.RegisterType<JwtDbContext>().As<IJwtDbContext>();
 
-            return autofacBuilder;
-        }
+        //    return autofacBuilder;
+        //}
     }
 }
