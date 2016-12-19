@@ -1,0 +1,5 @@
+﻿{
+  "SecretKey": "LegnicaIT-Fingo-JWT-Prod-KEY",
+  "IssuerName": "LegnicaIT-Prod",
+  "ExpiredDays": 14
+}

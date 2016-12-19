@@ -1,5 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Models;
-using Microsoft.IdentityModel.Tokens;
+﻿using LegnicaIT.BusinessLogic.Properties;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,9 +9,11 @@ namespace LegnicaIT.BusinessLogic
     public class JwtParser
     {
         // Move away from GIT repo!!!!
-        private static string IssuerName = "LegnicaIT";
+        private static readonly string IssuerName = tokensettings.IssuerName;
 
-        private static string SecretKey = "LegnicaIT-Fingo-JWT-KEY";
+        private static readonly string SecretKey = tokensettings.SecretKey;
+
+        private readonly int ExpiredDays = Convert.ToInt32(tokensettings.ExpiredDays);
 
         private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(SecretKey));
 
@@ -67,8 +69,7 @@ namespace LegnicaIT.BusinessLogic
             {
                 Subject = identity,
                 SigningCredentials = credentials,
-                // TODO: hardcoded. Move to ex. appsettings
-                Expires = DateTime.Now.AddDays(14),
+                Expires = DateTime.Now.AddDays(ExpiredDays),
             };
 
             var plainToken = handler.CreateToken(tokenDescriptor);
