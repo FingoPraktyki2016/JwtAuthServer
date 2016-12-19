@@ -44,7 +44,9 @@ namespace LegnicaIT.BusinessLogic
             {
                 SecurityToken validatedToken;
                 handler.ValidateToken(token, parameters, out validatedToken);
+                var jwt = handler.ReadToken(token);
                 result.IsValid = true;
+                result.ExpiryDate = jwt.ValidTo;
             }
             catch (Exception e)
             {
