@@ -4,7 +4,7 @@ namespace LegnicaIT.JwtAuthServer.Models
 {
     public class LoginModel
     {
-        [Required]
+        [Required, EmailAddress]
         public string Email { get; set; }
 
         [Required]
