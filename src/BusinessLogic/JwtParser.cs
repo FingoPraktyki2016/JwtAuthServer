@@ -30,9 +30,9 @@ namespace LegnicaIT.BusinessLogic
         {
         }
 
-        public VerifyResultModel Verify(string token)
+
+        public TokenValidationParameters getParameters()
         {
-            var handler = new JwtSecurityTokenHandler();
             TokenValidationParameters parameters = new TokenValidationParameters()
             {
                 ValidateLifetime = true,
@@ -42,6 +42,14 @@ namespace LegnicaIT.BusinessLogic
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = encodedSecretKey,
             };
+
+            return parameters;
+        }
+        
+        public VerifyResultModel Verify(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            TokenValidationParameters parameters = getParameters();
 
             var result = new VerifyResultModel()
             {
