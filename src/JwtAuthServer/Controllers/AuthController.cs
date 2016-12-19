@@ -1,9 +1,15 @@
 ﻿using LegnicaIT.BusinessLogic;
 using LegnicaIT.BusinessLogic.Models;
+using LegnicaIT.JwtAuthServer.GenericResult;
+using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
+using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,8 +23,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // TODO: error class
-                return Json("error");
+                var errorResult = new ResultModel<ErrorModel>((new ErrorModel() { ListOfErrors = new ErrorParser().GetErrorsFromModelState(ModelState) }), ResultCode.Error);
+                return Json(errorResult);
             }
 
             var parser = new JwtParser();
@@ -33,8 +39,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // TODO: error class
-                return Json("error");
+                var errorResult = new ResultModel<ErrorModel>((new ErrorModel() { ListOfErrors = new ErrorParser().GetErrorsFromModelState(ModelState) }), ResultCode.Error);
+                return Json(errorResult);
             }
 
             var parser = new JwtParser();
@@ -50,8 +56,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // TODO: error class
-                return Json("error");
+                var errorResult = new ResultModel<ErrorModel>((new ErrorModel() { ListOfErrors = new ErrorParser().GetErrorsFromModelState(ModelState) }), ResultCode.Error);
+                return Json(errorResult);
             }
             var parser = new JwtParser();
 

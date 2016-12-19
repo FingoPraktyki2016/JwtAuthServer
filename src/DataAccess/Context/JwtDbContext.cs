@@ -14,6 +14,11 @@ namespace LegnicaIT.DataAccess.Context
             return base.Set<TEntity>();
         }
 
+        public void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+
         public DbSet<User> Users { set; get; }
         public DbSet<UserApps> UserApps { set; get; }
         public DbSet<App> Apps { set; get; }
