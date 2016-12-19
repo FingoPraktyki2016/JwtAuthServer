@@ -2,6 +2,7 @@
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtAuthServer.GenericResult;
 using LegnicaIT.JwtAuthServer.Helpers;
+using LegnicaIT.BusinessLogic.Repositories;
 using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +19,13 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
+        private readonly IUserRepository context;
+
+        public AuthController(IUserRepository _context)
+        {
+            context = _context;
+        }
+
         [HttpPost("verify")]
         public JsonResult Verify(VerifyTokenModel model)
         {
@@ -37,7 +45,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         [HttpPost("acquiretoken")]
         public JsonResult AcquireToken(LoginModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !context.IsUserInDatabase(model.Email, model.Password))
             {
                 var errorResult = new ResultModel<ErrorModel>((new ErrorModel() { ListOfErrors = new ErrorParser().GetErrorsFromModelState(ModelState) }), ResultCode.Error);
                 return Json(errorResult);
@@ -59,6 +67,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 var errorResult = new ResultModel<ErrorModel>((new ErrorModel() { ListOfErrors = new ErrorParser().GetErrorsFromModelState(ModelState) }), ResultCode.Error);
                 return Json(errorResult);
             }
+
             var parser = new JwtParser();
 
             var data = parser.Restricted(model.Data);

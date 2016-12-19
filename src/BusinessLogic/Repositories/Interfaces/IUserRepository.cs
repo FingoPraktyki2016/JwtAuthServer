@@ -7,5 +7,9 @@ namespace LegnicaIT.BusinessLogic.Repositories
         void AddUser();
 
         User GetLastUser();
+
+        User GetUser(string email, string password);
+
+        bool IsUserInDatabase(string email, string password);
     }
 }

@@ -26,13 +26,31 @@ namespace LegnicaIT.BusinessLogic.Repositories
             user.DeletedOn = DateTime.Now;
             user.EmailConfirmedOn = DateTime.Now;
 
-            this.Add(user);
-            this.Save();
+            Add(user);
+            Save();
         }
 
         public User GetLastUser()
         {
-            return this.GetAll().Last();
+            return GetAll().Last();
+        }
+
+        public User GetUser(string email, string password)
+        {
+            var user = dbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
+            return user;
+        }
+
+        public bool IsUserInDatabase(string email, string password)
+        {
+            var user = dbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
+
+            if (user != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
