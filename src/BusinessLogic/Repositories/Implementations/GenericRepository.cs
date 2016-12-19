@@ -29,12 +29,6 @@ namespace LegnicaIT.BusinessLogic.Repositories
             dbSet.Remove(entity);
         }
 
-        public virtual void Edit(T entity)
-        {
-            throw new NotImplementedException();
-            //dbSet.Attach(entity);
-        }
-
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> query = context.Set<T>().Where(predicate);

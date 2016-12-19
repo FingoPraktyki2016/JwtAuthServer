@@ -1,4 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             }
 
             var parser = new JwtParser();
-            var result = parser.Verify(model.Token);
+            var verifiyResult = parser.Verify(model.Token);
+            var result = new ResultModel<VerifyResultModel>(verifiyResult);
 
             return Json(result);
         }
@@ -36,9 +38,10 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             }
 
             var parser = new JwtParser();
-            var token = parser.AcquireToken(model.Email, model.Password, model.AppId);
+            var acquireResult = parser.AcquireToken(model.Email, model.Password, model.AppId);
+            var result = new ResultModel<AcquireTokenModel>(acquireResult);
 
-            return Json(token);
+            return Json(result);
         }
 
         [HttpPost("restricted")]
@@ -55,6 +58,5 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             var data = parser.Restricted(model.Data);
             return Json($"restricted-result: {data}");
         }
-
     }
 }
