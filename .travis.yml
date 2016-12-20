@@ -20,4 +20,4 @@ install:
 script:
   - dotnet restore
   - dotnet build **/project.json -c Release
-  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./src/BusinessLogic.Tests/bin/Release/netcoreapp1.0/BusinessLogic.dll
+  - dotnet test ./src/BusinessLogic.Tests -c Release --no-build
