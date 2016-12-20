@@ -5,19 +5,15 @@ using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.BusinessLogic.Repositories;
 using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Collections.Generic;
-using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly IUserRepository context;
 
@@ -59,7 +55,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         }
 
         [HttpPost("restricted")]
-        [Authorize(ActiveAuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public JsonResult Restricted(RestrictedModel model)
         {
             if (!ModelState.IsValid)
@@ -68,10 +64,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
-            var parser = new JwtParser();
-
-            var data = parser.Restricted(model.Data);
-            return Json($"restricted-result: {data}");
+            return Json($"logged-user {LoggedUser.Email}");
         }
     }
 }
