@@ -25,7 +25,7 @@ namespace LegnicaIT.BusinessLogic.Tests
 
             AcquireTokenModel tokenModel = parser.AcquireToken(null, null, 0);
 
-            Assert.Null(tokenModel.Token);
+            Assert.Null(tokenModel);
         }
 
         [Fact]
