@@ -15,8 +15,6 @@ notifications:
     rooms:
       secure: foSUvNH1j+VCWgto/X/TsJ5jOJuLdkYKq7ikmSBokoS8yS319YCDv7xXBkISb5uvxtZ57bb4luZkB8FXUpeB7J10nXC6OwI8B3MuL/+XSWFV21KBvN3r/iNz3dvrpjT6xy2qO5mrODCWBryE+zEDdmdg5pjJzMCSrYZDdFxzAxzOIVUZrPFHKoCLQ33dY/wsTX8hH5RS53Dj4Bc4hXS4QH7+ffPEAKs2kAaqhEBeTnFG194YddE1/O17+ilYpVx4BpC/u+BrBS1xyaxRsgoA0bWpMmvuSE3T2VzDSvji2nh1ZPoZsjon4kOh6uGN1IOIeI4zi+3B4sil03o/LtMstf/xG6Q8wmYdm/eJa5rUtSgsXY1d2ZHIZfHiDpmE4jQ9OHVuAeacbEtGnATCe44HfgE3ezTsP+EZ89oIKOrxZZHB3xsGZBPc2u+YpfBptYXn5WO4edSy0yU+gtF8TP4/Uq7JXcVNPyy6U5iD2iApVoykybYBqC/CNfMdMjXuoRCXjbABIxsY6VLLdR2fnGJVarXrmoWl8e+cSpHIlHvGFZQi9V/8/gRfKbjdDpLDMmV6Ys+k2oCdFQRRusd5EDHYtARvDvrwJLw2ovF+QH63N7JZakGa5Rp78pXuzw5a4KsyV6fUl1oyyjlTFHBSgL1bcVwG/I3armOEJM8jCHRBto8=
 global_env: ASPNETCORE_ENVIRONMENT=Staging
-install:
-  - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
 script:
   - dotnet restore
   - dotnet build **/project.json -c Release
