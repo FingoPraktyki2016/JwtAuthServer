@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using LegnicaIT.DataAccess.Context;
-using LegnicaIT.JwtAuthServer.Services;
 using LegnicaIT.JwtAuthServer.Helpers;
+using LegnicaIT.JwtAuthServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,9 +31,6 @@ namespace LegnicaIT.JwtAuthServer
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
-
-            //var autofacBuilder = new AutofacHelper().RegisterComponents();
-            //autofacBuilder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
