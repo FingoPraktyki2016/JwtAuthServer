@@ -5,6 +5,7 @@ using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,8 +15,6 @@ namespace LegnicaIT.JwtAuthServer
 {
     public class Startup
     {
-        public IContainer ApplicationContainer { get; private set; }
-
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -51,6 +50,9 @@ namespace LegnicaIT.JwtAuthServer
             authHelper.Configure(app);
 
             app.UseMvc();
+
+            var databaseMigrationService = new MigrationHelper();
+            databaseMigrationService.Migrate(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container
@@ -60,7 +62,7 @@ namespace LegnicaIT.JwtAuthServer
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddMvc();
 
-            services.AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database"), assembly => assembly.MigrationsAssembly("JwtAuthServer")));
+            services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database"), assembly => assembly.MigrationsAssembly("JwtAuthServer")));
 
             var dependencyBuilder = new DependencyBuilder();
             dependencyBuilder.RegisterRepositories(services);
