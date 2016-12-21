@@ -77,7 +77,7 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
-        public AcquireTokenModel AcquireToken(string formEmail, string formPassword, int formAppId)
+        public AcquireTokenModel AcquireToken(string formEmail, string formPassword, int? formAppId)
         {
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);

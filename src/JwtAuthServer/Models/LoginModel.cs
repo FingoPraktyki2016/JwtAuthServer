@@ -11,6 +11,6 @@ namespace LegnicaIT.JwtAuthServer.Models
         public string Password { get; set; }
 
         [Required]
-        public int AppId { get; set; }
+        public int? AppId { get; set; }
     }
 }
