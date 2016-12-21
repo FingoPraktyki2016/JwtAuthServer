@@ -18,13 +18,15 @@ namespace LegnicaIT.JwtAuthServer.Helpers
 
         private static List<string> GetErrorsFromModelState(ModelStateDictionary ModelState)
         {
-            var query = ModelState.Values;
             var errorList = new List<string>();
-            foreach (var e in query)
+            foreach (var modelStateKey in ModelState.Keys)
             {
-                foreach (var x in e.Errors)
+                var modelStateVal = ModelState[modelStateKey];
+                foreach (var error in modelStateVal.Errors)
                 {
-                    errorList.Add(x.ErrorMessage);
+                    var key = modelStateKey;
+                    var errorMessage = error.ErrorMessage;
+                    errorList.Add($"Key: {key}, Error: {errorMessage}");
                 }
             }
             return errorList;
