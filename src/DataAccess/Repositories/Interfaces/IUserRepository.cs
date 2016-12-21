@@ -2,7 +2,7 @@
 
 namespace LegnicaIT.DataAccess.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository
     {
         void Add();
 

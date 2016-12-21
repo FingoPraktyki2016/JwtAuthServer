@@ -1,9 +1,10 @@
 ﻿using LegnicaIT.DataAccess.Models;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LegnicaIT.DataAccess.Context
 {
-    public interface IJwtDbContext
+    public interface IJwtDbContext : IRepository
     {
         int SaveChanges();
 

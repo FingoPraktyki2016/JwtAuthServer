@@ -1,6 +1,5 @@
-﻿using Autofac;
+﻿using LegnicaIT.JwtAuthServer.DependencyInjection;
 using LegnicaIT.DataAccess.Context;
-using LegnicaIT.JwtAuthServer.DependencyInjection;
 using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.JwtAuthServer
 {
@@ -64,7 +64,7 @@ namespace LegnicaIT.JwtAuthServer
 
             services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database"), assembly => assembly.MigrationsAssembly("JwtAuthServer")));
 
-            var dependencyBuilder = new DependencyBuilder();
+            var dependencyBuilder = new DependencyBuilder<IRepository>();
             dependencyBuilder.RegisterRepositories(services);
         }
     }
