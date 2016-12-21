@@ -8,7 +8,7 @@ using LegnicaIT.DataAccess.Context;
 namespace JwtAuthServer.Migrations
 {
     [DbContext(typeof(JwtDbContext))]
-    [Migration("20161221134653_init")]
+    [Migration("20161221150430_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
