@@ -19,15 +19,6 @@ namespace LegnicaIT.DataAccess.Context
             Entry(entity).State = EntityState.Modified;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<User>();
-            modelBuilder.Entity<UserApps>();
-            modelBuilder.Entity<App>();
-        }
-
         public DbSet<User> Users { get; set; }
 
         public DbSet<UserApps> UserApps { get; set; }
