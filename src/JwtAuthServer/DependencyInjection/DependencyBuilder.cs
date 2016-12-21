@@ -8,9 +8,9 @@ namespace LegnicaIT.JwtAuthServer.Services
     {
         public void RegisterRepositories(IServiceCollection services)
         {
-            services.AddScoped<IJwtDbContext, JwtDbContext>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAppRepository, AppRepository>();
+            services.AddSingleton<IJwtDbContext, JwtDbContext>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IAppRepository, AppRepository>();
         }
     }
 }
