@@ -9,8 +9,8 @@ namespace LegnicaIT.JwtAuthServer.Models
 
         public ResultModel(T value, ResultCode code = ResultCode.Ok)
         {
-            this.Value = value;
-            this.Status = new ResultStatusModel() { Code = code };
+            Value = value;
+            Status = new ResultStatusModel() { Code = code };
         }
     }
 }

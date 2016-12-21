@@ -14,17 +14,17 @@ namespace LegnicaIT.BusinessLogic.Repositories
         public void AddUser()
         {
             // for test, delete anytime
-            User user = new User();
-            user.Email = "123";
-            user.Name = "345";
-            user.Password = "123";
-
-            user.LockedOn = DateTime.Now;
-
-            user.ModifiedOn = DateTime.Now;
-            user.CreatedOn = DateTime.Now;
-            user.DeletedOn = DateTime.Now;
-            user.EmailConfirmedOn = DateTime.Now;
+            User user = new User
+            {
+                Email = "123@test.pl",
+                Name = "345",
+                Password = "123",
+                LockedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                CreatedOn = DateTime.Now,
+                DeletedOn = DateTime.Now,
+                EmailConfirmedOn = DateTime.Now
+            };
 
             Add(user);
             Save();

@@ -1,8 +1,8 @@
 ﻿using LegnicaIT.BusinessLogic.Models;
-using System;
 using LegnicaIT.BusinessLogic.Providers.Interface;
-using Xunit;
 using Moq;
+using System;
+using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests
 {
@@ -61,7 +61,7 @@ namespace LegnicaIT.BusinessLogic.Tests
             // we are using mocked IDateTimeProvider to make sure we are refering to same "now"
             mockedDateTimeProvider.Setup(p => p.GetNow()).Returns(dateNow);
             var parser = new JwtParser(mockedDateTimeProvider.Object);
-            var dateNowFutureString = dateNow.AddDays(JwtParser.getExpiredDays()).ToString(dateFormat);
+            var dateNowFutureString = dateNow.AddDays(JwtParser.GetExpiredDays()).ToString(dateFormat);
 
             AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", "test", 1);
             VerifyResultModel result = parser.Verify(tokenModel.Token);

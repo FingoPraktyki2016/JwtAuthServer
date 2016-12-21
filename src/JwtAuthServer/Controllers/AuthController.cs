@@ -1,18 +1,10 @@
 ﻿using LegnicaIT.BusinessLogic;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.BusinessLogic.Repositories;
-using LegnicaIT.JwtAuthServer.GenericResult;
 using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
-using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {

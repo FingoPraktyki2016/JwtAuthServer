@@ -11,50 +11,49 @@ namespace LegnicaIT.BusinessLogic
 {
     public class JwtParser
     {
-        public static string getIssuerName()
+        public string GetIssuerName()
         {
             return tokensettings.IssuerName;
         }
 
-        public static string getSecretKey()
+        public static string GetSecretKey()
         {
             return tokensettings.SecretKey;
         }
 
-        public static int getExpiredDays()
+        public static int GetExpiredDays()
         {
             return Convert.ToInt32(tokensettings.ExpiredDays);
         }
 
-        private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(getSecretKey()));
+        private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetSecretKey()));
 
-        private IDateTimeProvider dateTimeProvider;
+        private readonly IDateTimeProvider dateTimeProvider;
 
         public JwtParser(IDateTimeProvider dateTimeProvider = null)
         {
-            this.dateTimeProvider = (dateTimeProvider == null) ? new DateTimeProvider() : dateTimeProvider;
+            this.dateTimeProvider = dateTimeProvider ?? new DateTimeProvider();
         }
 
-
-        public TokenValidationParameters getParameters()
+        public TokenValidationParameters GetParameters()
         {
             TokenValidationParameters parameters = new TokenValidationParameters()
             {
                 ValidateLifetime = true,
                 ValidateAudience = false,
                 ValidateIssuer = true,
-                ValidIssuer = getIssuerName(),
+                ValidIssuer = GetIssuerName(),
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = encodedSecretKey,
             };
 
             return parameters;
         }
-        
+
         public VerifyResultModel Verify(string token)
         {
             var handler = new JwtSecurityTokenHandler();
-            TokenValidationParameters parameters = getParameters();
+            TokenValidationParameters parameters = GetParameters();
 
             var result = new VerifyResultModel()
             {
@@ -77,7 +76,7 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
-        public AcquireTokenModel AcquireToken(string formEmail, string formPassword, int? formAppId)
+        public AcquireTokenModel AcquireToken(string formEmail, string formPassword, int formAppId)
         {
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
@@ -89,7 +88,7 @@ namespace LegnicaIT.BusinessLogic
                 identity = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Email, formEmail),
-                    new Claim("iss", getIssuerName()),
+                    new Claim("iss", GetIssuerName()),
                     new Claim("AppId", formAppId.ToString())
                 });
             }
@@ -103,7 +102,7 @@ namespace LegnicaIT.BusinessLogic
             {
                 Subject = identity,
                 SigningCredentials = credentials,
-                Expires = dateTimeProvider.GetNow().AddDays(getExpiredDays()),
+                Expires = dateTimeProvider.GetNow().AddDays(GetExpiredDays()),
             };
 
             var plainToken = handler.CreateToken(tokenDescriptor);

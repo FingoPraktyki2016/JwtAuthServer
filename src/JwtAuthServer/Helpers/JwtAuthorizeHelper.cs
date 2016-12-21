@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using LegnicaIT.BusinessLogic;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
-using LegnicaIT.BusinessLogic;
 
 namespace LegnicaIT.JwtAuthServer.Helpers
 {
@@ -9,7 +9,7 @@ namespace LegnicaIT.JwtAuthServer.Helpers
     {
         public void Configure(IApplicationBuilder app)
         {
-            TokenValidationParameters tokenValidationParameters = new JwtParser().getParameters();
+            TokenValidationParameters tokenValidationParameters = new JwtParser().GetParameters();
 
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
