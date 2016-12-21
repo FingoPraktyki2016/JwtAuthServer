@@ -4,12 +4,12 @@ namespace LegnicaIT.BusinessLogic.Repositories
 {
     public interface IUserRepository
     {
-        void AddUser();
+        void Add();
 
-        User GetLastUser();
+        User GetLast();
 
-        User GetUser(string email, string password);
+        User Get(string email, string password);
 
-        bool IsUserInDatabase(string email, string password);
+        bool IsInDatabase(string email, string password);
     }
 }

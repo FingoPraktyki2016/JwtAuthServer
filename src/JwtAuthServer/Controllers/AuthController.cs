@@ -42,7 +42,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 var errorResult = ModelState.GetErrorModel();
                 return Json(errorResult);
             }
-            else if (!context.IsUserInDatabase(model.Email, model.Password))
+
+            if (!context.IsInDatabase(model.Email, model.Password))
             {
                 ModelState.AddModelError("Email", "Authentication failed");
                 var errorResult = ModelState.GetErrorModel();

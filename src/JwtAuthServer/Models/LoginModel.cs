@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace LegnicaIT.JwtAuthServer.Models
 {
@@ -12,6 +13,7 @@ namespace LegnicaIT.JwtAuthServer.Models
         public string Password { get; set; }
 
         [Required]
+        [Range(1, Int32.MaxValue, ErrorMessage = "AppId must be a valid number")]
         public int AppId { get; set; }
     }
 }

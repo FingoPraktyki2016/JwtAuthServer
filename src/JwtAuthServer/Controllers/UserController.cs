@@ -23,8 +23,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         [HttpGet("adduser")]
         public ActionResult AddUser()
         {
-            context.AddUser();
-            return Json(context.GetLastUser().Name);
+            context.Add();
+            return Json(context.GetLast().Name);
         }
     }
 }

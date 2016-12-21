@@ -11,7 +11,7 @@ namespace LegnicaIT.BusinessLogic.Repositories
         {
         }
 
-        public void AddUser()
+        public void Add()
         {
             // for test, delete anytime
             User user = new User
@@ -30,20 +30,20 @@ namespace LegnicaIT.BusinessLogic.Repositories
             Save();
         }
 
-        public User GetLastUser()
+        public User GetLast()
         {
             return GetAll().Last();
         }
 
-        public User GetUser(string email, string password)
+        public User Get(string email, string password)
         {
             var user = dbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
             return user;
         }
 
-        public bool IsUserInDatabase(string email, string password)
+        public bool IsInDatabase(string email, string password)
         {
-            var user = dbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
+            var user = Get(email, password);
 
             if (user != null)
             {
