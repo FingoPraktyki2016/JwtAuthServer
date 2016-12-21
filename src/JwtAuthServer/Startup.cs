@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using LegnicaIT.DataAccess.Context;
 using LegnicaIT.JwtAuthServer.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using LegnicaIT.BusinessLogic;
 
 namespace LegnicaIT.JwtAuthServer
 {
@@ -51,13 +50,8 @@ namespace LegnicaIT.JwtAuthServer
 
             app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseJwtBearerAuthentication(new JwtBearerOptions
-            {
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = new JwtParser().getParameters(),
-                AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme,
-            });
+            var authHelper = new JwtAuthorizeHelper();
+            authHelper.Configure(app);
 
             app.UseMvc();
         }
