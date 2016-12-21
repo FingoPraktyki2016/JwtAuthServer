@@ -22,8 +22,7 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
 
         public virtual void Update(T entity)
         {
-            dbSet.Attach(entity);
-            // context.SetModified(entity);
+            entity.ModifiedOn = DateTime.UtcNow;
         }
 
         public virtual void Add(T entity)
@@ -33,7 +32,7 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
 
         public virtual void Delete(T entity)
         {
-            dbSet.Remove(entity);
+            entity.DeletedOn = DateTime.UtcNow;
         }
 
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)

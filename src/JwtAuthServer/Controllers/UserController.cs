@@ -6,11 +6,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly IUserRepository context;
+        private readonly IUserRepository userRepository;
 
-        public UserController(IUserRepository _context)
+        public UserController(IUserRepository _userRepository)
         {
-            context = _context;
+            userRepository = _userRepository;
         }
 
         // GET: /<controller>/
@@ -23,8 +23,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         [HttpGet("adduser")]
         public ActionResult AddUser()
         {
-            context.Add();
-            return Json(context.GetLast().Name);
+            userRepository.Add();
+            return Json(userRepository.GetLast().Name);
         }
     }
 }

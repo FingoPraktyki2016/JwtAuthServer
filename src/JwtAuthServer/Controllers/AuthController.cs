@@ -12,11 +12,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class AuthController : BaseController
     {
-        private readonly IUserRepository context;
+        private readonly IUserRepository userRepository;
 
-        public AuthController(IUserRepository _context)
+        public AuthController(IUserRepository _userRepository)
         {
-            context = _context;
+            userRepository = _userRepository;
         }
 
         [HttpPost("verify")]
@@ -44,7 +44,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
-            if (!context.IsInDatabase(model.Email, model.Password))
+            if (!userRepository.IsSet(model.Email, model.Password))
             {
                 ModelState.AddModelError("Email", "Authentication failed");
                 var errorResult = ModelState.GetErrorModel();

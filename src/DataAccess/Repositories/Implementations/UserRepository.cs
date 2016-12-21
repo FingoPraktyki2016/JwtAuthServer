@@ -42,7 +42,7 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
             return user;
         }
 
-        public bool IsInDatabase(string email, string password)
+        public bool IsSet(string email, string password)
         {
             var user = Get(email, password);
 

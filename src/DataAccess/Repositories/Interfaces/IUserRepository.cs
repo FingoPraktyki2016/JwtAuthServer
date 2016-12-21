@@ -10,6 +10,6 @@ namespace LegnicaIT.DataAccess.Repositories.Interfaces
 
         User Get(string email, string password);
 
-        bool IsInDatabase(string email, string password);
+        bool IsSet(string email, string password);
     }
 }
