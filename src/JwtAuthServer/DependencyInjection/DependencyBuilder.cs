@@ -1,6 +1,6 @@
-﻿using LegnicaIT.BusinessLogic.Repositories;
-using LegnicaIT.BusinessLogic.Repositories.Interfaces;
-using LegnicaIT.DataAccess.Context;
+﻿using LegnicaIT.DataAccess.Context;
+using LegnicaIT.DataAccess.Repositories.Implementations;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LegnicaIT.JwtAuthServer.DependencyInjection

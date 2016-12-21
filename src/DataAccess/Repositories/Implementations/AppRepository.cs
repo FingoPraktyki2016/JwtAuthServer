@@ -1,8 +1,8 @@
-﻿using LegnicaIT.BusinessLogic.Repositories.Interfaces;
-using LegnicaIT.DataAccess.Context;
+﻿using LegnicaIT.DataAccess.Context;
 using LegnicaIT.DataAccess.Models;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
 
-namespace LegnicaIT.BusinessLogic.Repositories
+namespace LegnicaIT.DataAccess.Repositories.Implementations
 {
     public class AppRepository : GenericRepository<App>, IAppRepository
     {

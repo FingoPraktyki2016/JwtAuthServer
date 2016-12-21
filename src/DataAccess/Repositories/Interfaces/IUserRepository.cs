@@ -1,6 +1,6 @@
 ﻿using LegnicaIT.DataAccess.Models;
 
-namespace LegnicaIT.BusinessLogic.Repositories.Interfaces
+namespace LegnicaIT.DataAccess.Repositories.Interfaces
 {
     public interface IUserRepository
     {

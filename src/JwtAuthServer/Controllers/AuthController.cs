@@ -1,6 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic;
 using LegnicaIT.BusinessLogic.Models;
-using LegnicaIT.BusinessLogic.Repositories.Interfaces;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
 using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;

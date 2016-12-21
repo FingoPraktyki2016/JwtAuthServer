@@ -1,13 +1,13 @@
-﻿using LegnicaIT.BusinessLogic.Repositories.Interfaces;
-using LegnicaIT.DataAccess.Context;
+﻿using LegnicaIT.DataAccess.Context;
 using LegnicaIT.DataAccess.Models;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace LegnicaIT.BusinessLogic.Repositories
+namespace LegnicaIT.DataAccess.Repositories.Implementations
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
