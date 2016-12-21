@@ -1,4 +1,4 @@
-﻿using LegnicaIT.BusinessLogic.Repositories;
+﻿using LegnicaIT.BusinessLogic.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LegnicaIT.JwtAuthServer.Controllers

@@ -1,4 +1,4 @@
-﻿namespace LegnicaIT.JwtAuthServer.GenericResult
+﻿namespace LegnicaIT.JwtAuthServer.ResultPattern
 {
     public enum ResultCode
     {

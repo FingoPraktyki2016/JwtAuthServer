@@ -1,10 +1,7 @@
-﻿using LegnicaIT.JwtAuthServer.GenericResult;
-using LegnicaIT.JwtAuthServer.Models;
-using LegnicaIT.JwtAuthServer.Models.ResultModel;
+﻿using LegnicaIT.JwtAuthServer.Models.ResultModel;
+using LegnicaIT.JwtAuthServer.ResultPattern;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LegnicaIT.JwtAuthServer.Helpers
 {

@@ -11,28 +11,28 @@ namespace LegnicaIT.BusinessLogic
 {
     public class JwtParser
     {
-        public string GetIssuerName()
-        {
-            return tokensettings.IssuerName;
-        }
-
-        public static string GetSecretKey()
-        {
-            return tokensettings.SecretKey;
-        }
-
-        public static int GetExpiredDays()
-        {
-            return Convert.ToInt32(tokensettings.ExpiredDays);
-        }
-
-        private static readonly SymmetricSecurityKey encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetSecretKey()));
-
+        private readonly SymmetricSecurityKey encodedSecretKey;
         private readonly IDateTimeProvider dateTimeProvider;
 
         public JwtParser(IDateTimeProvider dateTimeProvider = null)
         {
             this.dateTimeProvider = dateTimeProvider ?? new DateTimeProvider();
+            encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetSecretKey()));
+        }
+
+        public string GetIssuerName()
+        {
+            return tokensettings.IssuerName;
+        }
+
+        public string GetSecretKey()
+        {
+            return tokensettings.SecretKey;
+        }
+
+        public int GetExpiredDays()
+        {
+            return Convert.ToInt32(tokensettings.ExpiredDays);
         }
 
         public TokenValidationParameters GetParameters()
@@ -68,7 +68,7 @@ namespace LegnicaIT.BusinessLogic
                 result.IsValid = true;
                 result.ExpiryDate = jwt.ValidTo;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //TODO Logger
             }
@@ -92,7 +92,7 @@ namespace LegnicaIT.BusinessLogic
                     new Claim("AppId", formAppId.ToString())
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // TODO: Logger
                 return null;

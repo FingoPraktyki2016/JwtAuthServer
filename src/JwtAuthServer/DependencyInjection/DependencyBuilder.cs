@@ -1,8 +1,9 @@
 ﻿using LegnicaIT.BusinessLogic.Repositories;
+using LegnicaIT.BusinessLogic.Repositories.Interfaces;
 using LegnicaIT.DataAccess.Context;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LegnicaIT.JwtAuthServer.Services
+namespace LegnicaIT.JwtAuthServer.DependencyInjection
 {
     public class DependencyBuilder
     {

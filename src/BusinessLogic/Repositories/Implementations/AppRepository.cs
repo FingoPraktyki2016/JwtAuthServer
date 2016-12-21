@@ -1,4 +1,5 @@
-﻿using LegnicaIT.DataAccess.Context;
+﻿using LegnicaIT.BusinessLogic.Repositories.Interfaces;
+using LegnicaIT.DataAccess.Context;
 using LegnicaIT.DataAccess.Models;
 
 namespace LegnicaIT.BusinessLogic.Repositories

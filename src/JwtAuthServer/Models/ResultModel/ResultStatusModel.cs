@@ -1,6 +1,6 @@
-﻿using LegnicaIT.JwtAuthServer.GenericResult;
+﻿using LegnicaIT.JwtAuthServer.ResultPattern;
 
-namespace LegnicaIT.JwtAuthServer.Models
+namespace LegnicaIT.JwtAuthServer.Models.ResultModel
 {
     public class ResultStatusModel
     {

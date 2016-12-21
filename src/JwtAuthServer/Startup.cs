@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using LegnicaIT.DataAccess.Context;
+using LegnicaIT.JwtAuthServer.DependencyInjection;
 using LegnicaIT.JwtAuthServer.Helpers;
-using LegnicaIT.JwtAuthServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
