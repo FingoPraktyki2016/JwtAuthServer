@@ -1,46 +1,30 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
 namespace LegnicaIT.JwtAuthServer.DependencyInjection
 {
-    public class RepositoryModel
-    {
-        private Type imp;
-        private Type inter;
-    }
-
     public class DependencyBuilder<T>
     {
         //Registers interfaces that inherit IRepository
         public void RegisterRepositories(IServiceCollection services)
-        {
-            var listOfAssembliesToIjnect =
-                    (from projectAssembly in Assembly.GetEntryAssembly().GetReferencedAssemblies()
-                     from assemblyType in Assembly.Load(projectAssembly).GetTypes()
-                     from assemblyTypeInterfaces in assemblyType.GetInterfaces()
-                     where assemblyTypeInterfaces == typeof(T)
-                     select assemblyType).ToList();
-
-            //foreach (var implementation in listOfAssembliesToIjnect)
-            //{
-            //    Debug.WriteLine($"Registered interface {implementation.Name}");
-            //}
-
-            foreach (var implementation in listOfAssembliesToIjnect)
+        {   
+            //get all assemblies
+            Assembly.GetEntryAssembly().GetReferencedAssemblies().ToList().ForEach(assemblyType =>
             {
-                foreach (var interfacee in listOfAssembliesToIjnect)
-                {
-                    if (implementation.GetInterfaces().Contains(interfacee))
-                    {
-                        services.AddScoped(interfacee, implementation);
-                        Debug.WriteLine($"Registered interface {interfacee.Name} to {implementation.Name}");
-                        break;
-                    }
-                }
-            }
+                // find classes in assemblies
+                Assembly.Load(assemblyType).GetTypes().Where(y => y.GetTypeInfo().IsClass).ToList().ForEach(implementation =>
+                 {
+                     //if class' interface inherits IRepository register it 
+                     var interfacee = implementation.GetInterfaces().Where(Iimplementation => Iimplementation == typeof(T)).FirstOrDefault();
+                     if (interfacee != null)
+                     {
+                         services.AddScoped(interfacee, implementation);
+                         Debug.WriteLine($"Registered interface {interfacee.Name} to {implementation.Name}");
+                     }
+                 });
+            });
         }
     }
 }
