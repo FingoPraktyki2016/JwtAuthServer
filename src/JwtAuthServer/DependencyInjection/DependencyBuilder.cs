@@ -9,15 +9,15 @@ namespace LegnicaIT.JwtAuthServer.DependencyInjection
     {
         //Registers interfaces that inherit IRepository
         public void RegisterRepositories(IServiceCollection services)
-        {   
+        {
             //get all assemblies
             Assembly.GetEntryAssembly().GetReferencedAssemblies().ToList().ForEach(assemblyType =>
             {
-                // find classes in assemblies
-                Assembly.Load(assemblyType).GetTypes().Where(y => y.GetTypeInfo().IsClass).ToList().ForEach(implementation =>
+                //find classes in assemblies
+                Assembly.Load(assemblyType).GetTypes().Where(assemblyClass => assemblyClass.GetTypeInfo().IsClass).ToList().ForEach(implementation =>
                  {
-                     //if class' interface inherits IRepository register it 
-                     var interfacee = implementation.GetInterfaces().Where(Iimplementation => Iimplementation == typeof(T)).FirstOrDefault();
+                     //if class's interface inherits IRepository register it
+                     var interfacee = implementation.GetInterfaces().Where(Iimplementation => Iimplementation.GetInterfaces().Contains(typeof(T))).FirstOrDefault();
                      if (interfacee != null)
                      {
                          services.AddScoped(interfacee, implementation);
