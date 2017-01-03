@@ -48,7 +48,7 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
 
         public virtual T GetById(int id)
         {
-            return dbSet.Find(id);
+            return dbSet.FirstOrDefault(m=>m.Id==id);
         }
 
         public virtual void Save()

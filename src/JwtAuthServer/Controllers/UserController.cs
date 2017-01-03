@@ -1,4 +1,4 @@
-﻿using LegnicaIT.DataAccess.Repositories.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
@@ -6,25 +6,20 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly IUserRepository userRepository;
-
-        public UserController(IUserRepository _userRepository)
+        private readonly IAddNewUser addNewUser;
+        private readonly IGetLastUser getLastUser;
+        public UserController(IGetLastUser getLastUser, IAddNewUser addNewUser)
         {
-            userRepository = _userRepository;
-        }
-
-        // GET: /<controller>/
-        public ActionResult Index()
-        {
-            return View();
+            this.addNewUser = addNewUser;
+            this.getLastUser = getLastUser;
         }
 
         //test, delete it later
         [HttpGet("adduser")]
         public ActionResult AddUser()
         {
-            userRepository.Add();
-            return Json(userRepository.GetLast().Name);
+            addNewUser.Invoke();
+            return Json(getLastUser.Invoke().Name);
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace LegnicaIT.DataAccess.Repositories.Interfaces
+﻿using LegnicaIT.DataAccess.Models;
+
+namespace LegnicaIT.DataAccess.Repositories.Interfaces
 {
-    public interface IAppRepository : IRepository
+    public interface IAppRepository : IGenericRepository<App>, IRepository
     {
     }
 }

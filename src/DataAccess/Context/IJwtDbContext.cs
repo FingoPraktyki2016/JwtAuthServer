@@ -11,5 +11,7 @@ namespace LegnicaIT.DataAccess.Context
         DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity;
 
         void SetModified(object entity);
+
+        void PerformMigration();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace JwtAuthServer.Migrations
+namespace DataAccess.Migrations
 {
     public partial class init : Migration
     {

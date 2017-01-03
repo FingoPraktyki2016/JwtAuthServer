@@ -5,15 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using LegnicaIT.DataAccess.Context;
 
-namespace JwtAuthServer.Migrations
+namespace DataAccess.Migrations
 {
     [DbContext(typeof(JwtDbContext))]
-    partial class JwtDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170103145026_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("LegnicaIT.DataAccess.Models.App", b =>

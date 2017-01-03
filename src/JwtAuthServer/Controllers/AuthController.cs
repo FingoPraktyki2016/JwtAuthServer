@@ -1,6 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic;
-using LegnicaIT.BusinessLogic.Models;
-using LegnicaIT.DataAccess.Repositories.Interfaces;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Models.Token;
 using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
@@ -12,11 +12,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class AuthController : BaseController
     {
-        private readonly IUserRepository userRepository;
+        private readonly ICheckUserExist checkUserExist;
 
-        public AuthController(IUserRepository _userRepository)
+        public AuthController(ICheckUserExist checkUserExist)
         {
-            userRepository = _userRepository;
+            this.checkUserExist = checkUserExist;
         }
 
         [HttpPost("verify")]
@@ -44,7 +44,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
-            if (!userRepository.IsSet(model.Email, model.Password))
+            if (!checkUserExist.Invoke(model.Email, model.Password))
             {
                 ModelState.AddModelError("Email", "Authentication failed");
                 var errorResult = ModelState.GetErrorModel();

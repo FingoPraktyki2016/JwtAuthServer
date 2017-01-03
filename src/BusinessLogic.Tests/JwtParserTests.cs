@@ -2,6 +2,7 @@
 using LegnicaIT.BusinessLogic.Providers.Interface;
 using Moq;
 using System;
+using LegnicaIT.BusinessLogic.Models.Token;
 using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests

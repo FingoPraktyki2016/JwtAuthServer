@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LegnicaIT.BusinessLogic.Models
+namespace LegnicaIT.BusinessLogic.Models.Token
 {
     public class VerifyResultModel
     {

@@ -1,11 +1,11 @@
-﻿using LegnicaIT.BusinessLogic.Models;
-using LegnicaIT.BusinessLogic.Properties;
+﻿using LegnicaIT.BusinessLogic.Properties;
 using LegnicaIT.BusinessLogic.Providers;
 using LegnicaIT.BusinessLogic.Providers.Interface;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using LegnicaIT.BusinessLogic.Models.Token;
 
 namespace LegnicaIT.BusinessLogic
 {

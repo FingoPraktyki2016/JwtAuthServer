@@ -1,20 +1,23 @@
 {
-  "version": "1.0.0-*",
-
-  "dependencies": {
-    "Microsoft.EntityFrameworkCore": "1.1.0",
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
-    "NETStandard.Library": "1.6.1"
+  "buildOptions": {
+    "emitEntryPoint": true
   },
-
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "netcoreapp1.0": {}
+  },
+  "dependencies": {
+    "Microsoft.EntityFrameworkCore": "1.0.1",
+    "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
+    "Microsoft.EntityFrameworkCore.Relational": "1.0.1",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
+    "Microsoft.NETCore.App": {
+      "version": "1.0.1",
+      "type": "platform"
     }
   },
-
-  "runtimes": {
-    "win10-x64": {},
-    "ubuntu.14.04-x64": {}
+  "tools": {
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.0.0-preview2-final"
+    }
   }
 }

@@ -1,15 +1,15 @@
-﻿using LegnicaIT.JwtAuthServer.DependencyInjection;
-using LegnicaIT.DataAccess.Context;
-using LegnicaIT.JwtAuthServer.Helpers;
+﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using LegnicaIT.DataAccess.Repositories.Interfaces;
+using LegnicaIT.BusinessLogic.Configuration.Helpers;
+using LegnicaIT.BusinessLogic.Configuration.Interfaces;
+using LegnicaIT.DataAccess.Context;
+using LegnicaIT.JwtAuthServer.Helpers;
 
 namespace LegnicaIT.JwtAuthServer
 {
@@ -22,12 +22,6 @@ namespace LegnicaIT.JwtAuthServer
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
 
-            if (env.IsEnvironment("Development"))
-            {
-                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                builder.AddApplicationInsightsSettings(developerMode: true);
-            }
-
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -35,37 +29,30 @@ namespace LegnicaIT.JwtAuthServer
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IMigrationHelper migrationHelper)
         {
             string debugValue = Configuration.GetSection("Logging:Loglevel:Default").Value;
             var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), debugValue);
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging")).AddDebug(logLevel);
 
-            app.UseApplicationInsightsRequestTelemetry();
-
-            app.UseApplicationInsightsExceptionTelemetry();
-
             var authHelper = new JwtAuthorizeHelper();
             authHelper.Configure(app);
 
             app.UseMvc();
 
-            var databaseMigrationService = new MigrationHelper();
-            databaseMigrationService.Migrate(Configuration);
+            migrationHelper.Migrate();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
             services.AddMvc();
 
-            services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database"), assembly => assembly.MigrationsAssembly("JwtAuthServer")));
+            services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
 
-            var dependencyBuilder = new DependencyBuilder<IRepository>();
-            dependencyBuilder.RegisterRepositories(services);
+            RegisterDependecy.Register(services);
         }
     }
 }

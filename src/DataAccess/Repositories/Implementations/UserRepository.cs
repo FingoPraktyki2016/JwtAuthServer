@@ -11,7 +11,6 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
         public UserRepository(IJwtDbContext _context) : base(_context)
         {
         }
-
         public void Add()
         {
             // for test, delete anytime
@@ -38,20 +37,7 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
 
         public User Get(string email, string password)
         {
-            var user = dbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
-            return user;
-        }
-
-        public bool IsSet(string email, string password)
-        {
-            var user = Get(email, password);
-
-            if (user != null)
-            {
-                return true;
-            }
-
-            return false;
+            return dbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
         }
     }
 }
