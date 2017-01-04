@@ -18,5 +18,7 @@ namespace LegnicaIT.DataAccess.Repositories.Interfaces
         T GetById(int id);
 
         void Save();
+
+        void Edit(T entity);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using LegnicaIT.DataAccess.Context;
 
 namespace DataAccess.Migrations
@@ -22,7 +23,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -42,7 +43,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -62,7 +63,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -99,7 +100,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -127,7 +128,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -152,7 +153,7 @@ namespace DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("LegnicaIT.DataAccess.Models.User", "User")
+                    b.HasOne("LegnicaIT.DataAccess.Models.UserApps", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

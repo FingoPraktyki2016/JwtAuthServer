@@ -1,8 +1,4 @@
-﻿using System;
-
-using LegnicaIT.DataAccess.Context;
-
-namespace LegnicaIT.DataAccess
+﻿namespace LegnicaIT.DataAccess
 {
     public class Program
     {

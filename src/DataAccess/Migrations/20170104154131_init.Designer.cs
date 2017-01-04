@@ -8,7 +8,7 @@ using LegnicaIT.DataAccess.Context;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(JwtDbContext))]
-    [Migration("20170104103904_init")]
+    [Migration("20170104154131_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -44,7 +44,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -64,7 +64,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -101,7 +101,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -129,7 +129,7 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<DateTime>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -154,7 +154,7 @@ namespace DataAccess.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("LegnicaIT.DataAccess.Models.User", "User")
+                    b.HasOne("LegnicaIT.DataAccess.Models.UserApps", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

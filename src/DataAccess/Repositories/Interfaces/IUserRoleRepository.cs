@@ -2,7 +2,7 @@
 
 namespace LegnicaIT.DataAccess.Repositories.Interfaces
 {
-    internal interface IUserRole : IGenericRepository<UserAppRole>, IRepository
+    public interface IUserRoleRepository : IGenericRepository<UserAppRole>, IRepository
     {
         int GetRoleId(int user);
     }
