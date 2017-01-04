@@ -16,15 +16,15 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
 
         public void Add()
         {
-            var byteArraySalt = Hasher.GenerateRandomSalt();
-            var hashedPassword = Hasher.CreateHash("123", byteArraySalt);
+            var salt = Hasher.GenerateRandomSalt();
+            var hashedPassword = Hasher.CreateHash("123", salt);
 
             User user = new User
             {
                 Email = "123@test.pl",
                 Name = "345",
                 PasswordHash = hashedPassword,
-                PasswordSalt = byteArraySalt,
+                PasswordSalt = salt,
                 LockedOn = DateTime.Now,
                 ModifiedOn = DateTime.Now,
                 CreatedOn = DateTime.Now,
