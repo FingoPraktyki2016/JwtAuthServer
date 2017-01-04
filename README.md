@@ -12,6 +12,17 @@
 
  http://benjamincollins.com/blog/practical-permission-based-authorization-in-asp-net-core/#fnref:bc603b5d0602b8e850f1470fb6f73205:2
 
+## For run seed data
+-> Make sure database connection string in JwtDbContext is correct for db which you want to seed
+
+-> Uncomment code in Program.cs located in DataAccess Project
+
+-> Right click on DataAccess Project -> Debug -> Start new instance
+
+-> If no errors data should be seeded
+
+-> Recomment code in Program.cs located in DataAccess Project
+
 ## Repository
 Git repository: [https://github.com/FingoPraktyki2016/JwtAuthServer/](https://github.com/FingoPraktyki2016/JwtAuthServer/)
 

@@ -7,6 +7,8 @@ namespace LegnicaIT.BusinessLogic.Models.User
     {
         public string Email { set; get; }
 
+        public string Password { get; set; }
+
         public DateTime EmailConfirmedOn { set; get; }
 
         public string Name { set; get; }
