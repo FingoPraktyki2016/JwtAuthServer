@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace LegnicaIT.DataAccess.Helpers
+namespace LegnicaIT.BussinesLogic.Helpers
 {
     public static class Hasher
     {

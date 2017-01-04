@@ -1,5 +1,8 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Models.User;
+using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
+using System;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
@@ -12,9 +15,17 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userRepository = userRepository;
         }
 
-        public void Invoke()
+        public void Invoke(UserModel user)
         {
-            userRepository.Add();
+            var salt = Hasher.GenerateRandomSalt();
+            var newUser = new DataAccess.Models.User()
+            {
+                Email = user.Email,
+                PasswordSalt = salt,
+                PasswordHash = Hasher.CreateHash(user.Password, salt),
+                CreatedOn = DateTime.UtcNow
+            };
+            userRepository.Add(newUser);
         }
     }
 }

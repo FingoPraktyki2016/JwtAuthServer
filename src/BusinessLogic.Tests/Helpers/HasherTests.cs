@@ -1,4 +1,4 @@
-﻿using LegnicaIT.DataAccess.Helpers;
+﻿using LegnicaIT.BussinesLogic.Helpers;
 using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests
@@ -20,8 +20,7 @@ namespace LegnicaIT.BusinessLogic.Tests
         public void ValidateHash_ForValidInput_ReturnsTrue(string password, string salt, string expectedHashedPassword)
         {
             var hashedPassowrd = Hasher.CreateHash(password, salt);
-            var result = Equals(hashedPassowrd, expectedHashedPassword);
-            Assert.True(result);
+            Assert.Equal(hashedPassowrd, expectedHashedPassword);
         }
 
         [Fact]
