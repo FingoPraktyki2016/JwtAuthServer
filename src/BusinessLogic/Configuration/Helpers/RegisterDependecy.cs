@@ -1,8 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.Base;
-using LegnicaIT.DataAccess.Context;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LegnicaIT.BusinessLogic.Configuration.Helpers

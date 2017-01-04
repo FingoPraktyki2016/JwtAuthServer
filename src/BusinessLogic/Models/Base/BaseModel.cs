@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace LegnicaIT.BusinessLogic.Models.Base
 {

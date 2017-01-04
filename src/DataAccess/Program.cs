@@ -1,5 +1,4 @@
-﻿using System;
-namespace LegnicaIT.DataAccess
+﻿namespace LegnicaIT.DataAccess
 {
     public class Program
     {

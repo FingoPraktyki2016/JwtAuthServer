@@ -1,5 +1,4 @@
-﻿using LegnicaIT.BusinessLogic.Models;
-using LegnicaIT.BusinessLogic.Providers.Interface;
+﻿using LegnicaIT.BusinessLogic.Providers.Interface;
 using Moq;
 using System;
 using LegnicaIT.BusinessLogic.Models.Token;

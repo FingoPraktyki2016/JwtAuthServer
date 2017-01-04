@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
