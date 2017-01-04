@@ -58,9 +58,12 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("NVARCHAR(100)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("NVARCHAR(256)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

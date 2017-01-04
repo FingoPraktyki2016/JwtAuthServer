@@ -8,7 +8,7 @@ using LegnicaIT.DataAccess.Context;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(JwtDbContext))]
-    [Migration("20170103145026_init")]
+    [Migration("20170104084658_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,9 +59,12 @@ namespace DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("NVARCHAR(100)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("NVARCHAR(256)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

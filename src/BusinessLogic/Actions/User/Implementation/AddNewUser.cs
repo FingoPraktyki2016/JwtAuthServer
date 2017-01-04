@@ -6,6 +6,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
     public class AddNewUser : IAddNewUser
     {
         private readonly IUserRepository userRepository;
+
         public AddNewUser(IUserRepository userRepository)
         {
             this.userRepository = userRepository;

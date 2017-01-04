@@ -38,7 +38,8 @@ namespace DataAccess.Migrations
                     LockedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(type: "NVARCHAR(100)", nullable: true),
-                    Password = table.Column<string>(type: "NVARCHAR(256)", nullable: false)
+                    PasswordHash = table.Column<string>(type: "NVARCHAR(256)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -12,7 +12,11 @@ namespace LegnicaIT.DataAccess.Models
 
         [Required]
         [Column(TypeName = "NVARCHAR(256)")]
-        public String Password { set; get; }
+        public String PasswordHash { set; get; }
+
+        [Required]
+        //[Column(TypeName = "NVARCHAR(128)")]
+        public byte[] PasswordSalt { set; get; }
 
         public DateTime EmailConfirmedOn { set; get; }
 
