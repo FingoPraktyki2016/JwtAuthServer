@@ -8,9 +8,10 @@ using LegnicaIT.DataAccess.Context;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(JwtDbContext))]
-    partial class JwtDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170104092249_UserSalt")]
+    partial class UserSalt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
