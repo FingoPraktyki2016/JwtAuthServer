@@ -37,6 +37,7 @@ namespace LegnicaIT.DataAccess.Context
         }
 
         #region DbSet
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<UserApps> UserApps { get; set; }
@@ -46,6 +47,7 @@ namespace LegnicaIT.DataAccess.Context
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<UserAppRole> UserAppRoles { get; set; }
-        #endregion
+
+        #endregion DbSet
     }
 }
