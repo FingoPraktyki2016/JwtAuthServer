@@ -11,6 +11,6 @@ namespace LegnicaIT.BusinessLogic.Models.Base
 
         public DateTime ModifiedOn { set; get; }
 
-        public DateTime DeletedOn { set; get; }
+        public DateTime? DeletedOn { set; get; }
     }
 }

@@ -6,6 +6,7 @@ using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
@@ -14,7 +15,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     {
         private readonly ICheckUserExist checkUserExist;
 
-        public AuthController(ICheckUserExist checkUserExist)
+        public AuthController(ICheckUserExist checkUserExist, ILogger<AuthController> logger) : base(logger)
         {
             this.checkUserExist = checkUserExist;
         }
