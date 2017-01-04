@@ -17,7 +17,7 @@ namespace LegnicaIT.DataAccess.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=JwtAuth;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=JwtAuthServer;Integrated Security=True;");
             }
         }
 
