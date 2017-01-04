@@ -1,19 +1,22 @@
-﻿using LegnicaIT.JwtAuthServer.Models;
+﻿using LegnicaIT.JwtAuthServer.Helpers;
+using LegnicaIT.JwtAuthServer.Interfaces;
+using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
     public class BaseController : Controller
     {
         protected AppUserModel LoggedUser { get; set; }
+        public IJwtLogger logger { get; set; }
 
-        protected readonly ILogger<BaseController> _logger;
-
-        public BaseController(ILogger<BaseController> logger)
+        public BaseController()
         {
-            _logger = logger;
+            logger = new Logger(this.GetType());
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

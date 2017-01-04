@@ -15,7 +15,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     {
         private readonly ICheckUserExist checkUserExist;
 
-        public AuthController(ICheckUserExist checkUserExist, ILogger<AuthController> logger) : base(logger)
+        public AuthController(ICheckUserExist checkUserExist)
         {
             this.checkUserExist = checkUserExist;
         }

@@ -10,7 +10,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         private readonly IAddNewUser addNewUser;
         private readonly IGetLastUser getLastUser;
 
-        public UserController(IGetLastUser getLastUser, IAddNewUser addNewUser, ILogger<AuthController> logger) : base(logger)
+        public UserController(IGetLastUser getLastUser, IAddNewUser addNewUser)
         {
             this.addNewUser = addNewUser;
             this.getLastUser = getLastUser;
