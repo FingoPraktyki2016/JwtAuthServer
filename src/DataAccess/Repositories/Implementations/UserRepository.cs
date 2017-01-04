@@ -1,4 +1,5 @@
 ﻿using LegnicaIT.DataAccess.Context;
+using LegnicaIT.DataAccess.Helpers;
 using LegnicaIT.DataAccess.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using System;
@@ -12,34 +13,19 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
         {
         }
 
-        public void Add()
-        {
-            // for test, delete anytime
-            User user = new User
-            {
-                Email = "123@test.pl",
-                Name = "345",
-                Password = "123",
-                LockedOn = DateTime.Now,
-                ModifiedOn = DateTime.Now,
-                CreatedOn = DateTime.Now,
-                DeletedOn = DateTime.Now,
-                EmailConfirmedOn = DateTime.Now
-            };
-
-            Add(user);
-            Save();
-        }
-
-        public User GetLast()
-        {
-            return GetAll().Last();
-        }
-
         public User Get(string email, string password)
         {
-            var user = dbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
-            return user;
+            var user = dbSet.FirstOrDefault(x => x.Email == email);
+            if(user != null)
+            {
+                var byteArraySalt = Convert.FromBase64String(user.PasswordSalt);
+                var hashedPassword = Hasher.CreateHash(password, byteArraySalt);
+                if (Hasher.VerifyHashedPassword(hashedPassword, user.PasswordHash))
+                {
+                    return user;
+                }
+            }           
+            return null;
         }
 
         public bool IsSet(string email, string password)

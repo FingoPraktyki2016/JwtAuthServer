@@ -20,11 +20,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         }
 
         //test, delete it later
-        [HttpGet("adduser")]
-        public ActionResult AddUser()
-        {
-            userRepository.Add();
-            return Json(userRepository.GetLast().Name);
-        }
+        //[HttpGet("adduser")]
+        //public ActionResult AddUser()
+        //{
+        //    userRepository.Add();
+        //    return Json(userRepository.GetLast().Name);
+        //}
     }
 }
