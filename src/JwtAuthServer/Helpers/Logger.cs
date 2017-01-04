@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 
 namespace LegnicaIT.JwtAuthServer.Helpers
 {
-    public class JwtLogger : IJwtLogger
+    public class Logger : IJwtLogger
     {
-        protected readonly ILogger<JwtLogger> _logger;
+        protected readonly ILogger<Logger> _logger;
 
         public void Info(string message)
         {

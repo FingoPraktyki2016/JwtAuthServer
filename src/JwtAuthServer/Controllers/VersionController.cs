@@ -6,13 +6,10 @@ using System.Reflection;
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
     [Route("api/[controller]")]
-    public class VersionController : Controller
+    public class VersionController : BaseController
     {
-        private readonly ILogger<VersionController> _logger;
-
-        public VersionController(ILogger<VersionController> logger)
+        public VersionController(ILogger<VersionController> logger) : base(logger)
         {
-            _logger = logger;
         }
 
         [HttpGet]
