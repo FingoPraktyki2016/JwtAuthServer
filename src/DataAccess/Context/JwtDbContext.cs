@@ -17,7 +17,7 @@ namespace LegnicaIT.DataAccess.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=JwtAuth;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=JwtAuthServer;Integrated Security=True;");
             }
         }
 
@@ -37,11 +37,17 @@ namespace LegnicaIT.DataAccess.Context
         }
 
         #region DbSet
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<UserApps> UserApps { get; set; }
 
         public DbSet<App> Apps { get; set; }
-        #endregion
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<UserAppRole> UserAppRoles { get; set; }
+
+        #endregion DbSet
     }
 }

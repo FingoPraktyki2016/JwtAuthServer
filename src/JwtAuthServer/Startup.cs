@@ -1,15 +1,15 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using LegnicaIT.BusinessLogic.Configuration.Helpers;
+﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Configuration.Interfaces;
 using LegnicaIT.DataAccess.Context;
 using LegnicaIT.JwtAuthServer.Helpers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace LegnicaIT.JwtAuthServer
 {
@@ -34,7 +34,7 @@ namespace LegnicaIT.JwtAuthServer
             string debugValue = Configuration.GetSection("Logging:Loglevel:Default").Value;
             var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), debugValue);
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging")).AddDebug(logLevel);
+            DebugHelper.LogLevel = logLevel;
 
             var authHelper = new JwtAuthorizeHelper();
             authHelper.Configure(app);
@@ -51,6 +51,8 @@ namespace LegnicaIT.JwtAuthServer
             services.AddMvc();
 
             services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
+
+            //   services.AddScoped(typeof(IJwtLogger), typeof(Helpers.Logger));
 
             RegisterDependecy.Register(services);
         }

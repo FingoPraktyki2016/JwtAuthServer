@@ -1,18 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Reflection;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
     [Route("api/[controller]")]
-    public class VersionController : Controller
+    public class VersionController : BaseController
     {
-        private readonly ILogger<VersionController> _logger;
-
-        public VersionController(ILogger<VersionController> logger)
+        public VersionController()
         {
-            _logger = logger;
         }
 
         [HttpGet]
@@ -27,14 +23,12 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            _logger.LogDebug("Environment: {0}", environment);
-
-            _logger.LogCritical("Log Critical");
-            _logger.LogDebug("Log Debug");
-            _logger.LogError("Log Error");
-            _logger.LogInformation("Log Information");
-            _logger.LogTrace("Log Trace");
-            _logger.LogWarning("Log Warning");
+            logger.Information("Info");
+            logger.Debug("Debug");
+            logger.Warning("Warning");
+            logger.Error("Error");
+            logger.Trace("Trace");
+            logger.Critical("Critical");
 
             return environment;
         }
