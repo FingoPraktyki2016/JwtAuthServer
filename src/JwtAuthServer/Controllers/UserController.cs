@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Models.User;
+using LegnicaIT.DataAccess.Repositories.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
@@ -8,14 +9,14 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class UserController : BaseController
     {
         private readonly IAddNewUser addNewUser;
-        private readonly ICheckUserExist chekcUserExists;
+        private readonly ICheckUserExist checkUserExist;
         private readonly IGetLastUser getLastUser;
         private readonly IChangeUserRole changeUserRole;
 
-        public UserController(IGetLastUser getLastUser, IAddNewUser addNewUser, IChangeUserRole changeUserRole, ILogger<AuthController> logger) : base(logger)
+        public UserController(IGetLastUser getLastUser, IAddNewUser addNewUser, IChangeUserRole changeUserRole, ICheckUserExist checkUserExist)
         {
             this.addNewUser = addNewUser;
-            this.chekcUserExists = checkUserExists;
+            this.checkUserExist = checkUserExist;
             this.getLastUser = getLastUser;
             this.changeUserRole = changeUserRole;
         }
