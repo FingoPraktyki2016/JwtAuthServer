@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-
 using Microsoft.AspNetCore.Authorization;
 
-namespace LegnicaIT.JwtManager.Authorization
+namespace JwtManager.Authorization
 {
     public class PermissionsAuthorizationRequirement : IAuthorizationRequirement
     {

@@ -1,7 +1,7 @@
-﻿using LegnicaIT.JwtManager.Authorization;
+﻿using JwtManager.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LegnicaIT.JwtManager.Controllers
+namespace JwtManager.Controllers
 {
     
     public class AuthController : Controller
