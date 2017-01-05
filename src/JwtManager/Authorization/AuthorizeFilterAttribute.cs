@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace JwtManager.Authorization
+namespace LegnicaIT.JwtManager.Authorization
 {
     public class AuthorizeFilterAttribute : TypeFilterAttribute
     {

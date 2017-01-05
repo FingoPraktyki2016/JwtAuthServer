@@ -1,10 +1,10 @@
-﻿using JwtManager.Authorization;
+﻿using LegnicaIT.JwtManager.Authorization;
+using LegnicaIT.JwtManager.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using JwtManager.Models.AccountViewModels;
 
-namespace JwtManager.Controllers
+namespace LegnicaIT.JwtManager.Controllers
 {
     public class AccountController : Controller
     {

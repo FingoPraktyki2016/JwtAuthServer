@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 
-namespace JwtManager.Helpers
+namespace LegnicaIT.JwtManager.Helpers
 {
     public class ApiHelper
     {

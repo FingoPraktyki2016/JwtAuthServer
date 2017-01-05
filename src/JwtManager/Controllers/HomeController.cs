@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace JwtManager.Controllers
+namespace LegnicaIT.JwtManager.Controllers
 {
     public class HomeController : Controller
     {

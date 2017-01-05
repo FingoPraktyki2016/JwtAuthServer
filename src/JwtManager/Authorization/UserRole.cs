@@ -1,4 +1,4 @@
-﻿namespace JwtManager.Authorization
+﻿namespace LegnicaIT.JwtManager.Authorization
 {
     public enum UserRole
     {
