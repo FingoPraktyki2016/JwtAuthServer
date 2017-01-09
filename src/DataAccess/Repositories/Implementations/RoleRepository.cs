@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using LegnicaIT.DataAccess.Context;
+﻿using LegnicaIT.DataAccess.Context;
 using LegnicaIT.DataAccess.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 

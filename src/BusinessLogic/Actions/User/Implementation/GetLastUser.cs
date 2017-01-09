@@ -1,13 +1,11 @@
 ﻿using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
-    public class GetLastUser
+    public class GetLastUser : IGetLastUser
     {
         private readonly IUserRepository userRepository;
 

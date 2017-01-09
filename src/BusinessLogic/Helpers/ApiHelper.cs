@@ -19,10 +19,12 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         public string AcquireToken(string email, string password, string appId)
         {
-            var param = new Dictionary<string, string>();
-            param.Add("Email", email);
-            param.Add("Password", password);
-            param.Add("AppId", appId);
+            var param = new Dictionary<string, string>
+            {
+                {"Email", email},
+                {"Password", password},
+                {"AppId", appId}
+            };
 
             return CallPost("api/auth/acquiretoken", param);
         }
@@ -90,6 +92,4 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return responseString;
         }
     }
-
-
 }

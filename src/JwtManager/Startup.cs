@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using LegnicaIT.JwtManager.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ namespace LegnicaIT.JwtManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddOptions();
+            services.Configure<ManagerSettings>(Configuration.GetSection("ManagerSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,7 +15,7 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
 
         public override IEnumerable<UserAppRole> GetAll()
         {
-            return this.dbSet.Include(m => m.User).ThenInclude(m => m.User).Include(m => m.App).Include(m => m.Role);
+            return dbSet.Include(m => m.User).ThenInclude(m => m.User).Include(m => m.App).Include(m => m.Role);
         }
 
         public int GetRoleId(int user_id)
