@@ -9,7 +9,6 @@ namespace LegnicaIT.JwtManager.Controllers
         public ManagerSettings Settings { get; }
 
         public BaseController(IOptions<ManagerSettings> settings)
-            : base()
         {
             Settings = settings.Value;
         }

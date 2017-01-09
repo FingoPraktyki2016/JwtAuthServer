@@ -9,14 +9,14 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class UserController : BaseController
     {
         private readonly IAddNewUser addNewUser;
-        private readonly IChangeUserRole changeUserRole;
+        private readonly IChangeAppUserRole changeAppUserRole;
         private readonly ICheckUserExist checkUserExist;
         private readonly IGetLastUser getLastUser;
 
-        public UserController(IAddNewUser addNewUser, IChangeUserRole changeUserRole, ICheckUserExist checkUserExist, IGetLastUser getLastUser)
+        public UserController(IAddNewUser addNewUser, IChangeAppUserRole changeAppUserRole, ICheckUserExist checkUserExist, IGetLastUser getLastUser)
         {
             this.addNewUser = addNewUser;
-            this.changeUserRole = changeUserRole;
+            this.changeAppUserRole = changeAppUserRole;
             this.checkUserExist = checkUserExist;
             this.getLastUser = getLastUser;
         }
@@ -32,7 +32,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         [HttpGet("changerole")]
         public UserRoleRepository ChangeRole()
         {
-            changeUserRole.Invoke(1, 3, 1);
+            changeAppUserRole.Invoke(1, 1, 3);
             return null;
         }
     }
