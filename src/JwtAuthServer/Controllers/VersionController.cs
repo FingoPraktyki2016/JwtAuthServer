@@ -7,10 +7,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class VersionController : BaseController
     {
-        public VersionController()
-        {
-        }
-
         [HttpGet]
         public JsonResult Version()
         {

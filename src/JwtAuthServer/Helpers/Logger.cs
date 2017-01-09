@@ -12,7 +12,7 @@ namespace LegnicaIT.JwtAuthServer.Helpers
         {
             var factory = new LoggerFactory();
             factory.AddDebug(DebugHelper.LogLevel);
-            this.logger = factory.CreateLogger(type);
+            logger = factory.CreateLogger(type);
         }
 
         public void Critical(string message)

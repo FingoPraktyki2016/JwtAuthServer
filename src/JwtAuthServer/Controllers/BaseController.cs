@@ -3,9 +3,6 @@ using LegnicaIT.JwtAuthServer.Interfaces;
 using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
@@ -16,7 +13,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 
         public BaseController()
         {
-            logger = new Logger(this.GetType());
+            logger = new Logger(GetType());
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

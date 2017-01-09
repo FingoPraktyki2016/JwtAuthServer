@@ -8,12 +8,6 @@ namespace LegnicaIT.JwtManager.Controllers
 {
     public class AccountController : Controller
     {
-
-        public AccountController()
-        {
-            
-        }
-
         //
         // GET: /Account/Login
         [HttpGet]
@@ -100,6 +94,6 @@ namespace LegnicaIT.JwtManager.Controllers
             }
         }
 
-        #endregion
+        #endregion Helpers
     }
 }
