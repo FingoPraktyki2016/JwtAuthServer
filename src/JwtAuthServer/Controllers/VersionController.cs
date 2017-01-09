@@ -1,6 +1,4 @@
-﻿using LegnicaIT.BusinessLogic.Models.Token;
-using LegnicaIT.JwtAuthServer.Helpers;
-using LegnicaIT.JwtAuthServer.Models.ResultModel;
+﻿using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;

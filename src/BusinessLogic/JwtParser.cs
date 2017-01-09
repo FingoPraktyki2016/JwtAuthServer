@@ -65,18 +65,17 @@ namespace LegnicaIT.BusinessLogic
                 SecurityToken validatedToken;
                 handler.ValidateToken(token, parameters, out validatedToken);
                 var jwt = handler.ReadToken(token);
-                result.IsValid = true;
                 result.ExpiryDate = jwt.ValidTo;
+                result.IsValid = true;
             }
             catch (Exception)
             {
-                //TODO Logger
             }
 
             return result;
         }
 
-        public AcquireTokenModel AcquireToken(string formEmail, string formPassword, int formAppId)
+        public AcquireTokenModel AcquireToken(string formEmail, int formAppId/*, string userRole*/)
         {
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
@@ -89,12 +88,12 @@ namespace LegnicaIT.BusinessLogic
                 {
                     new Claim(ClaimTypes.Email, formEmail),
                     new Claim("iss", GetIssuerName()),
-                    new Claim("AppId", formAppId.ToString())
+                    new Claim("AppId", formAppId.ToString()),
+                    new Claim(ClaimTypes.Role, "gsgs")
                 });
             }
             catch (Exception)
             {
-                // TODO: Logger
                 return null;
             }
 
