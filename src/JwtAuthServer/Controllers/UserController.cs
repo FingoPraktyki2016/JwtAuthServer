@@ -9,16 +9,16 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class UserController : BaseController
     {
         private readonly IAddNewUser addNewUser;
+        private readonly IChangeUserRole changeUserRole;
         private readonly ICheckUserExist checkUserExist;
         private readonly IGetLastUser getLastUser;
-        private readonly IChangeUserRole changeUserRole;
 
-        public UserController(IGetLastUser getLastUser, IAddNewUser addNewUser, IChangeUserRole changeUserRole, ICheckUserExist checkUserExist)
+        public UserController(IAddNewUser addNewUser, IChangeUserRole changeUserRole, ICheckUserExist checkUserExist, IGetLastUser getLastUser)
         {
             this.addNewUser = addNewUser;
+            this.changeUserRole = changeUserRole;
             this.checkUserExist = checkUserExist;
             this.getLastUser = getLastUser;
-            this.changeUserRole = changeUserRole;
         }
 
         //test, delete it later
