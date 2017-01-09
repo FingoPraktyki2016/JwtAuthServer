@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Microsoft.AspNetCore.WebUtilities;
 
-namespace LegnicaIT.JwtManager.Helpers
+namespace LegnicaIT.BusinessLogic.Helpers
 {
     public class ApiHelper
     {
@@ -60,7 +61,7 @@ namespace LegnicaIT.JwtManager.Helpers
         {
             var builder = new UriBuilder($"{apiUrl}{route}");
             builder.Port = -1;
-            var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(builder.Query);
+            var query = QueryHelpers.ParseQuery(builder.Query);
             foreach (var item in dict)
             {
                 query[item.Key] = item.Value;
