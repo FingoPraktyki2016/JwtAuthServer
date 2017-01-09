@@ -34,7 +34,7 @@ namespace LegnicaIT.JwtAuthServer
             string debugValue = Configuration.GetSection("Logging:Loglevel:Default").Value;
             var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), debugValue);
 
-            DebugHelper.LogLevel = logLevel;
+            //loggerFactory.AddDebug(logLevel);        
 
             var authHelper = new JwtAuthorizeHelper();
             authHelper.Configure(app);
@@ -52,7 +52,7 @@ namespace LegnicaIT.JwtAuthServer
 
             services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
 
-            //   services.AddScoped(typeof(IJwtLogger), typeof(Helpers.Logger));
+            services.Configure<DebuggerConfig>(Configuration.GetSection("Logging:Loglevel"));
 
             RegisterDependecy.Register(services);
         }

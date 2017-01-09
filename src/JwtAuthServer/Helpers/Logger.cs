@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.JwtAuthServer.Interfaces;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace LegnicaIT.JwtAuthServer.Helpers
@@ -8,11 +9,15 @@ namespace LegnicaIT.JwtAuthServer.Helpers
     {
         public ILogger logger;
 
-        public Logger(Type type)
+        public Logger(Type type, IOptions<DebuggerConfig> settings)
         {
             var factory = new LoggerFactory();
-            factory.AddDebug(DebugHelper.LogLevel);
-            logger = factory.CreateLogger(type);
+
+            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Value.Default);
+            factory.AddConsole(includeScopes: true);
+            factory.AddDebug(logLevel);
+            this.logger = factory.CreateLogger(type);
+
         }
 
         public void Critical(string message)
