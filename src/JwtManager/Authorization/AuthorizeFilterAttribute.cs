@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using LegnicaIT.JwtManager.Controllers;
+using LegnicaIT.BusinessLogic.Helpers;
 
 namespace LegnicaIT.JwtManager.Authorization
 {
@@ -14,7 +16,7 @@ namespace LegnicaIT.JwtManager.Authorization
             Arguments = new[] { new PermissionsAuthorizationRequirement(userRoles) };
         }
 
-        private class RequiresPermissionAttributeImpl : Attribute, IAsyncResourceFilter
+        private class RequiresPermissionAttributeImpl : Attribute, IAsyncActionFilter
         {
             private readonly PermissionsAuthorizationRequirement requiredPermissions;
 
@@ -24,9 +26,14 @@ namespace LegnicaIT.JwtManager.Authorization
                 this.requiredPermissions = requiredPermissions;
             }
 
-            public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
+            public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
             {
-                //TODO: Call service for user roles and validate any user role is in requiredPermissions
+                var controller = (BaseController)context.Controller;
+                var settings = controller.Settings;
+
+                var apiHelper = new ApiHelper(settings.ApiReference);
+                //TODO: api call here
+
                 if (false) //TODO: If user doesnt have permission redirect to login page
                 {
                     context.Result = new RedirectToActionResult("Login", "Auth", null);

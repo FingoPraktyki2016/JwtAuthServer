@@ -1,13 +1,22 @@
 ﻿using LegnicaIT.JwtManager.Authorization;
+using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
+
+        public AccountController(IOptions<ManagerSettings> settings)
+            : base(settings)
+        {
+            
+        }
+
         //
         // GET: /Account/Login
         [HttpGet]

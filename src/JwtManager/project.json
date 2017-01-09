@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-JwtManager-41eca215-fd0b-4eca-bb4e-02693b82b58e",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "BusinessLogic": "1.0.0-*"
   },
 
   "tools": {
