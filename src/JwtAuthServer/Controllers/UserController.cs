@@ -15,10 +15,10 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         private readonly ICheckUserExist checkUserExist;
         private readonly IGetLastUser getLastUser;
 
-        public UserController(IAddNewUser addNewUser, 
-            IChangeUserRole changeUserRole, 
-            ICheckUserExist checkUserExist, 
-            IGetLastUser getLastUser, 
+        public UserController(IAddNewUser addNewUser,
+            IChangeAppUserRole changeAppUserRole,
+            ICheckUserExist checkUserExist,
+            IGetLastUser getLastUser,
             IOptions<DebuggerConfig> settings)
             : base(settings)
 
