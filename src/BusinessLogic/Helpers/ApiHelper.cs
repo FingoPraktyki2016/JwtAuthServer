@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace LegnicaIT.BusinessLogic.Helpers
@@ -8,10 +9,12 @@ namespace LegnicaIT.BusinessLogic.Helpers
     public class ApiHelper
     {
         private string apiUrl;
+        private IApiClient client;
 
-        public ApiHelper(string api)
+        public ApiHelper(string api, IApiClient mockedClient = null)
         {
             apiUrl = api;
+            client = (mockedClient != null) ? mockedClient : new ApiClient(api);
         }
 
         public string AcquireToken(string email, string password, string appId)
@@ -42,24 +45,27 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return CallPost("api/auth/restricted", param, token);
         }
 
-        private string CallPost(string route, Dictionary<string, string> dict, string token = null)
+        internal string CallPost(string route, Dictionary<string, string> dict, string token = null)
         {
-            HttpClient client = new HttpClient();
+            if (dict != null)
+            {
+                foreach (var param in dict)
+                {
+                    client.AddParameter(param.Key, param.Value);
+                }
+            }
 
             if (token != null)
             {
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+                client.AddHeader("Authorization", $"Bearer {token}");
             }
 
-            client.BaseAddress = new Uri(apiUrl);
-            var content = new FormUrlEncodedContent(dict);
-            var response = client.PostAsync($"{apiUrl}{route}", content).Result;
-            var responseString = response.Content.ReadAsStringAsync().Result;
+            var responseString = client.MakeCallPost(route);
 
             return responseString;
         }
 
-        private string CallGet(string route, Dictionary<string, string> dict, string token = null)
+        internal string CallGet(string route, Dictionary<string, string> dict, string token = null)
         {
             var builder = new UriBuilder($"{apiUrl}{route}");
             builder.Port = -1;
