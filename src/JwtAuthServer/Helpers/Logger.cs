@@ -13,12 +13,12 @@ namespace LegnicaIT.JwtAuthServer.Helpers
         {
             var factory = new LoggerFactory();
 
-            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Value.Default);
-            factory.AddConsole(includeScopes: true);
-            factory.AddDebug(logLevel);
-            this.logger = factory.CreateLogger(type);
+            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Value.Default);        
+            factory.AddDebug();
+            var _logger = factory.CreateLogger(type);        
 
-        }
+            this.logger = _logger;
+        }       
 
         public void Critical(string message)
         {

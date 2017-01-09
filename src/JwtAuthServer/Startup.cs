@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 
 namespace LegnicaIT.JwtAuthServer
 {
@@ -34,7 +35,10 @@ namespace LegnicaIT.JwtAuthServer
             string debugValue = Configuration.GetSection("Logging:Loglevel:Default").Value;
             var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), debugValue);
 
-            //loggerFactory.AddDebug(logLevel);        
+            //I'm gonna leave it as string array becase we might want to add some log modules later
+            string[] logOnlyThese = { "WebHost" }; // or reverse string[] dontlong = {"ObjectResultExecutor", "JsonResultExecutor"};
+
+            loggerFactory.AddDebug((category, _logLevel) => (logOnlyThese.Any(category.Contains) && _logLevel >= logLevel));        
 
             var authHelper = new JwtAuthorizeHelper();
             authHelper.Configure(app);

@@ -22,7 +22,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             string version = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
-            logger.Information("Version: action completed");          
+            logger.Information("Action completed");          
             return Json(version);
         }
 
@@ -31,7 +31,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            logger.Information("Tester: action completed");
+            logger.Information("Action completed");
             return environment;
         }
     }
