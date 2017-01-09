@@ -6,6 +6,9 @@ using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
@@ -13,8 +16,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class AuthController : BaseController
     {
         private readonly ICheckUserExist checkUserExist;
-
-        public AuthController(ICheckUserExist checkUserExist)
+        public AuthController(ICheckUserExist checkUserExist, IOptions<DebuggerConfig> settings) : base(settings)
         {
             this.checkUserExist = checkUserExist;
         }
@@ -25,6 +27,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             if (!ModelState.IsValid)
             {
                 var errorResult = ModelState.GetErrorModel();
+                logger.Warning("ModelState invalid");
+                
                 return Json(errorResult);
             }
 
@@ -32,6 +36,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             var verifiyResult = parser.Verify(model.Token);
             var result = new ResultModel<VerifyResultModel>(verifiyResult);
 
+            logger.Information("Action completed");
             return Json(result);
         }
 
@@ -41,13 +46,17 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             if (!ModelState.IsValid)
             {
                 var errorResult = ModelState.GetErrorModel();
+
+                logger.Warning("ModelState invalid");             
                 return Json(errorResult);
             }
 
             if (!checkUserExist.Invoke(model.Email, model.Password))
-            {
+            {              
                 ModelState.AddModelError("Email", "Authentication failed");
                 var errorResult = ModelState.GetErrorModel();
+
+                logger.Warning($"AcquireToken: user {model.Email} not found");
                 return Json(errorResult);
             }
 
@@ -55,6 +64,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             var acquireResult = parser.AcquireToken(model.Email, model.Password, model.AppId);
             var result = new ResultModel<AcquireTokenModel>(acquireResult);
 
+            logger.Information("Action completed");
             return Json(result);
         }
 
@@ -63,11 +73,14 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         public JsonResult Restricted(RestrictedModel model)
         {
             if (!ModelState.IsValid)
-            {
+            {           
                 var errorResult = ModelState.GetErrorModel();
+
+                logger.Warning("ModelState invalid");
                 return Json(errorResult);
             }
 
+            logger.Information("Action completed");
             return Json($"logged-user {LoggedUser.Email}");
         }
     }

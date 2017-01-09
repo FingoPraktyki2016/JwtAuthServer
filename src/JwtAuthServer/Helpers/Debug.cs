@@ -2,8 +2,8 @@
 
 namespace LegnicaIT.JwtAuthServer.Helpers
 {
-    public static class DebugHelper
+    public class DebuggerConfig
     {
-        public static LogLevel LogLevel;
+        public string Default { get; set; }
     }
 }

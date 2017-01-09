@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LegnicaIT.BusinessLogic.Models.Token;
+using LegnicaIT.JwtAuthServer.Helpers;
+using LegnicaIT.JwtAuthServer.Models.ResultModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
 
@@ -7,10 +11,18 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     [Route("api/[controller]")]
     public class VersionController : BaseController
     {
+
+        public VersionController(IOptions<DebuggerConfig> settings) : base(settings)
+        {
+
+        }
+        
         [HttpGet]
         public JsonResult Version()
         {
             string version = Assembly.GetEntryAssembly().GetName().Version.ToString();
+
+            logger.Information("Action completed");          
             return Json(version);
         }
 
@@ -19,13 +31,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            logger.Information("Info");
-            logger.Debug("Debug");
-            logger.Warning("Warning");
-            logger.Error("Error");
-            logger.Trace("Trace");
-            logger.Critical("Critical");
-
+            logger.Information("Action completed");
             return environment;
         }
     }
