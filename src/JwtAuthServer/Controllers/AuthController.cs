@@ -87,7 +87,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             }
 
             logger.Information("Action completed");
-            return Json($"logged-user {LoggedUser.Email}");
+            return Json($"logged-user {LoggedUser.Email} logged-user-role: {LoggedUser.Role}");
         }
     }
 }
