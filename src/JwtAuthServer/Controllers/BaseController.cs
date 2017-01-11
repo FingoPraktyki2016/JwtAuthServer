@@ -28,6 +28,20 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 // convert security claims to our custom user data
                 LoggedUser.FillFromClaims(user.Claims);
             }
+
+            if (!context.ModelState.IsValid)
+            {
+                foreach (var modelStateKey in ModelState.Keys)
+                {
+                    var modelStateVal = ModelState[modelStateKey];
+                    foreach (var error in modelStateVal.Errors)
+                    {
+                        var key = modelStateKey;
+                        var errorMessage = error.ErrorMessage;
+                        logger.Warning($"Key: {key}, Error: {errorMessage}");
+                    }
+                }
+            }
         }
     }
 }

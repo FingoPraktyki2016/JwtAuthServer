@@ -14,7 +14,6 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public IActionResult Index()
         {
-            logger.Information("Action completed");
             return View();
         }
     }

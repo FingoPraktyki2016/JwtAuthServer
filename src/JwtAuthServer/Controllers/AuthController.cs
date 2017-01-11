@@ -35,8 +35,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             if (!ModelState.IsValid)
             {
                 var errorResult = ModelState.GetErrorModel();
-                logger.Warning("ModelState invalid");
-
                 return Json(errorResult);
             }
 
@@ -44,7 +42,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             var verifiyResult = parser.Verify(model.Token);
             var result = new ResultModel<VerifyResultModel>(verifiyResult);
 
-            logger.Information("Action completed");
             return Json(result);
         }
 
@@ -54,8 +51,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             if (!ModelState.IsValid)
             {
                 var errorResult = ModelState.GetErrorModel();
-
-                logger.Warning("ModelState invalid");
                 return Json(errorResult);
             }
 
@@ -64,7 +59,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 ModelState.AddModelError("Email", "Authentication failed");
                 var errorResult = ModelState.GetErrorModel();
 
-                logger.Warning($"AcquireToken: user {model.Email} not found");
                 return Json(errorResult);
             }
 
@@ -75,7 +69,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             var acquireResult = parser.AcquireToken(model.Email, model.AppId, userRole);
             var result = new ResultModel<AcquireTokenModel>(acquireResult);
 
-            logger.Information("Action completed");
             return Json(result);
         }
 
@@ -86,12 +79,9 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             if (!ModelState.IsValid)
             {
                 var errorResult = ModelState.GetErrorModel();
-
-                logger.Warning("ModelState invalid");
                 return Json(errorResult);
             }
 
-            logger.Information("Action completed");
             return Json($"logged-user {LoggedUser.Email} logged-user-role: {LoggedUser.Role}");
         }
     }
