@@ -9,7 +9,7 @@
     "DataAccess": "1.0.0-*",
     "Microsoft.NETCore.App": "1.1.0",
     "Microsoft.AspNetCore.WebUtilities": "1.1.0",
-    "Microsoft.Extensions.Logging": "1.0.0",
+    "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0"
   },
 
