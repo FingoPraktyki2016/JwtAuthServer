@@ -1,4 +1,5 @@
-﻿using LegnicaIT.JwtManager.Authorization;
+﻿using LegnicaIT.BussinesLogic.Helpers;
+using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -10,11 +11,9 @@ namespace LegnicaIT.JwtManager.Controllers
 {
     public class AccountController : BaseController
     {
-
-        public AccountController(IOptions<ManagerSettings> settings)
-            : base(settings)
+        public AccountController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
+           : base(managerSettings, loggerSettings)
         {
-            
         }
 
         //

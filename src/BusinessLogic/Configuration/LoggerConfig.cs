@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace LegnicaIT.JwtAuthServer.Helpers
+namespace LegnicaIT.BussinesLogic.Helpers
 {
-    public class DebuggerConfig
+    public class LoggerConfig
     {
         public string Default { get; set; }
     }

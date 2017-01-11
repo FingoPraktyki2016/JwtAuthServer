@@ -3,22 +3,22 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 
-namespace LegnicaIT.JwtAuthServer.Helpers
+namespace LegnicaIT.BussinesLogic.Helpers
 {
     public class Logger : IJwtLogger
     {
         public ILogger logger;
 
-        public Logger(Type type, IOptions<DebuggerConfig> settings)
+        public Logger(Type type, IOptions<LoggerConfig> settings)
         {
             var factory = new LoggerFactory();
 
-            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Value.Default);        
+            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Value.Default);
             factory.AddDebug();
-            var _logger = factory.CreateLogger(type);        
+            var _logger = factory.CreateLogger(type);
 
             this.logger = _logger;
-        }       
+        }
 
         public void Critical(string message)
         {

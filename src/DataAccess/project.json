@@ -10,6 +10,9 @@
     "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
     "Microsoft.EntityFrameworkCore.Relational": "1.0.1",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
+    "Microsoft.Extensions.Logging": "1.1.0",
+    "Microsoft.Extensions.Logging.Console": "1.0.0",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
       "type": "platform"
