@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic.Providers.Interface;
 using Moq;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using LegnicaIT.BusinessLogic.Models.Token;
 using Xunit;
 
@@ -26,6 +27,27 @@ namespace LegnicaIT.BusinessLogic.Tests
             AcquireTokenModel tokenModel = parser.AcquireToken(null, 0, null);
 
             Assert.Null(tokenModel);
+        }
+
+        [Fact]
+        public void AcquireToken_VerifyForTokenParametersData()
+        {
+            var parser = new JwtParser();
+            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", 1, "TestRole");
+
+            var handler = new JwtSecurityTokenHandler();
+            var param = parser.GetParameters();
+            JwtSecurityToken readToken = handler.ReadJwtToken(tokenModel.Token);
+
+            var iss = parser.GetClaim(readToken, "iss");
+            var email = parser.GetClaim(readToken, "email");
+            var appId = parser.GetClaim(readToken, "appId");
+            var role = parser.GetClaim(readToken, "role");
+
+            Assert.Equal(param.ValidIssuer, iss);
+            Assert.Equal("rafal.gradziel@fingo.pl", email);
+            Assert.Equal("1", appId);
+            Assert.Equal("TestRole", role);
         }
 
         [Fact]
@@ -68,6 +90,24 @@ namespace LegnicaIT.BusinessLogic.Tests
             string expiryDateString = result.ExpiryDate.Value.ToString(dateFormat);
 
             Assert.Equal(dateNowFutureString, expiryDateString);
+        }
+
+        [Fact]
+        public void Verify_ForTokenParametersData()
+        {
+            var parser = new JwtParser();
+            string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyM0B0ZXN0LnBsIiwiaXNzIjoiTGVnbmljYUlUIiwiYXBwSWQiOiIxIiwicm9sZSI6IlVzZXIiLCJuYmYiOjE0ODQxNDAwMjgsImV4cCI6MTQ4NDE0MDA4OCwiaWF0IjoxNDg0MTQwMDI4fQ.fZXSj3jZIQ8u2aoAzv6fDW0_c7BBb5oVr2oVDytnTek";
+
+            // TODO: Check if we need to disable verify expireDate
+            VerifyResultModel result = parser.Verify(token, true);
+
+            var email = result.Email;
+            var appId = result.AppId;
+            var role = result.Role;
+
+            Assert.Equal("123@test.pl", email);
+            Assert.Equal(1, appId);
+            Assert.Equal("User", role);
         }
     }
 }

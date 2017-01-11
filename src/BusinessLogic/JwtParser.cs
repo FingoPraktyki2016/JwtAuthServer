@@ -4,6 +4,7 @@ using LegnicaIT.BusinessLogic.Providers.Interface;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using LegnicaIT.BusinessLogic.Models.Token;
 
@@ -35,11 +36,16 @@ namespace LegnicaIT.BusinessLogic
             return Convert.ToInt32(tokensettings.ExpiredDays);
         }
 
-        public TokenValidationParameters GetParameters()
+        public string GetClaim(JwtSecurityToken token, string claimType)
+        {
+            return token.Claims.Where(c => c.Type == claimType).Select(c => c.Value).SingleOrDefault();
+        }
+
+        public TokenValidationParameters GetParameters(bool skipLifetimeValidation = false)
         {
             TokenValidationParameters parameters = new TokenValidationParameters()
             {
-                ValidateLifetime = true,
+                ValidateLifetime = !skipLifetimeValidation,
                 ValidateAudience = false,
                 ValidateIssuer = true,
                 ValidIssuer = GetIssuerName(),
@@ -52,8 +58,13 @@ namespace LegnicaIT.BusinessLogic
 
         public VerifyResultModel Verify(string token)
         {
+            return Verify(token, false);
+        }
+
+        internal VerifyResultModel Verify(string token, bool skipLifetimeValidation)
+        {
             var handler = new JwtSecurityTokenHandler();
-            TokenValidationParameters parameters = GetParameters();
+            TokenValidationParameters parameters = GetParameters(skipLifetimeValidation);
 
             var result = new VerifyResultModel()
             {
@@ -64,9 +75,13 @@ namespace LegnicaIT.BusinessLogic
             {
                 SecurityToken validatedToken;
                 handler.ValidateToken(token, parameters, out validatedToken);
-                var jwt = handler.ReadToken(token);
+                var jwt = handler.ReadToken(token) as JwtSecurityToken;
+
                 result.ExpiryDate = jwt.ValidTo;
                 result.IsValid = true;
+                result.Email = GetClaim(jwt, "email");
+                result.AppId = Convert.ToInt32(GetClaim(jwt, "appId"));
+                result.Role = GetClaim(jwt, "role");
             }
             catch (Exception)
             {
@@ -88,7 +103,7 @@ namespace LegnicaIT.BusinessLogic
                 {
                     new Claim(ClaimTypes.Email, formEmail),
                     new Claim("iss", GetIssuerName()),
-                    new Claim("AppId", formAppId.ToString()),
+                    new Claim("appId", formAppId.ToString()),
                     new Claim(ClaimTypes.Role, userRole)
                 });
             }
