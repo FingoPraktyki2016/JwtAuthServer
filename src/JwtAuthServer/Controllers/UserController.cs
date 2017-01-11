@@ -35,8 +35,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         public JsonResult AddUser(UserModel model)
         {
             addNewUser.Invoke(model);
-
-            logger.Information("Action completed");
             return Json("Added user");
         }
 

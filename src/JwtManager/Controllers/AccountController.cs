@@ -38,12 +38,10 @@ namespace LegnicaIT.JwtManager.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                logger.Warning("ModelState invalid");
                 return RedirectToLocal(returnUrl);
             }
 
             // If we got this far, something failed, redisplay form
-            logger.Information("Something went wrong. Redisplaying view");
             return View(model);
         }
 
@@ -54,8 +52,6 @@ namespace LegnicaIT.JwtManager.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
-            logger.Information("Action completed");
             return View();
         }
 
@@ -73,7 +69,6 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            logger.Information("Something went wrong. Redisplaying view");
             return View(model);
         }
 

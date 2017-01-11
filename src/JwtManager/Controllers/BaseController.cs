@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
@@ -14,6 +15,24 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             Settings = managerSettings.Value;
             logger = new Logger(this.GetType(), loggerSettings);
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
+            if (!context.ModelState.IsValid)
+            {
+                foreach (var modelStateKey in ModelState.Keys)
+                {
+                    var modelStateVal = ModelState[modelStateKey];
+                    foreach (var error in modelStateVal.Errors)
+                    {
+                        var key = modelStateKey;
+                        var errorMessage = error.ErrorMessage;
+                        logger.Warning($"Key: {key}, Error: {errorMessage}");
+                    }
+                }
+            }
         }
     }
 }
