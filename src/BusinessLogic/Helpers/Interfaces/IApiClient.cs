@@ -8,6 +8,8 @@ namespace LegnicaIT.BusinessLogic.Helpers.Interfaces
         void AddParameter(string key, string value);
         FormUrlEncodedContent GetCallContent();
         string GetCallRoute(string route);
+        string GetCallRouteWithParameters(string route);
         string MakeCallPost(string route);
+        string MakeCallGet(string route);
     }
 }
