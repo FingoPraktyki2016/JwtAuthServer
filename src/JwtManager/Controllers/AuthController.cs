@@ -20,6 +20,10 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.One, UserRole.Two)]
         public string Index()
         {
+            //TO DO don't return clear strings. Do string or var persmission and then return permission.
+            //Also use ResultModel used in JwtAuthServer
+
+            logger.Information("Action completed");
             return "user have Permission";
         }
 
@@ -27,6 +31,8 @@ namespace LegnicaIT.JwtManager.Controllers
         public ActionResult Login()
         {
             var LoginModel = new LoginModel();
+
+            logger.Information("Action completed");
             return View(LoginModel);
         }
 
@@ -35,6 +41,9 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             var handler = new ApiHelper(Settings.ApiReference);
 
+            //TODO Add ModelState check
+            //Add logger to ModelState check
+
             var resultToken = handler.AcquireToken(model.Email, model.Password, model.AppId);
             var resultVerify = handler.Verify(resultToken);
 
@@ -42,6 +51,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
             HttpContext.Session.SetString("token", resultToken);
 
+            logger.Information("Something went wrong. Redisplaying view");
             return View();
         }
     }
