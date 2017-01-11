@@ -67,27 +67,21 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         internal string CallGet(string route, Dictionary<string, string> dict, string token = null)
         {
-            var builder = new UriBuilder($"{apiUrl}{route}");
-            builder.Port = -1;
-            var query = QueryHelpers.ParseQuery(builder.Query);
-            foreach (var item in dict)
+            if (dict != null)
             {
-                query[item.Key] = item.Value;
+                foreach (var param in dict)
+                {
+                    client.AddParameter(param.Key, param.Value);
+                }
             }
-            builder.Query = query.ToString();
-
-            string apiFullUrl = builder.ToString();
-
-            HttpClient client = new HttpClient();
 
             if (token != null)
             {
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+                client.AddHeader("Authorization", $"Bearer {token}");
             }
 
-            client.BaseAddress = new Uri(apiUrl);
-            var response = client.GetAsync(apiFullUrl).Result;
-            var responseString = response.Content.ReadAsStringAsync().Result;
+            string apiFullUrl = this.client.GetCallRouteWithParameters(route);
+            var responseString = client.MakeCallGet(apiFullUrl);
 
             return responseString;
         }

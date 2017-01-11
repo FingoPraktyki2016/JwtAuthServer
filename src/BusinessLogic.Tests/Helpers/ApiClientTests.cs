@@ -1,6 +1,8 @@
 ﻿using LegnicaIT.BusinessLogic.Helpers;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests.Helpers
@@ -64,6 +66,45 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
             Assert.Equal("value1", client.callParameters["key1"]);
             Assert.Equal("value2", client.callParameters["key2"]);
             Assert.Equal("value3", client.callParameters["key3"]);
+        }
+
+        [Theory, ClassData(typeof(CallGetParametersData))]
+        public void GetCallRouteWithParameters_WithParameters_ReturnsCorrectPath(
+            string apiRoute, Dictionary<string, string> apiParams, string expected)
+        {
+            if (apiParams != null)
+            {
+                foreach (var p in apiParams)
+                {
+                    client.AddParameter(p.Key, p.Value);
+                }
+            }
+
+            string actual = client.GetCallRouteWithParameters(apiRoute);
+
+            Assert.Equal(expected, actual);
+        }
+    }
+
+    public class CallGetParametersData : IEnumerable<object[]>
+    {
+        private readonly List<object[]> _data = new List<object[]>
+        {
+            new object[] {"route1", null, "http://api-path/route1"},
+            new object[] {"route2", new Dictionary<string, string>(), "http://api-path/route2"},
+            new object[] {"route3", new Dictionary<string, string>() {{"k", "v"}}, "http://api-path/route3?k=v"},
+            new object[] {"route4", new Dictionary<string, string>() {{"k", "v"}, {"a","b"}}, "http://api-path/route4?k=v&a=b"},
+            new object[] {"route5", new Dictionary<string, string>() {{"k", "v /-&"}}, "http://api-path/route5?k=v%20%2F-%26"},
+        };
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            return _data.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
