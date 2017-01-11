@@ -19,8 +19,8 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             var dbUser = userRepository.FindBy(x => x.Email == email).FirstOrDefault();
             if (dbUser != null)
             {
-                var byteArraySalt = dbUser.PasswordSalt;
-                var hashedPassword = Hasher.CreateHash(password, byteArraySalt);
+                var salt = dbUser.PasswordSalt;
+                var hashedPassword = Hasher.CreateHash(password, salt);
                 if (Equals(hashedPassword, dbUser.PasswordHash))
                 {
                     return true;
