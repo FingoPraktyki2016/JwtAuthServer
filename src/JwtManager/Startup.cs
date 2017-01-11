@@ -1,9 +1,12 @@
-﻿using LegnicaIT.JwtManager.Configuration;
+﻿using LegnicaIT.BussinesLogic.Helpers;
+using LegnicaIT.JwtManager.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
 
 namespace LegnicaIT.JwtManager
 {
@@ -26,15 +29,23 @@ namespace LegnicaIT.JwtManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddOptions();
             services.Configure<ManagerSettings>(Configuration.GetSection("ManagerSettings"));
+            services.Configure<LoggerConfig>(Configuration.GetSection("Logging:Loglevel"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            string debugValue = Configuration.GetSection("Logging:Loglevel:Default").Value;
+            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), "Information");
+
+            //I'm gonna leave it as string array becase we might want to add some log modules later
+            string[] logOnlyThese = { "WebHost" }; // or reverse string[] dontlong = {"ObjectResultExecutor", "JsonResultExecutor"};
+
+            loggerFactory.AddDebug((category, _logLevel) => (logOnlyThese.Any(category.Contains) && _logLevel >= logLevel));
 
             if (env.IsDevelopment())
             {
@@ -49,6 +60,7 @@ namespace LegnicaIT.JwtManager
 
             app.UseStaticFiles();
 
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -1,4 +1,5 @@
-﻿using LegnicaIT.JwtManager.Authorization;
+﻿using LegnicaIT.BussinesLogic.Helpers;
+using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -10,11 +11,9 @@ namespace LegnicaIT.JwtManager.Controllers
 {
     public class AccountController : BaseController
     {
-
-        public AccountController(IOptions<ManagerSettings> settings)
-            : base(settings)
+        public AccountController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
+           : base(managerSettings, loggerSettings)
         {
-            
         }
 
         //
@@ -24,6 +23,8 @@ namespace LegnicaIT.JwtManager.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            logger.Information("Action completed");
             return View();
         }
 
@@ -37,10 +38,12 @@ namespace LegnicaIT.JwtManager.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                logger.Warning("ModelState invalid");
                 return RedirectToLocal(returnUrl);
             }
 
             // If we got this far, something failed, redisplay form
+            logger.Information("Something went wrong. Redisplaying view");
             return View(model);
         }
 
@@ -51,6 +54,8 @@ namespace LegnicaIT.JwtManager.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            logger.Information("Action completed");
             return View();
         }
 
@@ -68,6 +73,7 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            logger.Information("Something went wrong. Redisplaying view");
             return View(model);
         }
 
@@ -78,6 +84,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult LogOff()
         {
+            logger.Information("Action completed");
             return new EmptyResult();
         }
 

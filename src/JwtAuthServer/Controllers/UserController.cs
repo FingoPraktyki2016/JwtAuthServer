@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Models.User;
+using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.DataAccess.Repositories.Implementations;
 using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             IChangeAppUserRole changeAppUserRole,
             ICheckUserExist checkUserExist,
             IGetLastUser getLastUser,
-            IOptions<DebuggerConfig> settings)
-            : base(settings)
+            IOptions<LoggerConfig> loggerSettings)
+            : base(loggerSettings)
 
         {
             this.addNewUser = addNewUser;

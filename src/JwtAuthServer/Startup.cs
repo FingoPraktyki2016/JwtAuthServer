@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Configuration.Interfaces;
+using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.DataAccess.Context;
 using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Builder;
@@ -56,7 +57,7 @@ namespace LegnicaIT.JwtAuthServer
 
             services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
 
-            services.Configure<DebuggerConfig>(Configuration.GetSection("Logging:Loglevel"));
+            services.Configure<LoggerConfig>(Configuration.GetSection("Logging:Loglevel"));
 
             RegisterDependecy.Register(services);
         }

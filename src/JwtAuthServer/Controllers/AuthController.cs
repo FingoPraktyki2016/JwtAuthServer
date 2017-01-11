@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Models.Token;
+using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
@@ -17,7 +18,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         private readonly IGetAppUserRole getAppUserRole;
         private readonly IGetUserId getUserId;
 
-        public AuthController(ICheckUserExist checkUserExist, IGetAppUserRole getAppUserRole, IGetUserId getUserId, IOptions<DebuggerConfig> settings) : base(settings)
+        public AuthController(ICheckUserExist checkUserExist,
+            IGetAppUserRole getAppUserRole,
+            IGetUserId getUserId,
+            IOptions<LoggerConfig> loggerSettings)
+            : base(loggerSettings)
         {
             this.checkUserExist = checkUserExist;
             this.getAppUserRole = getAppUserRole;

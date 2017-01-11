@@ -1,20 +1,19 @@
-﻿using LegnicaIT.JwtAuthServer.Helpers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
+using LegnicaIT.BussinesLogic.Helpers;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
     [Route("api/[controller]")]
     public class VersionController : BaseController
     {
-        public VersionController(IOptions<DebuggerConfig> settings) : base(settings)
+        public VersionController(IOptions<LoggerConfig> settings) : base(settings)
         {
         }
 
-        [Authorize]
         [HttpGet]
         public JsonResult Version()
         {

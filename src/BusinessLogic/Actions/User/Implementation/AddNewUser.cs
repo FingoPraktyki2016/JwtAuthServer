@@ -23,6 +23,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 Email = user.Email,
                 PasswordSalt = salt,
                 PasswordHash = Hasher.CreateHash(user.Password, salt),
+                Name = user.Name,
                 CreatedOn = DateTime.UtcNow
             };
             userRepository.Add(newUser);

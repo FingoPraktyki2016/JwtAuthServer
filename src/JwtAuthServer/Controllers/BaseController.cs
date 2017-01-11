@@ -1,4 +1,4 @@
-﻿using LegnicaIT.JwtAuthServer.Helpers;
+﻿using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -11,9 +11,9 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         protected AppUserModel LoggedUser { get; set; }
         public Logger logger { get; set; }
 
-        public BaseController(IOptions<DebuggerConfig> settings)
+        public BaseController(IOptions<LoggerConfig> loggerSettings)
         {
-            logger = new Logger(this.GetType(), settings);
+            logger = new Logger(this.GetType(), loggerSettings);
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

@@ -23,6 +23,6 @@ namespace LegnicaIT.DataAccess.Models
         [Column(TypeName = "NVARCHAR(100)")]
         public String Name { set; get; }
 
-        public DateTime LockedOn { set; get; }
+        public DateTime? LockedOn { set; get; }
     }
 }
