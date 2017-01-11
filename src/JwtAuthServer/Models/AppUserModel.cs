@@ -9,11 +9,13 @@ namespace LegnicaIT.JwtAuthServer.Models
     {
         public string Email { get; set; }
         public int AppId { get; set; }
+        public string Role { get; set; }
 
         public void FillFromClaims(IEnumerable<Claim> claims)
         {
             Email = GetClaimValue<string>(claims, ClaimTypes.Email);
             AppId = GetClaimValue<int>(claims, "AppId");
+            Role = GetClaimValue<string>(claims, ClaimTypes.Role);
         }
 
         private T GetClaimValue<T>(IEnumerable<Claim> claims, string name)

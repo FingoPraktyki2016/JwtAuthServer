@@ -13,7 +13,7 @@ namespace LegnicaIT.BusinessLogic.Tests
         {
             var parser = new JwtParser();
 
-            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", "test", 1);
+            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", 1, "TestRole");
 
             Assert.NotNull(tokenModel.Token);
         }
@@ -23,7 +23,7 @@ namespace LegnicaIT.BusinessLogic.Tests
         {
             var parser = new JwtParser();
 
-            AcquireTokenModel tokenModel = parser.AcquireToken(null, null, 0);
+            AcquireTokenModel tokenModel = parser.AcquireToken(null, 0, null);
 
             Assert.Null(tokenModel);
         }
@@ -44,7 +44,7 @@ namespace LegnicaIT.BusinessLogic.Tests
         public void Verify_ForFreshToken_ReturnsOk()
         {
             var parser = new JwtParser();
-            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", "test", 1);
+            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", 1, "TestRole");
 
             VerifyResultModel result = parser.Verify(tokenModel.Token);
 
@@ -63,7 +63,7 @@ namespace LegnicaIT.BusinessLogic.Tests
             var parser = new JwtParser(mockedDateTimeProvider.Object);
             var dateNowFutureString = dateNow.AddDays(parser.GetExpiredDays()).ToString(dateFormat);
 
-            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", "test", 1);
+            AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", 1, "TestRole");
             VerifyResultModel result = parser.Verify(tokenModel.Token);
             string expiryDateString = result.ExpiryDate.Value.ToString(dateFormat);
 

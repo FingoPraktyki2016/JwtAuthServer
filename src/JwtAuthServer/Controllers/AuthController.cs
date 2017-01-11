@@ -6,9 +6,7 @@ using LegnicaIT.JwtAuthServer.Models;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
@@ -16,9 +14,14 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class AuthController : BaseController
     {
         private readonly ICheckUserExist checkUserExist;
-        public AuthController(ICheckUserExist checkUserExist, IOptions<DebuggerConfig> settings) : base(settings)
+        private readonly IGetAppUserRole getAppUserRole;
+        private readonly IGetUserId getUserId;
+
+        public AuthController(ICheckUserExist checkUserExist, IGetAppUserRole getAppUserRole, IGetUserId getUserId, IOptions<DebuggerConfig> settings) : base(settings)
         {
             this.checkUserExist = checkUserExist;
+            this.getAppUserRole = getAppUserRole;
+            this.getUserId = getUserId;
         }
 
         [HttpPost("verify")]
@@ -28,7 +31,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             {
                 var errorResult = ModelState.GetErrorModel();
                 logger.Warning("ModelState invalid");
-                
+
                 return Json(errorResult);
             }
 
@@ -47,12 +50,12 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             {
                 var errorResult = ModelState.GetErrorModel();
 
-                logger.Warning("ModelState invalid");             
+                logger.Warning("ModelState invalid");
                 return Json(errorResult);
             }
 
             if (!checkUserExist.Invoke(model.Email, model.Password))
-            {              
+            {
                 ModelState.AddModelError("Email", "Authentication failed");
                 var errorResult = ModelState.GetErrorModel();
 
@@ -60,8 +63,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
+            var userId = getUserId.Invoke(model.Email);
+            var userRole = getAppUserRole.Invoke(model.AppId, userId);
+
             var parser = new JwtParser();
-            var acquireResult = parser.AcquireToken(model.Email, model.Password, model.AppId);
+            var acquireResult = parser.AcquireToken(model.Email, model.AppId, userRole);
             var result = new ResultModel<AcquireTokenModel>(acquireResult);
 
             logger.Information("Action completed");
@@ -73,7 +79,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         public JsonResult Restricted(RestrictedModel model)
         {
             if (!ModelState.IsValid)
-            {           
+            {
                 var errorResult = ModelState.GetErrorModel();
 
                 logger.Warning("ModelState invalid");
@@ -81,7 +87,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             }
 
             logger.Information("Action completed");
-            return Json($"logged-user {LoggedUser.Email}");
+            return Json($"logged-user {LoggedUser.Email} logged-user-role: {LoggedUser.Role}");
         }
     }
 }
