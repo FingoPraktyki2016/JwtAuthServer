@@ -75,7 +75,7 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
-        public AcquireTokenModel AcquireToken(string formEmail, int formAppId/*, string userRole*/)
+        public AcquireTokenModel AcquireToken(string formEmail, int formAppId, string userRole)
         {
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
@@ -89,7 +89,7 @@ namespace LegnicaIT.BusinessLogic
                     new Claim(ClaimTypes.Email, formEmail),
                     new Claim("iss", GetIssuerName()),
                     new Claim("AppId", formAppId.ToString()),
-                    new Claim(ClaimTypes.Role, "gsgs")
+                    new Claim(ClaimTypes.Role, userRole)
                 });
             }
             catch (Exception)

@@ -14,10 +14,14 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class AuthController : BaseController
     {
         private readonly ICheckUserExist checkUserExist;
+        private readonly IGetAppUserRole getAppUserRole;
+        private readonly IGetUserId getUserId;
 
-        public AuthController(ICheckUserExist checkUserExist, IOptions<DebuggerConfig> settings) : base(settings)
+        public AuthController(ICheckUserExist checkUserExist, IGetAppUserRole getAppUserRole, IGetUserId getUserId, IOptions<DebuggerConfig> settings) : base(settings)
         {
             this.checkUserExist = checkUserExist;
+            this.getAppUserRole = getAppUserRole;
+            this.getUserId = getUserId;
         }
 
         [HttpPost("verify")]
@@ -59,11 +63,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
-            // var userId = getUserId.Invoke(model.Email);
-            // var userRole = getAppUserRole.Invoke(model.AppId, userId);
+            var userId = getUserId.Invoke(model.Email);
+            var userRole = getAppUserRole.Invoke(model.AppId, userId);
 
             var parser = new JwtParser();
-            var acquireResult = parser.AcquireToken(model.Email, model.AppId/*, userRole*/);
+            var acquireResult = parser.AcquireToken(model.Email, model.AppId, userRole);
             var result = new ResultModel<AcquireTokenModel>(acquireResult);
 
             logger.Information("Action completed");
