@@ -1,7 +1,10 @@
-﻿using LegnicaIT.JwtManager.Authorization;
+﻿using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
+using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -21,9 +24,25 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [HttpGet("/auth/login")]
-        public string Login()
+        public ActionResult Login()
         {
-            return "LoginPage";
+            var LoginModel = new LoginModel();
+            return View(LoginModel);
         }
+
+        [HttpPost("/auth/login")]
+        public ActionResult Login(LoginModel model)
+        {
+            var handler = new ApiHelper(Settings.ApiReference);
+            
+            var resultToken = handler. AcquireToken(model.Email,model.Password,model.AppId);
+            var resultVerify = handler.Verify(resultToken);
+
+            //TODO Sprawdzić czy poprawnie przeszedl verify, jesli tak to  zachowac token w sesji 
+            HttpContext.Session.SetString("token", resultToken);
+
+            return View();
+        }
+
     }
 }

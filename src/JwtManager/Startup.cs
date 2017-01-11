@@ -26,6 +26,8 @@ namespace LegnicaIT.JwtManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddOptions();
             services.Configure<ManagerSettings>(Configuration.GetSection("ManagerSettings"));
         }
@@ -46,9 +48,10 @@ namespace LegnicaIT.JwtManager
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            
             app.UseStaticFiles();
 
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
