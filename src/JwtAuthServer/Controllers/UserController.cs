@@ -16,19 +16,27 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         private readonly IChangeAppUserRole changeAppUserRole;
         private readonly ICheckUserExist checkUserExist;
         private readonly IGetLastUser getLastUser;
+        private readonly IEditUser editUser;
+        private readonly IEditUserPassword editUserPassword;
+        private readonly IDeleteUser deleteUser;
 
-        public UserController(IAddNewUser addNewUser,
+        public UserController(
+            IAddNewUser addNewUser,
             IChangeAppUserRole changeAppUserRole,
             ICheckUserExist checkUserExist,
             IGetLastUser getLastUser,
-            IOptions<LoggerConfig> loggerSettings)
-            : base(loggerSettings)
-
+            IEditUser editUser,
+            IEditUserPassword editUserPassword,
+            IDeleteUser deleteUser,
+            IOptions<LoggerConfig> loggerSettings) : base(loggerSettings)
         {
             this.addNewUser = addNewUser;
             this.changeAppUserRole = changeAppUserRole;
             this.checkUserExist = checkUserExist;
             this.getLastUser = getLastUser;
+            this.editUser = editUser;
+            this.editUserPassword = editUserPassword;
+            this.deleteUser = deleteUser;
         }
 
         //test, delete it later
@@ -41,6 +49,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
+            addNewUser.Invoke(model);
             var result = new ResultModel<UserModel>(model);
             return Json(result);
         }

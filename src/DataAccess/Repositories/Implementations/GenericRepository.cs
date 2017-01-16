@@ -20,13 +20,11 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
             dbSet = _context.Set<T>();
         }
 
-        public virtual void Update(T entity)
-        {
-            entity.ModifiedOn = DateTime.UtcNow;
-        }
-
         public virtual void Add(T entity)
         {
+            var timeNow = DateTime.UtcNow;
+            entity.ModifiedOn = timeNow;
+            entity.CreatedOn = timeNow;
             dbSet.Add(entity);
         }
 
