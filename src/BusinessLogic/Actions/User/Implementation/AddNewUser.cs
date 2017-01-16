@@ -18,12 +18,13 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         public void Invoke(UserModel user)
         {
             var timeNow = DateTime.UtcNow;
-            var salt = Hasher.GenerateRandomSalt();
+            var hasher = new Hasher();
+            var salt = hasher.GenerateRandomSalt();
             var newUser = new DataAccess.Models.User()
             {
                 Email = user.Email,
                 PasswordSalt = salt,
-                PasswordHash = Hasher.CreateHash(user.Password, salt),
+                PasswordHash = hasher.CreateHash(user.Password, salt),
                 Name = user.Name,
                 CreatedOn = timeNow,
             };
