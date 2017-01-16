@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 
@@ -15,9 +16,16 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public string Invoke(int appId, int user)
         {
-            var userAppRole = userRoleRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
+            try
+            {
+                var userAppRole = userRoleRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
 
-            return userAppRole.Role.Name;
+                return userAppRole.Role.Name;
+            }
+            catch (NullReferenceException e)
+            {
+                return null;
+            }
         }
     }
 }
