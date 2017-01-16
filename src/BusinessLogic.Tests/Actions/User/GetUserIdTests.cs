@@ -12,7 +12,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
     public class GetUserIdTests
     {
         [Fact]
-        public void Invoke_Returns_CorrectId()
+        public void Invoke_ReturnsCorrectId()
         {
             // prepare
             var dataUser = new DataAccess.Models.User() { Id = 1234 };
@@ -27,6 +27,24 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 
             // check
             Assert.Equal(1234, userId);
+        }
+
+        [Fact]
+        public void Invoke_EmptyRepository_ReturnsZero()
+        {
+            // prepare
+            var dataUser = new DataAccess.Models.User();
+            var findByResult = new List<DataAccess.Models.User>() { dataUser };
+            var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.User, bool>>>()))
+                .Returns(findByResult.AsQueryable);
+            var action = new GetUserId(mockedUserRepository.Object);
+
+            // action
+            var userId = action.Invoke("email@dot.com");
+
+            // check
+            Assert.Equal(0, userId);
         }
     }
 }
