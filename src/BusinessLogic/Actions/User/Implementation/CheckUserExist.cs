@@ -1,5 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
-using LegnicaIT.BussinesLogic.Helpers;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using System.Linq;
 

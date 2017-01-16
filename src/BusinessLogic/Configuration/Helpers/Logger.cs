@@ -1,9 +1,10 @@
-﻿using LegnicaIT.JwtAuthServer.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.JwtAuthServer.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 
-namespace LegnicaIT.BussinesLogic.Helpers
+namespace LegnicaIT.BusinessLogic.Helpers
 {
     public class Logger : IJwtLogger
     {

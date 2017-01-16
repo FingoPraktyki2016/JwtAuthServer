@@ -1,9 +1,9 @@
-﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Configuration.Seeder;
 using LegnicaIT.DataAccess.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
@@ -11,18 +11,22 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class SeedController : Controller
     {
         private readonly IAddNewUser addNewUser;
+        private readonly IAddNewApp addNewApp;
 
-        public SeedController(IAddNewUser addNewUser)
+        public SeedController(IAddNewUser addNewUser, IAddNewApp addNewApp)
         {
             this.addNewUser = addNewUser;
+            this.addNewApp = addNewApp;
         }
 
         [HttpGet("seedall")]
+        [AllowAnonymous]
+        //   [Authorize(Roles = "ApplicationOwner")]
         public IActionResult Index()
         {
             using (var context = new JwtDbContext())
             {
-                new JwtDbContextSeeder().Seed(context, addNewUser);
+                new JwtDbContextSeeder(context).Seed(addNewUser, addNewApp);
             }
             return Json("Database seeded");
         }

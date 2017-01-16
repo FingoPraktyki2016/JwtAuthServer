@@ -1,4 +1,4 @@
-﻿using LegnicaIT.BussinesLogic.Helpers;
+﻿using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
-using LegnicaIT.BussinesLogic.Helpers;
+using LegnicaIT.BusinessLogic.Helpers;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {

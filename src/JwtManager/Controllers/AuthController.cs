@@ -1,11 +1,10 @@
-using LegnicaIT.BussinesLogic.Helpers;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http;
-using LegnicaIT.BusinessLogic.Helpers;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
