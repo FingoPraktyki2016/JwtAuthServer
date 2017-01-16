@@ -48,7 +48,6 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
 
                 addNewApp.Invoke(model);
             }
-            context.SaveChanges();
         }
     }
 }
