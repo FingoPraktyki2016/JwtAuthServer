@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace LegnicaIT.BussinesLogic.Helpers
+﻿namespace LegnicaIT.BusinessLogic.Helpers
 {
     public class LoggerConfig
     {

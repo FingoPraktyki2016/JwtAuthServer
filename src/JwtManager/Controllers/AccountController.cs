@@ -1,4 +1,4 @@
-﻿using LegnicaIT.BussinesLogic.Helpers;
+﻿using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models.AccountViewModels;

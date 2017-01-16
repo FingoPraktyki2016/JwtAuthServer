@@ -9,7 +9,7 @@ namespace LegnicaIT.JwtManager.Authorization
 {
     public class AuthorizeFilterAttribute : TypeFilterAttribute
     {
-        // TODO: UserRole Enum should be replaced by UserRole enum from BussinesLogic Model
+        // TODO: UserRole Enum should be replaced by UserRole enum from BusinessLogic Model
         public AuthorizeFilterAttribute(params UserRole[] userRoles)
           : base(typeof(RequiresPermissionAttributeImpl))
         {
@@ -19,7 +19,6 @@ namespace LegnicaIT.JwtManager.Authorization
         private class RequiresPermissionAttributeImpl : Attribute, IAsyncActionFilter
         {
             private readonly PermissionsAuthorizationRequirement requiredPermissions;
-
 
             public RequiresPermissionAttributeImpl(PermissionsAuthorizationRequirement requiredPermissions)
             {

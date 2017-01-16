@@ -8,6 +8,6 @@ namespace LegnicaIT.DataAccess.Models
     {
         [Required]
         [Column(TypeName = "NVARCHAR(150)")]
-        public String Name { set; get; }
+        public String Name { get; set; }
     }
 }

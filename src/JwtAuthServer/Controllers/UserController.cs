@@ -1,8 +1,9 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.User;
-using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.DataAccess.Repositories.Implementations;
 using LegnicaIT.JwtAuthServer.Helpers;
+using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -34,8 +35,14 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         [HttpGet("adduser")]
         public JsonResult AddUser(UserModel model)
         {
-            addNewUser.Invoke(model);
-            return Json("Added user");
+            if (ModelState.IsValid)
+            {
+                var errorResult = ModelState.GetErrorModel();
+                return Json(errorResult);
+            }
+
+            var result = new ResultModel<UserModel>(model);
+            return Json(result);
         }
 
         [HttpGet("changerole")]

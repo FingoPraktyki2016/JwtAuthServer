@@ -1,6 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Configuration.Interfaces;
-using LegnicaIT.BussinesLogic.Helpers;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.DataAccess.Context;
 using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Builder;

@@ -1,4 +1,4 @@
-﻿using LegnicaIT.BussinesLogic.Helpers;
+﻿using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

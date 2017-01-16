@@ -1,4 +1,4 @@
-﻿using LegnicaIT.BussinesLogic.Helpers;
+﻿using LegnicaIT.BusinessLogic.Helpers;
 using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests
