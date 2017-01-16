@@ -1,4 +1,3 @@
-using LegnicaIT.BussinesLogic.Helpers;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
