@@ -17,7 +17,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(UserModel user)
         {
-            var timeNow = DateTime.Now;
+            var timeNow = DateTime.UtcNow;
             var salt = Hasher.GenerateRandomSalt();
             var newUser = new DataAccess.Models.User()
             {
@@ -26,7 +26,6 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 PasswordHash = Hasher.CreateHash(user.Password, salt),
                 Name = user.Name,
                 CreatedOn = timeNow,
-                ModifiedOn = timeNow,
             };
             userRepository.Add(newUser);
             userRepository.Save();
