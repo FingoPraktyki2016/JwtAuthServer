@@ -17,14 +17,13 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         public bool Invoke(string email, string password)
         {
             var dbUser = userRepository.FindBy(x => x.Email == email).FirstOrDefault();
+            var hasher = new Hasher();
             if (dbUser != null)
             {
                 var salt = dbUser.PasswordSalt;
-                var hashedPassword = Hasher.CreateHash(password, salt);
-                if (Equals(hashedPassword, dbUser.PasswordHash))
-                {
-                    return true;
-                }
+
+                var hashedPassword = hasher.CreateHash(password, salt);
+                return Equals(hashedPassword, dbUser.PasswordHash);
             }
             return false;
         }

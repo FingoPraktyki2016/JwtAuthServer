@@ -1,7 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Models.App;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
-using System;
 
 namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 {
@@ -16,13 +15,11 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 
         public void Invoke(AppModel app)
         {
-            var timeNow = DateTime.Now;
             var newApp = new DataAccess.Models.App()
             {
-                Name = app.Name,
-                CreatedOn = timeNow,
-                ModifiedOn = timeNow,
+                Name = app.Name
             };
+
             appRepository.Add(newApp);
             appRepository.Save();
         }

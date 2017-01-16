@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Security.Cryptography;
+using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {
-    public static class Hasher
+    public class Hasher : IHasher
     {
         private static int keySize = 192; //256 chars
         private static int saltSize = 96; //128 chars
         private static int iterations = 10000;
 
-        public static string CreateHash(string password, string salt)
+        public string CreateHash(string password, string salt)
         {
             if (password.Length > 0 && salt != null)
             {
@@ -21,7 +22,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return null;
         }
 
-        public static string GenerateRandomSalt()
+        public string GenerateRandomSalt()
         {
             var rng = RandomNumberGenerator.Create();
             var buffor = new byte[saltSize];

@@ -1,6 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
-using System;
 
 namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 {
@@ -13,14 +12,14 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
             this.appRepository = appRepository;
         }
 
-        public void Invoke(int id)
+        public void Invoke(int appId)
         {
-            var appToEdit = appRepository.GetById(id);
-
-            var timeNow = DateTime.UtcNow;
-
-            appRepository.Edit(appToEdit);
-            appRepository.Save();
+            var appToEdit = appRepository.GetById(appId);
+            if (appToEdit != null)
+            {
+                appRepository.Edit(appToEdit);
+                appRepository.Save();
+            }
         }
     }
 }

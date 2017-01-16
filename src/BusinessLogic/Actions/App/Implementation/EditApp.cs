@@ -16,10 +16,13 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
         public void Invoke(AppModel app)
         {
             var appToEdit = appRepository.GetById(app.Id);
-            appToEdit.Name = app.Name;
+            if (appToEdit != null)
+            {
+                appToEdit.Name = app.Name;
 
-            appRepository.Edit(appToEdit);
-            appRepository.Save();
+                appRepository.Edit(appToEdit);
+                appRepository.Save();
+            }
         }
     }
 }

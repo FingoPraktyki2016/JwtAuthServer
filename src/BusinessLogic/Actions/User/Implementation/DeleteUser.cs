@@ -16,8 +16,11 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var userToDelete = userRepository.GetById(id);
 
-            userRepository.Delete(userToDelete);
-            userRepository.Save();
+            if (userToDelete != null)
+            {
+                userRepository.Delete(userToDelete);
+                userRepository.Save();
+            }
         }
     }
 }

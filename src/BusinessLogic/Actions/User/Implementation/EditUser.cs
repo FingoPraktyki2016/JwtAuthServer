@@ -16,14 +16,15 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         public void Invoke(UserModel user)
         {
             var userToEdit = userRepository.GetById(user.Id);
+            if (userToEdit != null)
+            {
+                userToEdit.Name = user.Name;
+                userToEdit.EmailConfirmedOn = user.EmailConfirmedOn;
+                userToEdit.LockedOn = user.LockedOn;
 
-            userToEdit.Name = user.Name;
-            userToEdit.EmailConfirmedOn = user.EmailConfirmedOn;
-            userToEdit.DeletedOn = user.DeletedOn;
-            userToEdit.LockedOn = user.LockedOn;
-
-            userRepository.Edit(userToEdit);
-            userRepository.Save();
+                userRepository.Edit(userToEdit);
+                userRepository.Save();
+            }
         }
     }
 }
