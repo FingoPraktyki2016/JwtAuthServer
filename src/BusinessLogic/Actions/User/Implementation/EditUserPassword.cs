@@ -30,9 +30,6 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
                 userRepository.Edit(userToEdit);
                 userRepository.Save();
-
-                userRepository.Edit(userToEdit);
-                userRepository.Save();
             }
         }
     }
