@@ -17,7 +17,7 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
             var appToEdit = appRepository.GetById(appId);
             if (appToEdit != null)
             {
-                appRepository.Edit(appToEdit);
+                appRepository.Delete(appToEdit);
                 appRepository.Save();
             }
         }
