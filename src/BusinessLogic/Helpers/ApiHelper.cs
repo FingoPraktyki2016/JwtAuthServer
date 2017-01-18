@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Helpers.Interfaces;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {
     public class ApiHelper
     {
-        private string apiUrl;
-        private IApiClient client;
+        private readonly IApiClient client;
 
         public ApiHelper(string api, IApiClient mockedClient = null)
         {
-            apiUrl = api;
-            client = (mockedClient != null) ? mockedClient : new ApiClient(api);
+            client = mockedClient ?? new ApiClient(api);
         }
 
         public string AcquireToken(string email, string password, string appId)
@@ -37,16 +32,10 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return CallPost("api/auth/verify", param, token);
         }
 
-        public string Restricted(string data, string token)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("Data", data);
-
-            return CallPost("api/auth/restricted", param, token);
-        }
-
         internal string CallPost(string route, Dictionary<string, string> dict, string token = null)
         {
+            client.Initialize();
+
             if (dict != null)
             {
                 foreach (var param in dict)
@@ -67,6 +56,8 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         internal string CallGet(string route, Dictionary<string, string> dict, string token = null)
         {
+            client.Initialize();
+
             if (dict != null)
             {
                 foreach (var param in dict)

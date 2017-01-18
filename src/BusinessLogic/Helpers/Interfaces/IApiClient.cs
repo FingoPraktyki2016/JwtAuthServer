@@ -4,6 +4,7 @@ namespace LegnicaIT.BusinessLogic.Helpers.Interfaces
 {
     public interface IApiClient
     {
+        void Initialize();
         void AddHeader(string key, string value);
         void AddParameter(string key, string value);
         FormUrlEncodedContent GetCallContent();

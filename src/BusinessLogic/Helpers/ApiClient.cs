@@ -12,12 +12,19 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         internal string apiUrl;
         internal Dictionary<string, string> callParameters;
+        internal bool isInitialized;
 
         public ApiClient(string api)
         {
             apiUrl = api;
+            isInitialized = false;
+        }
+
+        public void Initialize()
+        {
             callParameters = new Dictionary<string, string>();
             httpClient = new HttpClient();
+            isInitialized = true;
         }
 
         public void AddHeader(string key, string value)
@@ -53,6 +60,11 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         public string MakeCallPost(string route)
         {
+            if (!isInitialized)
+            {
+                throw new Exception("ApiClient needs internal Initialize() call first!");
+            }
+
             httpClient.BaseAddress = new Uri(apiUrl);
 
             var content = GetCallContent();
@@ -60,14 +72,23 @@ namespace LegnicaIT.BusinessLogic.Helpers
             var response = httpClient.PostAsync(apiRoute, content).Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
 
+            isInitialized = false;
+
             return responseString;
         }
 
         public string MakeCallGet(string route)
         {
+            if (!isInitialized)
+            {
+                throw new Exception("ApiClient needs internal Initialize() call first!");
+            }
+
             httpClient.BaseAddress = new Uri(apiUrl);
             var response = httpClient.GetAsync(route).Result;
             var responseString = response.Content.ReadAsStringAsync().Result;
+
+            isInitialized = false;
 
             return responseString;
         }

@@ -35,13 +35,12 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("/auth/login")]
         public ActionResult Login(LoginModel model)
         {
-            var handler = new ApiHelper(Settings.ApiReference);
-
             if (!ModelState.IsValid)
             {
                 logger.Information("Model is not valid");
             }
 
+            var handler = new ApiHelper(Settings.ApiReference);
             var resultToken = handler.AcquireToken(model.Email, model.Password, model.AppId);
             var resultVerify = handler.Verify(resultToken);
             bool isValid = bool.Parse(resultVerify);
