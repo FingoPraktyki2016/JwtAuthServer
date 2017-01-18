@@ -24,7 +24,9 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 Id = 1,
                 Name = "Name2", // updated value
             };
+
             DataAccess.Models.User userSaved = null;
+
             var mockedUserRepo = new Mock<IUserRepository>();
             mockedUserRepo.Setup(r => r.GetById(1))
                 .Returns(userFromDb);
@@ -45,8 +47,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_ValidData_SaveIsCalled()
         {
             // prepare
-            var userFromDb = new DataAccess.Models.User() {Id = 1};
-            var userUpdated = new UserModel() {Id = 1};
+            var userFromDb = new DataAccess.Models.User() { Id = 1 };
+            var userUpdated = new UserModel() { Id = 1 };
             var mockedUserRepo = new Mock<IUserRepository>();
             mockedUserRepo.Setup(r => r.GetById(1))
                 .Returns(userFromDb);

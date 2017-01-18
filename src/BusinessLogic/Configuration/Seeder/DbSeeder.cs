@@ -33,18 +33,13 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
         {
             foreach (var user in users)
             {
-                if (context.Users.Where(x => x.Email == $"{user}@test.com").Count() == 0)
+                var model = new UserModel()
                 {
-                    var model = new UserModel()
-                    {
-                        Email = $"{user}@test.com",
-                        Password = "test",
-                        Name = user,
-                    };
-                    addNewUser.Invoke(model);
-
-                    context.SaveChanges();
-                }
+                    Email = $"{user}@test.com",
+                    Password = "test",
+                    Name = user,
+                };
+                addNewUser.Invoke(model);
             }
         }
 

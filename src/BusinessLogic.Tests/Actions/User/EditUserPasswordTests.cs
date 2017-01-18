@@ -22,12 +22,15 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             };
             DataAccess.Models.User userSaved = null;
             var mockedUserRepo = new Mock<IUserRepository>();
+
             mockedUserRepo.Setup(r => r.GetById(1)).Returns(userFromDb);
             mockedUserRepo.Setup(r => r.Edit(It.IsAny<DataAccess.Models.User>()))
                 .Callback<DataAccess.Models.User>(u => userSaved = u);
+
             var mockedHasher = new Mock<IHasher>();
             mockedHasher.Setup(h => h.GenerateRandomSalt()).Returns("salt-generated");
             mockedHasher.Setup(h => h.CreateHash("plain", "salt-generated")).Returns("plain-hashed");
+
             var action = new EditUserPassword(mockedUserRepo.Object, mockedHasher.Object);
 
             // action
