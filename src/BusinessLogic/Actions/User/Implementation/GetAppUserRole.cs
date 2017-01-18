@@ -23,7 +23,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
                 return (UserRole)Enum.Parse(typeof(UserRole), userAppRole.Role.ToString());
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 return UserRole.None;
             }

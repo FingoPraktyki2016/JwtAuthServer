@@ -1,11 +1,10 @@
 ﻿using System;
+using LegnicaIT.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using LegnicaIT.DataAccess.Context;
 
-namespace DataAccess.Migrations
+namespace LegnicaIT.DataAccess.Migrations
 {
     [DbContext(typeof(JwtDbContext))]
     partial class JwtDbContextModelSnapshot : ModelSnapshot

@@ -2,6 +2,7 @@
 using System.Linq;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
@@ -17,19 +18,18 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(int appId, int user, UserRole removeRole)
         {
-            var userApp = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
-
             try
             {
-                var userRole = userApp.Role;
+                var userApp = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
+                var userRole = (UserRole)userApp.Role;
 
                 //TODO: fix user role namespace
-                //if (userRole.HasRole(removeRole))
-                //{
-                //    userApp.Role = userRole.RemoveRole(removeRole);
-                //    userAppRepository.Edit(userRole);
-                //    userAppRepository.Save();
-                //}
+                if (userRole.HasRole(removeRole))
+                {
+                    userApp.Role = (DataAccess.Enums.UserRole)userRole.RemoveRole(removeRole);
+                    userAppRepository.Edit(userApp);
+                    userAppRepository.Save();
+                }
             }
             catch (NullReferenceException e)
             {

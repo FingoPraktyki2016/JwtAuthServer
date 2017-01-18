@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using LegnicaIT.DataAccess.Context;
 
-namespace DataAccess.Migrations
+namespace LegnicaIT.DataAccess.Migrations
 {
     [DbContext(typeof(JwtDbContext))]
     [Migration("20170118082454_init")]
