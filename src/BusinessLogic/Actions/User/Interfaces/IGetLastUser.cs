@@ -5,6 +5,6 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Interfaces
 {
     public interface IGetLastUser : IAction
     {
-        DataAccess.Models.User Invoke(UserModel user);
+        UserModel Invoke(UserModel user);
     }
 }

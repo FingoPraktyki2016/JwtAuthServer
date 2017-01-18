@@ -1,10 +1,8 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.User;
-using LegnicaIT.DataAccess.Repositories.Implementations;
 using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

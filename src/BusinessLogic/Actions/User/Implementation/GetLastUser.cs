@@ -1,7 +1,7 @@
-﻿using LegnicaIT.BusinessLogic.Models.User;
+﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using System.Linq;
-using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
@@ -14,9 +14,10 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userRepository = userRepository;
         }
 
-        public DataAccess.Models.User Invoke(UserModel user)
+        public UserModel Invoke(UserModel user)
         {
-            return userRepository.GetAll().Last();
+            var userToReturn = AutoMapper.Mapper.Map<UserModel>(userRepository.GetAll().Last());
+            return userToReturn;
         }
     }
 }
