@@ -1,4 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.Role.Interfaces;
+using LegnicaIT.BusinessLogic.Models.Role;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.Role.Implementation
@@ -12,11 +13,12 @@ namespace LegnicaIT.BusinessLogic.Actions.Role.Implementation
             this.roleRepository = roleRepository;
         }
 
-        public void Invoke(string roleName)
+        public void Invoke(RoleModel role)
         {
             var newRole = new DataAccess.Models.Role()
             {
-                Name = roleName
+                Id = role.Id,
+                Name = role.Name
             };
 
             roleRepository.Add(newRole);

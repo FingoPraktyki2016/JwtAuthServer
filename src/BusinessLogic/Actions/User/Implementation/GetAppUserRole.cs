@@ -18,11 +18,12 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             try
             {
-                var userAppRole = userRoleRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
+                var userAppRole = userRoleRepository.GetAll()
+                    .FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
 
                 return userAppRole.Role.Name;
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 return null;
             }
