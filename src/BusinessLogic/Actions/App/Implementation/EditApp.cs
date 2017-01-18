@@ -4,24 +4,25 @@ using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 {
-    public class AddNewApp : IAddNewApp
+    public class EditApp : IEditApp
     {
         private readonly IAppRepository appRepository;
 
-        public AddNewApp(IAppRepository appRepository)
+        public EditApp(IAppRepository appRepository)
         {
             this.appRepository = appRepository;
         }
 
         public void Invoke(AppModel app)
         {
-            var newApp = new DataAccess.Models.App()
+            var appToEdit = appRepository.GetById(app.Id);
+            if (appToEdit != null)
             {
-                Name = app.Name
-            };
+                appToEdit.Name = app.Name;
 
-            appRepository.Add(newApp);
-            appRepository.Save();
+                appRepository.Edit(appToEdit);
+                appRepository.Save();
+            }
         }
     }
 }

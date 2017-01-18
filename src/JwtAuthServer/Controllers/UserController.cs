@@ -13,22 +13,33 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class UserController : BaseController
     {
         private readonly IAddNewUser addNewUser;
-        private readonly IChangeAppUserRole changeAppUserRole;
         private readonly ICheckUserExist checkUserExist;
         private readonly IGetLastUser getLastUser;
+        private readonly IGrantRole grantRole;
+        private readonly IEditUser editUser;
+        private readonly IEditUserPassword editUserPassword;
+        private readonly IDeleteUser deleteUser;
+        private readonly IRevokeRole revokeRole;
 
-        public UserController(IAddNewUser addNewUser,
-            IChangeAppUserRole changeAppUserRole,
+        public UserController(
+            IAddNewUser addNewUser,
             ICheckUserExist checkUserExist,
             IGetLastUser getLastUser,
-            IOptions<LoggerConfig> loggerSettings)
-            : base(loggerSettings)
-
+            IGrantRole grantRole,
+            IEditUser editUser,
+            IEditUserPassword editUserPassword,
+            IDeleteUser deleteUser,
+            IRevokeRole revokeRole,
+            IOptions<LoggerConfig> loggerSettings) : base(loggerSettings)
         {
             this.addNewUser = addNewUser;
-            this.changeAppUserRole = changeAppUserRole;
             this.checkUserExist = checkUserExist;
             this.getLastUser = getLastUser;
+            this.grantRole = grantRole;
+            this.editUser = editUser;
+            this.editUserPassword = editUserPassword;
+            this.deleteUser = deleteUser;
+            this.revokeRole = revokeRole;
         }
 
         //test, delete it later
@@ -41,14 +52,24 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
+            addNewUser.Invoke(model);
             var result = new ResultModel<UserModel>(model);
             return Json(result);
         }
 
-        [HttpGet("changerole")]
-        public UserRoleRepository ChangeRole()
+        [HttpGet("grantrole")]
+        //[Authorize(Roles = "SuperAdmin")]
+        public UserRoleRepository GrantRole()
         {
-            changeAppUserRole.Invoke(1, 1, 3);
+            grantRole.Invoke(1, 1);
+            return null;
+        }
+
+        [HttpGet("revokerole")]
+        //[Authorize(Roles = "SuperAdmin")]
+        public UserRoleRepository RevokeRole()
+        {
+            revokeRole.Invoke(1, 1);
             return null;
         }
     }

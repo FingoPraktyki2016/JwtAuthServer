@@ -2,7 +2,8 @@
 {
     public enum UserRole
     {
-        One,
-        Two
+        SuperAdmin,
+        AppManager,
+        AppUser
     }
 }

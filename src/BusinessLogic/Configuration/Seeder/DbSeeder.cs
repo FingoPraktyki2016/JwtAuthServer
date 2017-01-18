@@ -4,6 +4,8 @@ using LegnicaIT.BusinessLogic.Models.App;
 using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.DataAccess.Context;
 using System.Linq;
+using LegnicaIT.BusinessLogic.Actions.Role.Interfaces;
+using LegnicaIT.BusinessLogic.Models.Role;
 
 namespace LegnicaIT.BusinessLogic.Configuration.Seeder
 {
@@ -16,10 +18,12 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
             this.context = context;
         }
 
-        public void Seed(IAddNewUser addNewUser, IAddNewApp addNewApp)
+        public void Seed(IAddNewUser addNewUser, IAddNewApp addNewApp, IAddNewRole addNewRole)
         {
             SeedUsers(addNewUser);
             SeedApps(addNewApp);
+            // TODO: test with ID
+            //SeedRoles(addNewRole);
         }
 
         public void SeedUsers(IAddNewUser addNewUser)
@@ -48,7 +52,33 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
 
                 addNewApp.Invoke(model);
             }
-            context.SaveChanges();
+        }
+
+        public void SeedRoles(IAddNewRole addNewRole)
+        {
+            // Prepare
+            var superAdmin = new RoleModel()
+            {
+                //Id = 1,
+                Name = "SuperAdmin"
+            };
+
+            var appManager = new RoleModel()
+            {
+                //Id = 2,
+                Name = "AppManager"
+            };
+
+            var appUser = new RoleModel()
+            {
+                //Id = 3,
+                Name = "AppUser"
+            };
+
+            // Seed this
+            addNewRole.Invoke(superAdmin);
+            addNewRole.Invoke(appManager);
+            addNewRole.Invoke(appUser);
         }
     }
 }

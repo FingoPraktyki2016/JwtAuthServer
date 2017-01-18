@@ -11,12 +11,12 @@ namespace LegnicaIT.JwtManager.Controllers
     public class AuthController : BaseController
     {
         public AuthController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
-          : base(managerSettings, loggerSettings)
+            : base(managerSettings, loggerSettings)
         {
         }
 
         [HttpGet("/auth")]
-        [AuthorizeFilter(UserRole.One, UserRole.Two)]
+        [AuthorizeFilter(UserRole.SuperAdmin, UserRole.AppManager, UserRole.AppUser)]
         public string Index()
         {
             //TO DO don't return clear strings. Do string or var persmission and then return permission.

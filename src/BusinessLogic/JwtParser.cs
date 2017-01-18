@@ -85,6 +85,7 @@ namespace LegnicaIT.BusinessLogic
             }
             catch (Exception)
             {
+                // FIXME: why empty? Return something
             }
 
             return result;
