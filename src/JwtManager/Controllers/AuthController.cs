@@ -39,7 +39,9 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError("Email", "Invalid email or password");
                 logger.Information("Model is not valid");
+                return View(model);
             }
 
             var handler = new ApiHelper(Settings.ApiReference);
@@ -49,7 +51,6 @@ namespace LegnicaIT.JwtManager.Controllers
             if (result.Status.Code == ResultCode.Error)
             {
                 logger.Information("Token is not valid");
-                return View();
             }
 
             HttpContext.Session.SetString("token", result.Value.ToString());

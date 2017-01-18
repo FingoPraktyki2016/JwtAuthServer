@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:8810/",
+      "applicationUrl": "http://localhost:8810/auth/login",
       "sslPort": 0
     }
   },
@@ -18,7 +18,7 @@
     "JwtManager": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000",
+      "launchUrl": "http://localhost:5000/auth/login",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

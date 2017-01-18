@@ -48,3 +48,5 @@ textarea {
     display: none
   }
 }
+
+.input-validation-error { background-color: lightsalmon; }
