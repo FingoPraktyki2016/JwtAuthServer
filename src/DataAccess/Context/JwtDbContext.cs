@@ -45,10 +45,6 @@ namespace LegnicaIT.DataAccess.Context
 
         public DbSet<App> Apps { get; set; }
 
-        public DbSet<Role> Roles { get; set; }
-
-        public DbSet<UserAppRole> UserAppRoles { get; set; }
-
         #endregion DbSet
     }
 }

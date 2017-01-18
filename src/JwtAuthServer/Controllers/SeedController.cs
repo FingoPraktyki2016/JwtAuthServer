@@ -28,7 +28,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             using (var context = new JwtDbContext())
             {
-                new JwtDbContextSeeder(context).Seed(addNewUser, addNewApp/*, addNewRole*/);
+                new JwtDbContextSeeder(context).Seed(addNewUser, addNewApp);
             }
             return Json("Database seeded");
         }

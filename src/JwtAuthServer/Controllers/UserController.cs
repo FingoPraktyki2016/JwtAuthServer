@@ -4,6 +4,7 @@ using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.DataAccess.Repositories.Implementations;
 using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models.ResultModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -57,20 +58,20 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             return Json(result);
         }
 
-        [HttpGet("grantrole")]
+        //[HttpGet("grantrole")]
         //[Authorize(Roles = "SuperAdmin")]
-        public UserRoleRepository GrantRole()
-        {
-            grantRole.Invoke(1, 1);
-            return null;
-        }
+        //public UserRoleRepository GrantRole()
+        //{
+        //    //grantRole.Invoke(1, 1);
+        //    return null;
+        //}
 
-        [HttpGet("revokerole")]
-        //[Authorize(Roles = "SuperAdmin")]
-        public UserRoleRepository RevokeRole()
-        {
-            revokeRole.Invoke(1, 1);
-            return null;
-        }
+        //[HttpGet("revokerole")]
+        ////[Authorize(Roles = "SuperAdmin")]
+        //public UserRoleRepository RevokeRole()
+        //{
+        //    //revokeRole.Invoke(1, 1);
+        //    return null;
+        //}
     }
 }

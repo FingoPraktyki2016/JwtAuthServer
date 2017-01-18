@@ -18,7 +18,7 @@ namespace LegnicaIT.DataAccess.Models
         [Column(TypeName = "NVARCHAR(128)")]
         public string PasswordSalt { set; get; }
 
-        public DateTime EmailConfirmedOn { set; get; }
+        public DateTime? EmailConfirmedOn { set; get; }
 
         [Column(TypeName = "NVARCHAR(100)")]
         public String Name { set; get; }

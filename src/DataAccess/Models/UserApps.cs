@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace LegnicaIT.DataAccess.Models
 {
@@ -9,5 +10,8 @@ namespace LegnicaIT.DataAccess.Models
 
         [Required]
         public App App { set; get; }
+
+        [Required]
+        public byte Role { set; get; }
     }
 }

@@ -18,7 +18,8 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
             this.context = context;
         }
 
-        public void Seed(IAddNewUser addNewUser, IAddNewApp addNewApp/*, IAddNewRole addNewRole*/)
+        public void Seed(IAddNewUser addNewUser, IAddNewApp addNewApp)
+
         {
             SeedUsers(addNewUser);
             SeedApps(addNewApp);
