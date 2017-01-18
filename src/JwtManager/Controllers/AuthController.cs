@@ -36,16 +36,25 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             var handler = new ApiHelper(Settings.ApiReference);
 
-            //TODO Add ModelState check
+                if (!ModelState.IsValid)
+            {
+                logger.Information("Model is not valid");
+            }
 
             var resultToken = handler.AcquireToken(model.Email, model.Password, model.AppId);
             var resultVerify = handler.Verify(resultToken);
+            bool isValid = bool.Parse(resultVerify);
 
-            //TODO Sprawdzić czy poprawnie przeszedl verify, jesli tak to  zachowac token w sesji
-
+            if (!isValid)
+            {
+                logger.Information("Token is not valid");
+                return View();
+            }
+            
             HttpContext.Session.SetString("token", resultToken);
 
-            logger.Information("Something went wrong. Redisplaying view");
+      //      logger.Information("Something went wrong. Redisplaying view");
+
             return View();
         }
     }

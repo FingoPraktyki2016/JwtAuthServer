@@ -40,7 +40,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 
             var parser = new JwtParser();
             var verifiyResult = parser.Verify(model.Token);
-            var result = new ResultModel<VerifyResultModel>(verifiyResult);
+            var result = verifiyResult.IsValid;
 
             return Json(result);
         }
