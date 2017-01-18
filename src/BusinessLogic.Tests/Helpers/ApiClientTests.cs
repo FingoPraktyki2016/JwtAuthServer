@@ -16,6 +16,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
         {
             // re-create client before each test
             client = new ApiClient(apiUrl);
+            client.Initialize();
         }
 
         public void Dispose()
@@ -83,6 +84,28 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
             string actual = client.GetCallRouteWithParameters(apiRoute);
 
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void MakeCallGet_NotInitialized_ThrowsExcetion()
+        {
+            // create client without Initalization() call
+            client = new ApiClient(apiUrl);
+            // client.Initialization() is skipped on purpose
+
+            var ex = Assert.Throws<Exception>(() => client.MakeCallGet("route"));
+            Assert.Equal("ApiClient needs internal Initialize() call first!", ex.Message);
+        }
+
+        [Fact]
+        public void MakeCallPost_NotInitialized_ThrowsExcetion()
+        {
+            // create client without Initalization() call
+            client = new ApiClient(apiUrl);
+            // client.Initialization() is skipped on purpose
+
+            var ex = Assert.Throws<Exception>(() => client.MakeCallPost("route"));
+            Assert.Equal("ApiClient needs internal Initialize() call first!", ex.Message);
         }
     }
 
