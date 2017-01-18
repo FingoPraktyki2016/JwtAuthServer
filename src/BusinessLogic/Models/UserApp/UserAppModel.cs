@@ -10,5 +10,6 @@ namespace LegnicaIT.BusinessLogic.Models.UserApp
     {
         public int UserId;
         public int AppId;
+        public byte Role;
     }
 }

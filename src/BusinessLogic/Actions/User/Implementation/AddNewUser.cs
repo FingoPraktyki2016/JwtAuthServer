@@ -2,6 +2,7 @@
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
+using System.Linq;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
@@ -18,7 +19,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var hasher = new Hasher();
 
-            if (userRepository.FindBy(x => x.Email == user.Email) == null)
+            if (userRepository.GetAll().ToList().Where(x => x.Email == user.Email).Count() == 0)
             {
                 var salt = hasher.GenerateRandomSalt();
                 var newUser = new DataAccess.Models.User()

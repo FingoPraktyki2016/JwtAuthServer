@@ -1,7 +1,9 @@
 ﻿using System;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using LegnicaIT.BusinessLogic.Models.UserApp;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
+using System.Linq;
 
 namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 {
@@ -18,16 +20,16 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
             this.appRepository = appRepository;
         }
 
-        public void Invoke(int userId, int appId, UserRole role)
+        public void Invoke(UserAppModel model)
         {
             var userApp = new LegnicaIT.DataAccess.Models.UserApps()
             {
-                User = userRepository.GetById(userId),
-                App = appRepository.GetById(appId),
-                Role = (DataAccess.Enums.UserRole)Enum.Parse(typeof(DataAccess.Enums.UserRole), role.ToString()),
+                User = userRepository.GetById(model.UserId),
+                App = appRepository.GetById(model.AppId),
+                Role = (DataAccess.Enums.UserRole)Enum.Parse(typeof(DataAccess.Enums.UserRole), model.Role.ToString()),
             };
 
-            if (userAppRepository.FindBy(x => x.App == userApp.App && x.User == userApp.User) == null)
+            if (userAppRepository.GetAll().Any(x => x.App == userApp.App && x.User == userApp.User))
             {
                 userAppRepository.Add(userApp);
                 userAppRepository.Save();
