@@ -1,10 +1,10 @@
-﻿using LegnicaIT.BusinessLogic.Helpers;
+﻿using System;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtAuthServer.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 
-namespace LegnicaIT.BusinessLogic.Helpers
+namespace LegnicaIT.BusinessLogic.Configuration.Helpers
 {
     public class Logger : IJwtLogger
     {
@@ -18,7 +18,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             factory.AddDebug();
             var _logger = factory.CreateLogger(type);
 
-            this.logger = _logger;
+            logger = _logger;
         }
 
         public void Critical(string message)

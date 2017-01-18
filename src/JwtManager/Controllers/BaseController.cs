@@ -1,4 +1,5 @@
-﻿using LegnicaIT.BusinessLogic.Helpers;
+﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -14,7 +15,7 @@ namespace LegnicaIT.JwtManager.Controllers
         public BaseController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
         {
             Settings = managerSettings.Value;
-            logger = new Logger(this.GetType(), loggerSettings);
+            logger = new Logger(GetType(), loggerSettings);
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)

@@ -12,9 +12,9 @@ namespace LegnicaIT.JwtManager.Authorization
     {
         // TODO: UserRole Enum should be replaced by UserRole enum from BusinessLogic Model
         public AuthorizeFilterAttribute(params UserRole[] userRoles)
-          : base(typeof(RequiresPermissionAttributeImpl))
+            : base(typeof(RequiresPermissionAttributeImpl))
         {
-            Arguments = new[] { new PermissionsAuthorizationRequirement(userRoles) };
+            Arguments = new object[] {new PermissionsAuthorizationRequirement(userRoles)};
         }
 
         private class RequiresPermissionAttributeImpl : Attribute, IAsyncActionFilter
@@ -28,7 +28,7 @@ namespace LegnicaIT.JwtManager.Authorization
 
             public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
             {
-                var controller = (BaseController)context.Controller;
+                var controller = (BaseController) context.Controller;
                 var settings = controller.Settings;
 
                 var apiHelper = new ApiHelper(settings.ApiReference);

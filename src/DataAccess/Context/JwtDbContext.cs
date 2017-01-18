@@ -1,6 +1,5 @@
 ﻿using LegnicaIT.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace LegnicaIT.DataAccess.Context
 {
@@ -18,7 +17,8 @@ namespace LegnicaIT.DataAccess.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=JwtAuthServer;Integrated Security=True;");
+                optionsBuilder.UseSqlServer(
+                    "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=JwtAuthServer;Integrated Security=True;");
             }
         }
 
@@ -34,7 +34,7 @@ namespace LegnicaIT.DataAccess.Context
 
         public void PerformMigration()
         {
-            this.Database.Migrate();
+            Database.Migrate();
         }
 
         #region DbSet

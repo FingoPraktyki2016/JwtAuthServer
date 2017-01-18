@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -20,10 +19,7 @@ namespace LegnicaIT.DataAccess.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(type: "NVARCHAR(150)", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Apps", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Apps", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "Users",
@@ -41,10 +37,7 @@ namespace LegnicaIT.DataAccess.Migrations
                     PasswordHash = table.Column<string>(type: "NVARCHAR(256)", nullable: false),
                     PasswordSalt = table.Column<string>(type: "NVARCHAR(128)", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Users", x => x.Id); });
 
             migrationBuilder.CreateTable(
                 name: "UserApps",

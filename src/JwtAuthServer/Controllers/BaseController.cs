@@ -1,4 +1,5 @@
-﻿using LegnicaIT.BusinessLogic.Helpers;
+﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -20,7 +21,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             base.OnActionExecuting(context);
             // we will have User authenticated by app.UseJwtBearerAuthentication(...)
-            var user = ((ControllerBase)context.Controller).User;
+            var user = ((ControllerBase) context.Controller).User;
 
             if (user != null && user.Identity.IsAuthenticated)
             {

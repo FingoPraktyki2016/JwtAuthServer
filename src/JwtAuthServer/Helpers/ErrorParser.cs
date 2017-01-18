@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Models.Common;
-using LegnicaIT.JwtAuthServer.Models;
 
 namespace LegnicaIT.JwtAuthServer.Helpers
 {
@@ -9,13 +8,17 @@ namespace LegnicaIT.JwtAuthServer.Helpers
     {
         public static ResultModel<ErrorModel> GetErrorModel(this ModelStateDictionary ModelState)
         {
-            var resultModel = new ResultModel<ErrorModel>((new ErrorModel() { ListOfErrors = GetErrorsFromModelState(ModelState) }), ResultCode.Error);
+            var resultModel =
+                new ResultModel<ErrorModel>((new ErrorModel() { ListOfErrors = GetErrorsFromModelState(ModelState) }),
+                    ResultCode.Error);
+
             return resultModel;
         }
 
         private static List<string> GetErrorsFromModelState(ModelStateDictionary ModelState)
         {
             var errorList = new List<string>();
+
             foreach (var modelStateKey in ModelState.Keys)
             {
                 var modelStateVal = ModelState[modelStateKey];
@@ -26,6 +29,7 @@ namespace LegnicaIT.JwtAuthServer.Helpers
                     errorList.Add($"Key: {key}, Error: {errorMessage}");
                 }
             }
+
             return errorList;
         }
     }

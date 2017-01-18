@@ -26,8 +26,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         public string Verify(string token)
         {
-            var param = new Dictionary<string, string>();
-            param.Add("Token", token);
+            var param = new Dictionary<string, string> { { "Token", token } };
 
             return CallPost("api/auth/verify", param, token);
         }
@@ -71,7 +70,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
                 client.AddHeader("Authorization", $"Bearer {token}");
             }
 
-            string apiFullUrl = this.client.GetCallRouteWithParameters(route);
+            string apiFullUrl = client.GetCallRouteWithParameters(route);
             var responseString = client.MakeCallGet(apiFullUrl);
 
             return responseString;

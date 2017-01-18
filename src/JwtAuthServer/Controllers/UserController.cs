@@ -3,7 +3,6 @@ using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.JwtAuthServer.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

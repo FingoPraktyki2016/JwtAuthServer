@@ -20,6 +20,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 PasswordHash = "hash",
                 PasswordSalt = "salt"
             };
+
             DataAccess.Models.User userSaved = null;
             var mockedUserRepo = new Mock<IUserRepository>();
 
@@ -51,12 +52,14 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var mockedUserRepo = new Mock<IUserRepository>();
             mockedUserRepo.Setup(r => r.GetById(1))
                 .Returns(userFromDb);
+
             var action = new EditUserPassword(mockedUserRepo.Object);
 
             // action
             action.Invoke(1, "plain");
 
             // assert
+            // TODO: Add more asserts
             mockedUserRepo.Verify(r => r.Save(), Times.Once());
         }
     }

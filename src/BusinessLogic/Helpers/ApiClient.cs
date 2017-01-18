@@ -49,8 +49,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         public string GetCallRouteWithParameters(string route)
         {
-            var builder = new UriBuilder($"{apiUrl}{route}");
-            builder.Port = -1;
+            var builder = new UriBuilder($"{apiUrl}{route}") { Port = -1 };
             string query = QueryHelpers.AddQueryString(builder.Query, callParameters);
             builder.Query = query;
             string apiFullUrl = builder.ToString();
