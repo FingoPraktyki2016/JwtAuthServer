@@ -1,10 +1,10 @@
 ﻿using LegnicaIT.BusinessLogic;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.BusinessLogic.Models.Token;
 using LegnicaIT.JwtAuthServer.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
-using LegnicaIT.JwtAuthServer.Models.ResultModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -67,7 +67,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 
             var parser = new JwtParser();
             var acquireResult = parser.AcquireToken(model.Email, model.AppId, userRole);
-            var result = new ResultModel<AcquireTokenModel>(acquireResult);
+            var result = new ResultModel<string>(acquireResult.Token);
 
             return Json(result);
         }

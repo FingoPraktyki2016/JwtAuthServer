@@ -1,11 +1,13 @@
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -41,17 +43,16 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             var handler = new ApiHelper(Settings.ApiReference);
-            var resultToken = handler.AcquireToken(model.Email, model.Password, model.AppId);
-            var resultVerify = handler.Verify(resultToken);
-            bool isValid = bool.Parse(resultVerify);
+            var resultString = handler.AcquireToken(model.Email, model.Password, model.AppId);
+            var result = JsonConvert.DeserializeObject<ResultModel<object>>(resultString);
 
-            if (!isValid)
+            if (result.Status.Code == ResultCode.Error)
             {
                 logger.Information("Token is not valid");
                 return View();
             }
 
-            HttpContext.Session.SetString("token", resultToken);
+            HttpContext.Session.SetString("token", result.Value.ToString());
 
             //logger.Information("Something went wrong. Redisplaying view");
 

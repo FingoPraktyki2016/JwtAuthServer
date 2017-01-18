@@ -1,6 +1,4 @@
-﻿using LegnicaIT.JwtAuthServer.ResultPattern;
-
-namespace LegnicaIT.JwtAuthServer.Models.ResultModel
+﻿namespace LegnicaIT.BusinessLogic.Models.Common
 {
     public class ResultModel<T>
     {

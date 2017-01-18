@@ -1,7 +1,7 @@
-﻿using LegnicaIT.JwtAuthServer.Models.ResultModel;
-using LegnicaIT.JwtAuthServer.ResultPattern;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
+using LegnicaIT.BusinessLogic.Models.Common;
+using LegnicaIT.JwtAuthServer.Models;
 
 namespace LegnicaIT.JwtAuthServer.Helpers
 {

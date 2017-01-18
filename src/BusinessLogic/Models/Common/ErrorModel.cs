@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LegnicaIT.JwtAuthServer.Models.ResultModel
+namespace LegnicaIT.BusinessLogic.Models.Common
 {
     public class ErrorModel
     {

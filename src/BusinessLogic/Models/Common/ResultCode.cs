@@ -1,4 +1,4 @@
-﻿namespace LegnicaIT.JwtAuthServer.ResultPattern
+﻿namespace LegnicaIT.BusinessLogic.Models.Common
 {
     public enum ResultCode
     {
