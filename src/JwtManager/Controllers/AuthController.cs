@@ -1,4 +1,4 @@
-using LegnicaIT.BusinessLogic.Configuration;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;

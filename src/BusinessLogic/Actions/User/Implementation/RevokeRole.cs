@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
-using LegnicaIT.BusinessLogic.Configuration;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
@@ -15,24 +15,21 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userAppRepository = userAppRepository;
         }
 
-        public void Invoke(int appId, int user)
+        public void Invoke(int appId, int user, UserRole removeRole)
         {
-            var userRole = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
+            var userApp = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
 
             try
             {
-                var changeRole = (byte)(userRole.Role - 1);
+                var userRole = userApp.Role;
 
-                // Don't change SuperAdmin role
-                if (changeRole <= 0 || changeRole == (int)UserRole.Manager)
-                {
-                    return;
-                }
-
-                userRole.Role = changeRole;
-
-                userAppRepository.Edit(userRole);
-                userAppRepository.Save();
+                //TODO: fix user role namespace
+                //if (userRole.HasRole(removeRole))
+                //{
+                //    userApp.Role = userRole.RemoveRole(removeRole);
+                //    userAppRepository.Edit(userRole);
+                //    userAppRepository.Save();
+                //}
             }
             catch (NullReferenceException e)
             {

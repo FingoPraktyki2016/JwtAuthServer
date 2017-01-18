@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using LegnicaIT.DataAccess.Enums;
 
 namespace LegnicaIT.DataAccess.Models
 {
@@ -12,6 +13,6 @@ namespace LegnicaIT.DataAccess.Models
         public App App { set; get; }
 
         [Required]
-        public byte Role { set; get; }
+        public UserRole Role { set; get; }
     }
 }

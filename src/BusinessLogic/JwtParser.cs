@@ -6,6 +6,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Models.Token;
 
 namespace LegnicaIT.BusinessLogic
@@ -91,7 +92,7 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
-        public AcquireTokenModel AcquireToken(string formEmail, int formAppId, string userRole)
+        public AcquireTokenModel AcquireToken(string formEmail, int formAppId, UserRole userRole)
         {
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
@@ -105,7 +106,7 @@ namespace LegnicaIT.BusinessLogic
                     new Claim(ClaimTypes.Email, formEmail),
                     new Claim("iss", GetIssuerName()),
                     new Claim("appId", formAppId.ToString()),
-                    new Claim(ClaimTypes.Role, userRole)
+                    new Claim(ClaimTypes.Role, userRole.ToString())
                 });
             }
             catch (Exception)
