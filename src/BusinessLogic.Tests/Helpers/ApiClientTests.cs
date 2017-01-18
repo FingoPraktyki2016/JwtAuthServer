@@ -87,7 +87,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
         }
 
         [Fact]
-        public void MakeCallGet_NotInitialized_ThrowsExcetion()
+        public void MakeCallGet_NotInitialized_ThrowsException()
         {
             // create client without Initalization() call
             client = new ApiClient(apiUrl);
@@ -98,7 +98,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
         }
 
         [Fact]
-        public void MakeCallPost_NotInitialized_ThrowsExcetion()
+        public void MakeCallPost_NotInitialized_ThrowsException()
         {
             // create client without Initalization() call
             client = new ApiClient(apiUrl);

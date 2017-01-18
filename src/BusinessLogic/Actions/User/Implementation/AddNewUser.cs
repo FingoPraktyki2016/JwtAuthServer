@@ -19,20 +19,22 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var hasher = new Hasher();
 
-            if (userRepository.GetAll().ToList().Where(x => x.Email == user.Email).Count() == 0)
+            if (userRepository.GetAll().Count(x => x.Email == user.Email) != 0)
             {
-                var salt = hasher.GenerateRandomSalt();
-                var newUser = new DataAccess.Models.User()
-                {
-                    Email = user.Email,
-                    PasswordSalt = salt,
-                    PasswordHash = hasher.CreateHash(user.Password, salt),
-                    Name = user.Name,
-                };
-
-                userRepository.Add(newUser);
-                userRepository.Save();
+                return;
             }
+
+            var salt = hasher.GenerateRandomSalt();
+            var newUser = new DataAccess.Models.User()
+            {
+                Email = user.Email,
+                PasswordSalt = salt,
+                PasswordHash = hasher.CreateHash(user.Password, salt),
+                Name = user.Name,
+            };
+
+            userRepository.Add(newUser);
+            userRepository.Save();
         }
     }
 }
