@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Configuration.Seeder;
 using LegnicaIT.DataAccess.Context;
 using Microsoft.AspNetCore.Authorization;
@@ -12,11 +13,13 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     {
         private readonly IAddNewUser addNewUser;
         private readonly IAddNewApp addNewApp;
+        private readonly IAddNewUserApp addNewUserApps;
 
-        public SeedController(IAddNewUser addNewUser, IAddNewApp addNewApp)
+        public SeedController(IAddNewUser addNewUser, IAddNewApp addNewApp, IAddNewUserApp addNewUserApps)
         {
             this.addNewUser = addNewUser;
             this.addNewApp = addNewApp;
+            this.addNewUserApps = addNewUserApps;
         }
 
         [HttpGet("seedall")]
@@ -26,7 +29,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             using (var context = new JwtDbContext())
             {
-                new JwtDbContextSeeder(context).Seed(addNewUser, addNewApp);
+                new JwtDbContextSeeder(context).Seed(addNewUser, addNewApp, addNewUserApps);
             }
             return Json("Database seeded");
         }
