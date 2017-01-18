@@ -23,12 +23,14 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 var userApp = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
                 var userRole = (UserRole)userApp.Role;
 
-                if (!userRole.HasRole(newRole))
+                if (userRole.HasRole(newRole))
                 {
-                    userApp.Role = (DataAccess.Enums.UserRole)newRole;
-                    userAppRepository.Edit(userApp);
-                    userAppRepository.Save();
+                    return;
                 }
+
+                userApp.Role = (DataAccess.Enums.UserRole)newRole;
+                userAppRepository.Edit(userApp);
+                userAppRepository.Save();
             }
             catch (NullReferenceException e)
             {

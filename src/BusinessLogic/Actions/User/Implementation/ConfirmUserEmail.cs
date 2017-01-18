@@ -15,6 +15,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         public void Invoke(int userId)
         {
             var userToEdit = userRepository.GetById(userId);
+
             if (userToEdit != null && userToEdit.EmailConfirmedOn == null)
             {
                 userToEdit.EmailConfirmedOn = DateTime.UtcNow;

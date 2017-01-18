@@ -16,6 +16,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         public void Invoke(UserModel user)
         {
             var userToEdit = userRepository.GetById(user.Id);
+
             if (userToEdit != null)
             {
                 userToEdit.Name = user.Name;

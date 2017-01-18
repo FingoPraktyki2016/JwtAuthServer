@@ -23,6 +23,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             var salt = hasher.GenerateRandomSalt();
 
             var userToEdit = userRepository.GetById(id);
+
             if (userToEdit != null)
             {
                 userToEdit.PasswordHash = hasher.CreateHash(plainPassword, salt);

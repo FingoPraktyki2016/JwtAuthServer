@@ -17,6 +17,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         public UserModel Invoke(UserModel user)
         {
             var userToReturn = AutoMapper.Mapper.Map<UserModel>(userRepository.GetAll().Last());
+
             return userToReturn;
         }
     }

@@ -18,14 +18,16 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var dbUser = userRepository.FindBy(x => x.Email == email).FirstOrDefault();
             var hasher = new Hasher();
-            if (dbUser != null)
-            {
-                var salt = dbUser.PasswordSalt;
 
-                var hashedPassword = hasher.CreateHash(password, salt);
-                return Equals(hashedPassword, dbUser.PasswordHash);
+            if (dbUser == null)
+            {
+                return false;
             }
-            return false;
+
+            var salt = dbUser.PasswordSalt;
+
+            var hashedPassword = hasher.CreateHash(password, salt);
+            return Equals(hashedPassword, dbUser.PasswordHash);
         }
     }
 }

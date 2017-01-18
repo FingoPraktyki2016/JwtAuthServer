@@ -27,7 +27,7 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
             SeedUserApps(addNewUserApps);
         }
 
-        private string[] users = { "superadmin", "manager", "user" };
+        private readonly string[] users = { "superadmin", "manager", "user" };
 
         public void SeedUsers(IAddNewUser addNewUser)
         {
@@ -63,8 +63,9 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
                 var model = new UserAppModel()
                 {
                     AppId = context.Apps.OrderBy(r => Guid.NewGuid()).Take(1).FirstOrDefault().Id,
-                    UserId = context.Users.Where(r => r.Name.Contains(user)).FirstOrDefault().Id
+                    UserId = context.Users.FirstOrDefault(r => r.Name.Contains(user)).Id
                 };
+
                 switch (user)
                 {
                     case "superadmin":
