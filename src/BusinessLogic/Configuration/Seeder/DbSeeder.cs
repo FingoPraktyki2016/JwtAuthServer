@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Models.App;
 using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.BusinessLogic.Models.UserApp;
@@ -72,18 +73,18 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
                 switch (user)
                 {
                     case "superadmin":
-                        model.Role = (byte)UserRole.SuperAdmin;
+                        model.Role = UserRole.SuperAdmin;
                         addNewUserApps.Invoke(model);
 
                         break;
 
                     case "manager":
-                        model.Role = (byte)UserRole.Manager;
+                        model.Role = UserRole.Manager;
                         addNewUserApps.Invoke(model);
                         break;
 
                     case "user":
-                        model.Role = (byte)UserRole.User;
+                        model.Role = UserRole.User;
                         addNewUserApps.Invoke(model);
                         break;
                 }

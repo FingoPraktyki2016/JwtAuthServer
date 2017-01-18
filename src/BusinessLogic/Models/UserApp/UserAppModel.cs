@@ -1,8 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LegnicaIT.BusinessLogic.Enums;
 
 namespace LegnicaIT.BusinessLogic.Models.UserApp
 {
@@ -10,6 +7,6 @@ namespace LegnicaIT.BusinessLogic.Models.UserApp
     {
         public int UserId;
         public int AppId;
-        public byte Role;
+        public UserRole Role;
     }
 }
