@@ -1,9 +1,12 @@
-﻿namespace LegnicaIT.JwtManager.Authorization
+﻿using System;
+
+namespace LegnicaIT.JwtManager.Authorization
 {
+    [Flags]
     public enum UserRole
     {
-        SuperAdmin,
-        AppManager,
-        AppUser
+        User = 1,
+        Manager = 2,
+        SuperAdmin = 4
     }
 }

@@ -13,7 +13,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 
         public BaseController(IOptions<LoggerConfig> loggerSettings)
         {
-            logger = new Logger(this.GetType(), loggerSettings);
+            logger = new Logger(GetType(), loggerSettings);
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

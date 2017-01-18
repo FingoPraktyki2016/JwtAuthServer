@@ -16,7 +16,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [HttpGet("/auth")]
-        [AuthorizeFilter(UserRole.SuperAdmin, UserRole.AppManager, UserRole.AppUser)]
+        [AuthorizeFilter(UserRole.SuperAdmin, UserRole.Manager, UserRole.User)]
         public string Index()
         {
             //TO DO don't return clear strings. Do string or var persmission and then return permission.

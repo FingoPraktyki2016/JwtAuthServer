@@ -18,10 +18,11 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
             this.context = context;
         }
 
-        public void Seed(IAddNewUser addNewUser, IAddNewApp addNewApp, IAddNewRole addNewRole)
+        public void Seed(IAddNewUser addNewUser, IAddNewApp addNewApp/*, IAddNewRole addNewRole*/)
         {
             SeedUsers(addNewUser);
             SeedApps(addNewApp);
+            // Delete after database reorganization
             // TODO: test with ID
             //SeedRoles(addNewRole);
         }
