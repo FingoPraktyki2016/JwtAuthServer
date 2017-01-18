@@ -1,3 +1,4 @@
+using LegnicaIT.BusinessLogic.Configuration;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
@@ -36,7 +37,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             var handler = new ApiHelper(Settings.ApiReference);
 
-                if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 logger.Information("Model is not valid");
             }
@@ -50,10 +51,10 @@ namespace LegnicaIT.JwtManager.Controllers
                 logger.Information("Token is not valid");
                 return View();
             }
-            
+
             HttpContext.Session.SetString("token", resultToken);
 
-      //      logger.Information("Something went wrong. Redisplaying view");
+            //logger.Information("Something went wrong. Redisplaying view");
 
             return View();
         }

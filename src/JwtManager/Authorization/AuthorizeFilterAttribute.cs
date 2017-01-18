@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using LegnicaIT.BusinessLogic.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using LegnicaIT.JwtManager.Controllers;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LegnicaIT.BusinessLogic.Configuration;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LegnicaIT.JwtManager.Authorization

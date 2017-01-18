@@ -12,13 +12,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     {
         private readonly IAddNewUser addNewUser;
         private readonly IAddNewApp addNewApp;
-        //private readonly IAddNewRole addNewRole;
 
-        public SeedController(IAddNewUser addNewUser, IAddNewApp addNewApp/*, IAddNewRole addNewRole*/)
+        public SeedController(IAddNewUser addNewUser, IAddNewApp addNewApp)
         {
             this.addNewUser = addNewUser;
             this.addNewApp = addNewApp;
-            //this.addNewRole = addNewRole;
         }
 
         [HttpGet("seedall")]
