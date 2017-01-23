@@ -9,10 +9,10 @@ namespace LegnicaIT.BusinessLogic.Configuration.Helpers
         public static void Register(IServiceCollection services)
         {
             var dbDependencyBuilder = new DependencyBuilder<IRepository>();
-            dbDependencyBuilder.RegisterRepositories(services);
+            dbDependencyBuilder.Register(services);
 
             var blDependencyBuilder = new DependencyBuilder<IAction>();
-            blDependencyBuilder.RegisterRepositories(services);
+            blDependencyBuilder.Register(services);
         }
     }
 }
