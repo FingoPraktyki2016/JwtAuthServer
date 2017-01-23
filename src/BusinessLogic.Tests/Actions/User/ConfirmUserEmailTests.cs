@@ -41,20 +41,15 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 EmailConfirmedOn = dateNow,
             };
 
-            DataAccess.Models.User userSaved = null;
-
             var mockedUserRepo = new Mock<IUserRepository>();
             mockedUserRepo.Setup(r => r.GetById(1))
                 .Returns(userFromDb);
-            mockedUserRepo.Setup(r => r.Edit(It.IsAny<DataAccess.Models.User>()))
-                .Callback<DataAccess.Models.User>(u => userSaved = u);
 
             var action = new BusinessLogic.Actions.User.Implementation.ConfirmUserEmail(mockedUserRepo.Object);
 
             action.Invoke(1);
 
             Assert.Equal(userFromDb.EmailConfirmedOn, dateNow);
-            Assert.Null(userSaved);
             mockedUserRepo.Verify(r => r.Save(), Times.Never);
         }
 

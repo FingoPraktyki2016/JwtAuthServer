@@ -15,6 +15,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         [Fact]
         public void Invoke_ValidData_AddAndSaveAreCalled()
         {
+            // prepare
             var userAppToAdd = new UserAppModel()
             {
                 AppId = 1,
@@ -33,8 +34,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var action = new AddNewUserApp(mockedUserAppRepository.Object, mockedUserRepository.Object,
                 mockedAppRepository.Object);
 
+            // action
             action.Invoke(userAppToAdd);
 
+            // assert
             mockedUserAppRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.UserApps>()), Times.Once());
             mockedUserAppRepository.Verify(r => r.Save(), Times.Once());
         }
@@ -42,13 +45,13 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         [Fact]
         public void Invoke_AlreadyExists_AddNorSaveAreCalled()
         {
+            // prepare
             var userAppToAdd = new UserAppModel()
             {
                 AppId = 1,
                 UserId = 1,
                 Role = Enums.UserRole.SuperAdmin
             };
-
             var userAppFromDb = new DataAccess.Models.UserApps()
             {
                 App = new DataAccess.Models.App() { Id = 1 },
@@ -67,8 +70,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var action = new AddNewUserApp(mockedUserAppRepository.Object, mockedUserRepository.Object,
                 mockedAppRepository.Object);
 
+            // action
             action.Invoke(userAppToAdd);
 
+            // assert
             mockedUserAppRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppRepository.Verify(r => r.Save(), Times.Never);
         }
