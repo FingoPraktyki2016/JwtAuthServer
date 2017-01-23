@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using LegnicaIT.BusinessLogic.Actions.User.Implementation;
-using LegnicaIT.BusinessLogic.Actions.UserApp.Implementation;
+﻿using LegnicaIT.BusinessLogic.Actions.User.Implementation;
 using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests.Actions.User
@@ -44,8 +43,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 
             var mockedUserRepository = new Mock<IUserRepository>();
 
-            mockedUserRepository.Setup(r => r.GetAll())
-                .Returns(findByResult.AsQueryable());
+            mockedUserRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.User, bool>>>()))
+                 .Returns(findByResult.AsQueryable());
 
             var action = new AddNewUser(mockedUserRepository.Object);
 
