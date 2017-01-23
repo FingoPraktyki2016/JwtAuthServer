@@ -9,15 +9,16 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
     public class AddNewAppTests
     {
         [Fact]
-        public void Invoke_ValidData_SaveIsCalled()
+        public void Invoke_ValidData_AddAndSaveAreCalled()
         {
-            var userToAdd = new AppModel() { Name = "test" };
+            var appToAdd = new AppModel() { Name = "test" };
             var mockedAppRepository = new Mock<IAppRepository>();
 
             var action = new AddNewApp(mockedAppRepository.Object);
 
-            action.Invoke(userToAdd);
+            action.Invoke(appToAdd);
 
+            mockedAppRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.App>()), Times.Once());
             mockedAppRepository.Verify(r => r.Save(), Times.Once());
         }
     }

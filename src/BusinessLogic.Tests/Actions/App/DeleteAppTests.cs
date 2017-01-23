@@ -8,33 +8,49 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
 {
     public class DeleteAppTests
     {
-        public class AddNewAppTests
+        [Fact]
+        public void Invoke_ValidData_DeleteAndSaveAreCalled()
         {
-            [Fact]
-            public void Invoke_ValidData_SaveIsCalled()
+            var appToDelete = new AppModel()
             {
-                var appToDelete = new AppModel()
-                {
-                    Name = "haha",
-                    Id = 1
-                };
+                Id = 1
+            };
 
-                var appFromDb = new DataAccess.Models.App()
-                {
-                    Id = 1,
-                    Name = "Name1",
-                };
+            var appFromDb = new DataAccess.Models.App()
+            {
+                Id = 1,
+            };
 
-                var mockedAppRepository = new Mock<IAppRepository>();
+            var mockedAppRepository = new Mock<IAppRepository>();
 
-                mockedAppRepository.Setup(r => r.GetById(1)).Returns(appFromDb);
+            mockedAppRepository.Setup(r => r.GetById(1)).Returns(appFromDb);
 
-                var action = new DeleteApp(mockedAppRepository.Object);
+            var action = new DeleteApp(mockedAppRepository.Object);
 
-                action.Invoke(appToDelete.Id);
+            action.Invoke(appToDelete.Id);
 
-                mockedAppRepository.Verify(r => r.Save(), Times.Once());
-            }
+            mockedAppRepository.Verify(r => r.Delete(It.IsAny<DataAccess.Models.App>()), Times.Once());
+            mockedAppRepository.Verify(r => r.Save(), Times.Once());
+        }
+
+        [Fact]
+        public void Invoke_ValidData_DeleteNorSaveAreCalled()
+        {
+            var appToDelete = new AppModel()
+            {
+                Id = 1
+            };
+
+            var mockedAppRepository = new Mock<IAppRepository>();
+
+            mockedAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.App)null);
+
+            var action = new DeleteApp(mockedAppRepository.Object);
+
+            action.Invoke(appToDelete.Id);
+
+            mockedAppRepository.Verify(r => r.Delete(It.IsAny<DataAccess.Models.App>()), Times.Never);
+            mockedAppRepository.Verify(r => r.Save(), Times.Never);
         }
     }
 }

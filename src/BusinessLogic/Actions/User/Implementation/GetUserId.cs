@@ -17,7 +17,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var dbUser = userRepository.FindBy(x => x.Email == email).FirstOrDefault();
 
-            return dbUser.Id;
+            return dbUser?.Id ?? 0;
         }
     }
 }

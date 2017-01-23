@@ -1,6 +1,7 @@
-﻿using System;
+﻿using LegnicaIT.BusinessLogic.Helpers.Interfaces;
+using System;
+using System.Diagnostics;
 using System.Security.Cryptography;
-using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {
@@ -12,12 +13,19 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         public string CreateHash(string password, string salt)
         {
-            if (password.Length > 0 && salt != null)
+            try
             {
-                var byteArraySalt = Convert.FromBase64String(salt);
-                var deriveBytes = new Rfc2898DeriveBytes(password, byteArraySalt, iterations);
-                var key = deriveBytes.GetBytes(keySize);
-                return Convert.ToBase64String(key);
+                if (password.Length > 0 && password.Length > 0)
+                {
+                    var byteArraySalt = Convert.FromBase64String(salt);
+                    var deriveBytes = new Rfc2898DeriveBytes(password, byteArraySalt, iterations);
+                    var key = deriveBytes.GetBytes(keySize);
+                    return Convert.ToBase64String(key);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
             }
             return null;
         }

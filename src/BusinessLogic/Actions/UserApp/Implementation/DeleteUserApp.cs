@@ -5,19 +5,20 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 {
     public class DeleteUserApp : IDeleteUserApp
     {
-        private readonly IUserAppRepository appRepository;
+        private readonly IUserAppRepository userAppRepository;
 
-        public DeleteUserApp(IUserAppRepository appRepository)
+        public DeleteUserApp(IUserAppRepository userAppRepository)
         {
-            this.appRepository = appRepository;
+            this.userAppRepository = userAppRepository;
         }
 
         public void Invoke(int userAppId)
         {
-            var appToDelete = appRepository.GetById(userAppId);
+            var appToDelete = userAppRepository.GetById(userAppId);
             if (appToDelete != null)
             {
-                appRepository.Delete(appToDelete);
+                userAppRepository.Delete(appToDelete);
+                userAppRepository.Save();
             }
         }
     }
