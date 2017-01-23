@@ -1,9 +1,10 @@
 ﻿using LegnicaIT.DataAccess.Repositories.Interfaces;
 using System;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
-    public class ConfirmUserEmail
+    public class ConfirmUserEmail : IConfirmUserEmail
     {
         private readonly IUserRepository userRepository;
 
