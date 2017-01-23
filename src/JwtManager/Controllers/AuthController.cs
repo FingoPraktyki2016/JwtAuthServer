@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -51,7 +52,7 @@ namespace LegnicaIT.JwtManager.Controllers
             if (result.Status.Code == ResultCode.Error)
             {
                 logger.Information("Token is not valid");
-              
+
                 return View(model);
             }
             HttpContext.Session.SetString("token", result.Value.ToString());
@@ -63,11 +64,19 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpGet("/auth/logout")]
         public ActionResult Logout()
         {
-            HttpContext.Session.Remove("token");
-            HttpContext.Session.Clear();
-           
-            //TODO Change this. Just for test
-            return View("Login");
+            try
+            {
+                HttpContext.Session.Get("token");
+                HttpContext.Session.Remove("token");
+                HttpContext.Session.Clear();
+            }
+            catch (Exception e)
+            {
+                logger.Information($"Something went wrong during logout : {e}");
+            }
+
+            return RedirectToAction("Login");
         }
     }
+
 }
