@@ -36,7 +36,7 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> query = context.Set<T>().Where(predicate);
-            return query;
+            return query.DefaultIfEmpty().Equals(null) ? null : query;
         }
 
         public virtual IEnumerable<T> GetAll()

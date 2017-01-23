@@ -19,7 +19,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var hasher = new Hasher();
 
-            if (userRepository.GetAll().Count(x => x.Email == user.Email) != 0)
+            if (userRepository.FindBy(x => x.Email == user.Email) == null)
             {
                 return;
             }

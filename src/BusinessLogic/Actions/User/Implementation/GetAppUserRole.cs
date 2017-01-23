@@ -19,6 +19,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             try
             {
+                //change to findby
                 var userAppRole = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
 
                 return (UserRole)Enum.Parse(typeof(UserRole), userAppRole.Role.ToString());
