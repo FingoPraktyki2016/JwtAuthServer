@@ -48,7 +48,6 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         {
             // prepare
             var userFromDb = new DataAccess.Models.User() { Id = 1 };
-            var userUpdated = new UserModel() { Id = 1 };
             var mockedUserRepo = new Mock<IUserRepository>();
             mockedUserRepo.Setup(r => r.GetById(1))
                 .Returns(userFromDb);

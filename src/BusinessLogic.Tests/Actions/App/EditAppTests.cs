@@ -9,7 +9,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
     public class EditAppTests
     {
         [Fact]
-        public void Invoke_ValidData_ChangesPasswordSaltAndHash()
+        public void Invoke_ValidData_ChangesName()
         {
             var appFromDb = new DataAccess.Models.App()
             {
@@ -24,17 +24,19 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             };
 
             DataAccess.Models.App appSaved = null;
-            var mockedAppRepo = new Mock<IAppRepository>();
+            var mockedAppRepository = new Mock<IAppRepository>();
 
-            mockedAppRepo.Setup(r => r.GetById(1)).Returns(appFromDb);
+            mockedAppRepository.Setup(r => r.GetById(1)).Returns(appFromDb);
 
-            mockedAppRepo.Setup(r => r.Edit(It.IsAny<DataAccess.Models.App>()))
+            mockedAppRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.App>()))
                 .Callback<DataAccess.Models.App>(u => appSaved = u);
 
-            var action = new EditApp(mockedAppRepo.Object);
+            var action = new EditApp(mockedAppRepository.Object);
             action.Invoke(appToEdit);
 
             Assert.Equal("Name2", appSaved.Name);
+            mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Once);
+            mockedAppRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -51,14 +53,14 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
                 Name = "Name1",
             };
 
-            var mochedAppRepo = new Mock<IAppRepository>();
-            mochedAppRepo.Setup(r => r.GetById(1))
+            var mockedAppRepository = new Mock<IAppRepository>();
+            mockedAppRepository.Setup(r => r.GetById(1))
                 .Returns(appFromDb);
-            var action = new EditApp(mochedAppRepo.Object);
+            var action = new EditApp(mockedAppRepository.Object);
 
             action.Invoke(appToEdit);
 
-            mochedAppRepo.Verify(r => r.Save(), Times.Once());
+            mockedAppRepository.Verify(r => r.Save(), Times.Once());
         }
     }
 }
