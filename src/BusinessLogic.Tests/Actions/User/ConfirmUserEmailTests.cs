@@ -10,12 +10,12 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         [Fact]
         public void Invoke_ValidData_UpdatesEmailConfirmedOn()
         {
+            // prepare
             var userFromDb = new DataAccess.Models.User()
             {
                 Id = 1,
                 EmailConfirmedOn = null,
             };
-
             DataAccess.Models.User userSaved = null;
 
             var mockedUserRepo = new Mock<IUserRepository>();
@@ -25,16 +25,18 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 .Callback<DataAccess.Models.User>(u => userSaved = u);
             var action = new BusinessLogic.Actions.User.Implementation.ConfirmUserEmail(mockedUserRepo.Object);
 
+            // action
             action.Invoke(1);
 
+            // assert
             Assert.NotNull(userSaved.EmailConfirmedOn);
         }
 
         [Fact]
         public void Verify_EmailAlreadyConfirmed_SaveIsNotCalled()
         {
+            // prepare
             DateTime dateNow = DateTime.UtcNow;
-
             var userFromDb = new DataAccess.Models.User()
             {
                 Id = 1,
@@ -47,8 +49,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 
             var action = new BusinessLogic.Actions.User.Implementation.ConfirmUserEmail(mockedUserRepo.Object);
 
+            // action
             action.Invoke(1);
 
+            // assert
             Assert.Equal(userFromDb.EmailConfirmedOn, dateNow);
             mockedUserRepo.Verify(r => r.Save(), Times.Never);
         }
@@ -56,12 +60,12 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         [Fact]
         public void Verify_ForDoubledAction_UpdatesEmailConfirmedOnOnce()
         {
+            // prepare
             var userFromDb = new DataAccess.Models.User()
             {
                 Id = 1,
                 EmailConfirmedOn = null,
             };
-
             DataAccess.Models.User userSaved = null;
 
             var mockedUserRepo = new Mock<IUserRepository>();
@@ -72,9 +76,11 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 
             var action = new BusinessLogic.Actions.User.Implementation.ConfirmUserEmail(mockedUserRepo.Object);
 
+            // action
             action.Invoke(1);
             action.Invoke(1);
 
+            // assert
             Assert.NotNull(userSaved.EmailConfirmedOn);
             mockedUserRepo.Verify(r => r.Save(), Times.Once());
         }

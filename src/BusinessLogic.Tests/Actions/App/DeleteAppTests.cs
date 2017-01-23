@@ -16,7 +16,6 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             {
                 Id = 1
             };
-
             var appFromDb = new DataAccess.Models.App()
             {
                 Id = 1,
