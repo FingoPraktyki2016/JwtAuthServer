@@ -1,8 +1,8 @@
-﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+﻿using System.Linq;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
-using System.Linq;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
@@ -17,24 +17,26 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(UserModel user)
         {
-            var hasher = new Hasher();
-
-            if (userRepository.GetAll().Count(x => x.Email == user.Email) != 0)
+            if (user.Email != null && user.Password != null)
             {
-                return;
+                if (!userRepository.FindBy(x => x.Email == user.Email).Any())
+                {
+                    var hasher = new Hasher();
+
+                    var salt = hasher.GenerateRandomSalt();
+                    var passwordHash = hasher.CreateHash(user.Password, salt);
+                    var newUser = new DataAccess.Models.User()
+                    {
+                        Email = user.Email,
+                        PasswordSalt = salt,
+                        PasswordHash = passwordHash,
+                        Name = user.Name,
+                    };
+
+                    userRepository.Add(newUser);
+                    userRepository.Save();
+                }
             }
-
-            var salt = hasher.GenerateRandomSalt();
-            var newUser = new DataAccess.Models.User()
-            {
-                Email = user.Email,
-                PasswordSalt = salt,
-                PasswordHash = hasher.CreateHash(user.Password, salt),
-                Name = user.Name,
-            };
-
-            userRepository.Add(newUser);
-            userRepository.Save();
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using LegnicaIT.DataAccess.Repositories.Interfaces;
 using System;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
-    public class ConfirmUserEmail
+    public class ConfirmUserEmail : IConfirmUserEmail
     {
         private readonly IUserRepository userRepository;
 
@@ -16,13 +17,15 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var userToEdit = userRepository.GetById(userId);
 
-            if (userToEdit != null && userToEdit.EmailConfirmedOn == null)
+            if (userToEdit == null || userToEdit.EmailConfirmedOn != null)
             {
-                userToEdit.EmailConfirmedOn = DateTime.UtcNow;
-
-                userRepository.Edit(userToEdit);
-                userRepository.Save();
+                return;
             }
+
+            userToEdit.EmailConfirmedOn = DateTime.UtcNow;
+
+            userRepository.Edit(userToEdit);
+            userRepository.Save();
         }
     }
 }

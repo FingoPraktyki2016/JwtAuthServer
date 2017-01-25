@@ -18,24 +18,23 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(int appId, int user, UserRole removeRole)
         {
-            try
-            {
-                var userApp = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
-                var userRole = (UserRole)userApp.Role;
+            var userApp = userAppRepository.FindBy(m => m.User.Id == user && m.App.Id == appId).FirstOrDefault();
 
-                if (userRole.HasRole(removeRole))
-                {
-                    return;
-                }
-
-                userApp.Role = (DataAccess.Enums.UserRole)removeRole;
-                userAppRepository.Edit(userApp);
-                userAppRepository.Save();
-            }
-            catch (NullReferenceException e)
+            if (userApp == null)
             {
-                Console.WriteLine(e);
+                return;
             }
+
+            var userRole = (UserRole)userApp.Role;
+
+            if (userRole.HasRole(removeRole))
+            {
+                return;
+            }
+
+            userApp.Role = (DataAccess.Enums.UserRole)removeRole;
+            userAppRepository.Edit(userApp);
+            userAppRepository.Save();
         }
     }
 }

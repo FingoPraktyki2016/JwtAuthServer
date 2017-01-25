@@ -11,6 +11,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
         [Fact]
         public void Invoke_ValidData_ChangesName()
         {
+            // prepare
             var appFromDb = new DataAccess.Models.App()
             {
                 Id = 1,
@@ -32,8 +33,11 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
                 .Callback<DataAccess.Models.App>(u => appSaved = u);
 
             var action = new EditApp(mockedAppRepository.Object);
+
+            // action
             action.Invoke(appToEdit);
 
+            // assert
             Assert.Equal("Name2", appSaved.Name);
             mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Once);
             mockedAppRepository.Verify(r => r.Save(), Times.Once);
@@ -42,11 +46,11 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
         [Fact]
         public void Invoke_ValidData_SaveIsCalled()
         {
+            // prepare
             var appFromDb = new DataAccess.Models.App()
             {
                 Id = 1
             };
-
             var appToEdit = new AppModel()
             {
                 Id = 1,
@@ -56,10 +60,13 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var mockedAppRepository = new Mock<IAppRepository>();
             mockedAppRepository.Setup(r => r.GetById(1))
                 .Returns(appFromDb);
+
             var action = new EditApp(mockedAppRepository.Object);
 
+            // action
             action.Invoke(appToEdit);
 
+            // assert
             mockedAppRepository.Verify(r => r.Save(), Times.Once());
         }
     }
