@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using LegnicaIT.JwtManager.Controllers;
 using LegnicaIT.BusinessLogic.Helpers;
+using Microsoft.AspNetCore.Http;
+using LegnicaIT.BusinessLogic.Models.Common;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace LegnicaIT.JwtManager.Authorization
 {
@@ -29,11 +33,26 @@ namespace LegnicaIT.JwtManager.Authorization
             {
                 var controller = (BaseController)context.Controller;
                 var settings = controller.Settings;
+                bool isValid = false;
 
-                var apiHelper = new ApiHelper(settings.ApiReference);
-                //TODO: api call here
+                string sessionToken = context.HttpContext.Session.GetString("token");
+                
+                if (sessionToken != null)
+                {
+                    var apiHelper = new ApiHelper(settings.ApiReference);
+                    string rolesString = apiHelper.GetUserRoles(sessionToken);
+                    var rolesResult = JsonConvert.DeserializeObject<ResultModel<object>>(rolesString);
 
-                if (false) //TODO: If user doesnt have permission redirect to login page
+                    if (rolesResult.Status.Code == ResultCode.Ok)
+                    {
+                        UserRole userRole = (UserRole)rolesResult.Value;
+
+                        // make sure all required roles are assigned to user
+                        isValid = requiredPermissions.RequiredPermission.All(rp => userRole.HasRole(rp));
+                    }
+                }
+
+                if (isValid)
                 {
                     context.Result = new RedirectToActionResult("Login", "Auth", null);
                     return;

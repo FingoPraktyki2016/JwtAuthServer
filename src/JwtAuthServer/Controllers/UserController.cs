@@ -1,10 +1,13 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.BusinessLogic.Models.User;
 using LegnicaIT.JwtAuthServer.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
@@ -19,6 +22,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         private readonly IEditUserPassword editUserPassword;
         private readonly IDeleteUser deleteUser;
         private readonly IRevokeRole revokeRole;
+        private readonly IGetAppUserRole getAppUserRole;
+        private readonly IGetUserId getUserId;
 
         public UserController(
             IAddNewUser addNewUser,
@@ -29,6 +34,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             IEditUserPassword editUserPassword,
             IDeleteUser deleteUser,
             IRevokeRole revokeRole,
+            //TODO: getAppUserRole
+            //TODO: getUserId
             IOptions<LoggerConfig> loggerSettings) : base(loggerSettings)
         {
             this.addNewUser = addNewUser;
@@ -39,6 +46,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             this.editUserPassword = editUserPassword;
             this.deleteUser = deleteUser;
             this.revokeRole = revokeRole;
+            this.getAppUserRole = getAppUserRole;
+            this.getUserId = getUserId;
         }
 
         //test, delete it later
@@ -53,6 +62,17 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 
             addNewUser.Invoke(model);
             var result = new ResultModel<UserModel>(model);
+            return Json(result);
+        }
+
+        [HttpPost("getroles")]
+        [Authorize]
+        public JsonResult GetRoles()
+        {
+            var userId = getUserId.Invoke(LoggedUser.Email);
+            var userRole = getAppUserRole.Invoke(LoggedUser.AppId, userId);
+        
+            var result = new ResultModel<UserRole>(userRole);
             return Json(result);
         }
 
