@@ -17,17 +17,14 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public UserRole Invoke(int appId, int user)
         {
-            try
-            {
-                //TODO: change GetAll to FindBy
-                var userAppRole = userAppRepository.GetAll().FirstOrDefault(m => m.User.Id == user && m.App.Id == appId);
+            var userAppRole = userAppRepository.FindBy(m => m.User.Id == user && m.App.Id == appId).FirstOrDefault();
 
-                return (UserRole)Enum.Parse(typeof(UserRole), userAppRole.Role.ToString());
-            }
-            catch (NullReferenceException)
+            if (userAppRole == null)
             {
                 return UserRole.None;
             }
+
+            return (UserRole)Enum.Parse(typeof(UserRole), userAppRole.Role.ToString());
         }
     }
 }

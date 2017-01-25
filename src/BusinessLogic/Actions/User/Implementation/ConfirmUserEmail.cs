@@ -17,13 +17,15 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
         {
             var userToEdit = userRepository.GetById(userId);
 
-            if (userToEdit != null && userToEdit.EmailConfirmedOn == null)
+            if (userToEdit == null || userToEdit.EmailConfirmedOn != null)
             {
-                userToEdit.EmailConfirmedOn = DateTime.UtcNow;
-
-                userRepository.Edit(userToEdit);
-                userRepository.Save();
+                return;
             }
+
+            userToEdit.EmailConfirmedOn = DateTime.UtcNow;
+
+            userRepository.Edit(userToEdit);
+            userRepository.Save();
         }
     }
 }

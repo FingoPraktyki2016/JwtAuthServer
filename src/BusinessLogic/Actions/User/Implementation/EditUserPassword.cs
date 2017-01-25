@@ -24,14 +24,16 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
             var userToEdit = userRepository.GetById(id);
 
-            if (userToEdit != null)
+            if (userToEdit == null)
             {
-                userToEdit.PasswordHash = hasher.CreateHash(plainPassword, salt);
-                userToEdit.PasswordSalt = salt;
-
-                userRepository.Edit(userToEdit);
-                userRepository.Save();
+                return;
             }
+
+            userToEdit.PasswordHash = hasher.CreateHash(plainPassword, salt);
+            userToEdit.PasswordSalt = salt;
+
+            userRepository.Edit(userToEdit);
+            userRepository.Save();
         }
     }
 }

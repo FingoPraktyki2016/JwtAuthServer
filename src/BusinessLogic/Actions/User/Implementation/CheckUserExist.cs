@@ -27,6 +27,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             var salt = dbUser.PasswordSalt;
 
             var hashedPassword = hasher.CreateHash(password, salt);
+
             return Equals(hashedPassword, dbUser.PasswordHash);
         }
     }

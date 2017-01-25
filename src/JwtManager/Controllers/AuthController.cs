@@ -23,7 +23,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.SuperAdmin, UserRole.Manager, UserRole.User)]
         public string Index()
         {
-            //TO DO don't return clear strings. Do string or var persmission and then return permission.
+            //TO DO don't return clear strings. Do string or var permission and then return permission.
             //Also use ResultModel as used in JwtAuthServer
             return "user have Permission";
         }
@@ -78,5 +78,4 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Login");
         }
     }
-
 }

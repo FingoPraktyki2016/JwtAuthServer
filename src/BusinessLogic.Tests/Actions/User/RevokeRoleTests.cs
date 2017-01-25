@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using LegnicaIT.BusinessLogic.Actions.User.Implementation;
 using LegnicaIT.DataAccess.Enums;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
@@ -22,8 +25,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps>() { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
-            mockedUserAppsRepository.Setup(r => r.GetAll())
-                .Returns(getAllResults);
+            mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
+                .Returns(getAllResults.AsQueryable());
             mockedUserAppsRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()))
                 .Callback<DataAccess.Models.UserApps>(userApps => dataUserAppSaved = userApps);
 
