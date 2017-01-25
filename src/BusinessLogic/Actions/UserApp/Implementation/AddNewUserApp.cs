@@ -28,14 +28,15 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
                 Role = (DataAccess.Enums.UserRole)Enum.Parse(typeof(DataAccess.Enums.UserRole), model.Role.ToString()),
             };
 
-            if (userApp.User != null && userApp.App != null)
+            if (userApp.User == null ||
+                userApp.App == null ||
+                userAppRepository.FindBy(x => x.App.Id == userApp.App.Id && x.User.Id == userApp.User.Id).Any())
             {
-                if (!userAppRepository.FindBy(x => x.App.Id == userApp.App.Id && x.User.Id == userApp.User.Id).Any())
-                {
-                    userAppRepository.Add(userApp);
-                    userAppRepository.Save();
-                }
+                return;
             }
+
+            userAppRepository.Add(userApp);
+            userAppRepository.Save();
         }
     }
 }

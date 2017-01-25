@@ -33,7 +33,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_InvalidData_AddNorSaveAreCalled()
         {
             // prepare
-            var userToAdd = new UserModel() { };
+            var userToAdd = new UserModel();
             var mockedUserRepository = new Mock<IUserRepository>();
 
             var action = new AddNewUser(mockedUserRepository.Object);
