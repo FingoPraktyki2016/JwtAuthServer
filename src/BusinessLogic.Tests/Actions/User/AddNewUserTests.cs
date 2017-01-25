@@ -30,6 +30,23 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         }
 
         [Fact]
+        public void Invoke_InvalidData_AddNorSaveAreCalled()
+        {
+            // prepare
+            var userToAdd = new UserModel() { };
+            var mockedUserRepository = new Mock<IUserRepository>();
+
+            var action = new AddNewUser(mockedUserRepository.Object);
+
+            // action
+            action.Invoke(userToAdd);
+
+            // assert
+            mockedUserRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.User>()), Times.Never);
+            mockedUserRepository.Verify(r => r.Save(), Times.Never);
+        }
+
+        [Fact]
         public void Invoke_AlreadyExists_AddNorSaveAreCalled()
         {
             // prepare
