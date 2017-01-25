@@ -31,6 +31,11 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return CallPost("api/auth/verify", param, token);
         }
 
+        public string GetUserRoles(string token)
+        {
+            return CallPost("api/user/getroles", null, token);
+        }
+
         internal string CallPost(string route, Dictionary<string, string> dict, string token = null)
         {
             client.Initialize();
