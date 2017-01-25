@@ -7,5 +7,10 @@ namespace LegnicaIT.BusinessLogic.Models.App
     {
         public int AppModelId { get; set; }
         public String Name { get; set; }
+
+        public override bool IsValid()
+        {
+            return !(string.IsNullOrEmpty(Name));
+        }
     }
 }

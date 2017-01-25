@@ -15,13 +15,15 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 
         public void Invoke(AppModel app)
         {
-            var newApp = new DataAccess.Models.App()
+            if (app.IsValid())
             {
-                Name = app.Name
-            };
-
-            appRepository.Add(newApp);
-            appRepository.Save();
+                var newApp = new DataAccess.Models.App()
+                {
+                    Name = app.Name
+                };
+                appRepository.Add(newApp);
+                appRepository.Save();
+            }
         }
     }
 }

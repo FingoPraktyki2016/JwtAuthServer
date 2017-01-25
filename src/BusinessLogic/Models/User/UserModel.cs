@@ -5,14 +5,19 @@ namespace LegnicaIT.BusinessLogic.Models.User
 {
     public class UserModel : BaseModel
     {
-        public string Email { set; get; }
+        public string Email { get; set; }
 
         public string Password { get; set; }
 
-        public DateTime EmailConfirmedOn { set; get; }
+        public DateTime EmailConfirmedOn { get; set; }
 
-        public string Name { set; get; }
+        public string Name { get; set; }
 
-        public DateTime LockedOn { set; get; }
+        public DateTime LockedOn { get; set; }
+
+        public override bool IsValid()
+        {
+            return !(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Email));
+        }
     }
 }

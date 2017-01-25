@@ -17,8 +17,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(UserModel user)
         {
-            if (user.Email == null ||
-                user.Password == null ||
+            if (!user.IsValid() ||
                 userRepository.FindBy(x => x.Email == user.Email).Any())
             {
                 return;
