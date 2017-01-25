@@ -17,7 +17,7 @@ namespace LegnicaIT.BusinessLogic.Models.User
 
         public override bool IsValid()
         {
-            return !(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Email));
+            return !(string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password));
         }
     }
 }
