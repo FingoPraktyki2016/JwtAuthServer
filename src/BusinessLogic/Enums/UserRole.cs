@@ -7,7 +7,7 @@ namespace LegnicaIT.BusinessLogic.Enums
     {
         None = 0,
         User = 1,
-        Manager = 2,
-        SuperAdmin = 4
+        Manager = User | 2,
+        SuperAdmin = Manager | 4
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
-using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
@@ -16,7 +14,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userAppRepository = userAppRepository;
         }
 
-        public void Invoke(int appId, int user, UserRole removeRole)
+        public void Invoke(int appId, int user, UserRole changeUserRole)
         {
             var userApp = userAppRepository.FindBy(m => m.User.Id == user && m.App.Id == appId).FirstOrDefault();
 
@@ -27,12 +25,12 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
             var userRole = (UserRole)userApp.Role;
 
-            if (userRole.HasRole(removeRole))
+            if (userRole.Equals(changeUserRole))
             {
                 return;
             }
 
-            userApp.Role = (DataAccess.Enums.UserRole)removeRole;
+            userApp.Role = (DataAccess.Enums.UserRole)changeUserRole;
             userAppRepository.Edit(userApp);
             userAppRepository.Save();
         }
