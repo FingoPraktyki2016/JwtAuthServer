@@ -29,6 +29,7 @@ namespace LegnicaIT.JwtAuthServer.Models
                     return (T)converter.ConvertFromString(claim.Value);
                 }
             }
+
             return default(T);
         }
     }

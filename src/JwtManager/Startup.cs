@@ -39,8 +39,8 @@ namespace LegnicaIT.JwtManager
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            string debugValue = Configuration.GetSection("Logging:Loglevel:Default").Value;
-            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), "Information");
+            var debugValue = Configuration.GetSection("Logging:Loglevel:Default").Value;
+            var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), debugValue);
 
             //I'm gonna leave it as string array becase we might want to add some log modules later
             string[] logOnlyThese = { "WebHost" }; // or reverse string[] dontlong = {"ObjectResultExecutor", "JsonResultExecutor"};

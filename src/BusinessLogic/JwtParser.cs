@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using LegnicaIT.BusinessLogic.Enums;
+using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Token;
 
 namespace LegnicaIT.BusinessLogic
@@ -106,8 +107,20 @@ namespace LegnicaIT.BusinessLogic
                     new Claim(ClaimTypes.Email, formEmail),
                     new Claim("iss", GetIssuerName()),
                     new Claim("appId", formAppId.ToString()),
-                    new Claim(ClaimTypes.Role, userRole.ToString())
                 });
+
+                foreach (var ur in Enum.GetValues(typeof(UserRole)))
+                {
+                    if ((UserRole)ur == UserRole.None)
+                    {
+                        continue;
+                    }
+
+                    if (userRole.HasRole((UserRole)ur))
+                    {
+                        identity.AddClaim(new Claim(ClaimTypes.Role, ur.ToString()));
+                    }
+                }
             }
             catch (Exception)
             {

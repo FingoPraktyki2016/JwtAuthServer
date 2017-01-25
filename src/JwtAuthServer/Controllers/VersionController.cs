@@ -21,7 +21,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             return Json(version);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "Manager")]
         [HttpGet("tester")]
         public string Tester()
         {

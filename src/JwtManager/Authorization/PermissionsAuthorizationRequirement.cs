@@ -6,7 +6,6 @@ namespace LegnicaIT.JwtManager.Authorization
 {
     public class PermissionsAuthorizationRequirement : IAuthorizationRequirement
     {
-        // TODO: UserRole Enum should be replaced by UserRole enum from BusinessLogic Model
         public PermissionsAuthorizationRequirement(IEnumerable<UserRole> requiredPermissions)
         {
             RequiredPermission = requiredPermissions;
