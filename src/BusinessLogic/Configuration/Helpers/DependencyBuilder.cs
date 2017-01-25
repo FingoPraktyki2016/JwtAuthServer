@@ -20,7 +20,7 @@ namespace LegnicaIT.BusinessLogic.Configuration.Helpers
                 //find interfaces in assemblies
                 Assembly.Load(assemblyType).GetTypes().Where(assemblyClass => assemblyClass.GetTypeInfo().IsInterface).ToList().ForEach(myInterface =>
                 {
-                    // if interface is of type <T> increment counter
+                    // if interface inherits interface of type <T> increment counter
                     if (myInterface.GetInterfaces().Contains(typeof(T)))
                     {
                         countGenericInterface++;

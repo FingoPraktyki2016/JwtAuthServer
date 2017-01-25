@@ -17,21 +17,25 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(UserModel user)
         {
-            if (!userRepository.FindBy(x => x.Email == user.Email).Any())
+            if (user.Email != null && user.Password != null)
             {
-                var hasher = new Hasher();
-
-                var salt = hasher.GenerateRandomSalt();
-                var newUser = new DataAccess.Models.User()
+                if (!userRepository.FindBy(x => x.Email == user.Email).Any())
                 {
-                    Email = user.Email,
-                    PasswordSalt = salt,
-                    PasswordHash = hasher.CreateHash(user.Password, salt),
-                    Name = user.Name,
-                };
+                    var hasher = new Hasher();
 
-                userRepository.Add(newUser);
-                userRepository.Save();
+                    var salt = hasher.GenerateRandomSalt();
+                    var passwordHash = hasher.CreateHash(user.Password, salt);
+                    var newUser = new DataAccess.Models.User()
+                    {
+                        Email = user.Email,
+                        PasswordSalt = salt,
+                        PasswordHash = passwordHash,
+                        Name = user.Name,
+                    };
+
+                    userRepository.Add(newUser);
+                    userRepository.Save();
+                }
             }
         }
     }
