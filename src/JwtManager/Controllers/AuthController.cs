@@ -47,7 +47,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
             var handler = new ApiHelper(Settings.ApiReference);
             var resultString = handler.AcquireToken(model.Email, model.Password, model.AppId);
-            var result = JsonConvert.DeserializeObject<ResultModel<object>>(resultString);
+            var result = JsonConvert.DeserializeObject<ResultModel<object>>(resultString.ResponseMessage);
 
             if (result.Status.Code == ResultCode.Error)
             {

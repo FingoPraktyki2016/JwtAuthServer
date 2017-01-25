@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using LegnicaIT.BusinessLogic.Helpers.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Helpers.Interfaces;
+using LegnicaIT.BusinessLogic.Models.Common;
+using System.Collections.Generic;
+using System.Net;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {
@@ -12,7 +14,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             client = mockedClient ?? new ApiClient(api);
         }
 
-        public string AcquireToken(string email, string password, string appId)
+        public ApiResponseModel AcquireToken(string email, string password, string appId)
         {
             var param = new Dictionary<string, string>
             {
@@ -24,19 +26,19 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return CallPost("api/auth/acquiretoken", param);
         }
 
-        public string Verify(string token)
+        public ApiResponseModel Verify(string token)
         {
             var param = new Dictionary<string, string> { { "Token", token } };
 
             return CallPost("api/auth/verify", param, token);
         }
 
-        public string GetUserRoles(string token)
+        public ApiResponseModel GetUserRoles(string token)
         {
             return CallPost("api/user/getroles", null, token);
         }
 
-        internal string CallPost(string route, Dictionary<string, string> dict, string token = null)
+        internal ApiResponseModel CallPost(string route, Dictionary<string, string> dict, string token = null)
         {
             client.Initialize();
 
@@ -53,12 +55,12 @@ namespace LegnicaIT.BusinessLogic.Helpers
                 client.AddHeader("Authorization", $"Bearer {token}");
             }
 
-            var responseString = client.MakeCallPost(route);
+            var apiResponse = client.MakeCallPost(route);
 
-            return responseString;
+            return apiResponse;
         }
 
-        internal string CallGet(string route, Dictionary<string, string> dict, string token = null)
+        internal ApiResponseModel CallGet(string route, Dictionary<string, string> dict, string token = null)
         {
             client.Initialize();
 
@@ -76,9 +78,9 @@ namespace LegnicaIT.BusinessLogic.Helpers
             }
 
             string apiFullUrl = client.GetCallRouteWithParameters(route);
-            var responseString = client.MakeCallGet(apiFullUrl);
+            var apiResponse = client.MakeCallGet(apiFullUrl);
 
-            return responseString;
+            return apiResponse;
         }
     }
 }

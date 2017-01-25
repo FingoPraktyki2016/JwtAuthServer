@@ -1,8 +1,9 @@
 ﻿using LegnicaIT.BusinessLogic.Helpers.Interfaces;
+using LegnicaIT.BusinessLogic.Models.Common;
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {
@@ -57,7 +58,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return apiFullUrl;
         }
 
-        public string MakeCallPost(string route)
+        public ApiResponseModel MakeCallPost(string route)
         {
             if (!isInitialized)
             {
@@ -73,10 +74,10 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
             isInitialized = false;
 
-            return responseString;
+            return new ApiResponseModel() { ResponseMessage = responseString, StatusCode = response.StatusCode };
         }
 
-        public string MakeCallGet(string route)
+        public ApiResponseModel MakeCallGet(string route)
         {
             if (!isInitialized)
             {
@@ -89,7 +90,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
             isInitialized = false;
 
-            return responseString;
+            return new ApiResponseModel() { ResponseMessage = responseString, StatusCode = response.StatusCode };
         }
     }
 }

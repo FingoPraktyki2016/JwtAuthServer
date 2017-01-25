@@ -36,11 +36,11 @@ namespace LegnicaIT.JwtManager.Authorization
                 bool isValid = false;
 
                 string sessionToken = context.HttpContext.Session.GetString("token");
-                
+
                 if (sessionToken != null)
                 {
                     var apiHelper = new ApiHelper(settings.ApiReference);
-                    string rolesString = apiHelper.GetUserRoles(sessionToken);
+                    string rolesString = apiHelper.GetUserRoles(sessionToken).ResponseMessage;
                     var rolesResult = JsonConvert.DeserializeObject<ResultModel<object>>(rolesString);
 
                     if (rolesResult.Status.Code == ResultCode.Ok)
