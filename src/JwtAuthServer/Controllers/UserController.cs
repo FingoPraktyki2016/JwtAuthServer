@@ -7,7 +7,6 @@ using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
@@ -16,7 +15,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     {
         private readonly IAddNewUser addNewUser;
         private readonly ICheckUserExist checkUserExist;
-        private readonly IGetLastUser getLastUser;
         private readonly IGrantRole grantRole;
         private readonly IEditUser editUser;
         private readonly IEditUserPassword editUserPassword;
@@ -28,19 +26,17 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         public UserController(
             IAddNewUser addNewUser,
             ICheckUserExist checkUserExist,
-            IGetLastUser getLastUser,
             IGrantRole grantRole,
             IEditUser editUser,
             IEditUserPassword editUserPassword,
             IDeleteUser deleteUser,
             IRevokeRole revokeRole,
-            //TODO: getAppUserRole
-            //TODO: getUserId
+            IGetAppUserRole getAppUserRole,
+            IGetUserId getUserId,
             IOptions<LoggerConfig> loggerSettings) : base(loggerSettings)
         {
             this.addNewUser = addNewUser;
             this.checkUserExist = checkUserExist;
-            this.getLastUser = getLastUser;
             this.grantRole = grantRole;
             this.editUser = editUser;
             this.editUserPassword = editUserPassword;
@@ -71,7 +67,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             var userId = getUserId.Invoke(LoggedUser.Email);
             var userRole = getAppUserRole.Invoke(LoggedUser.AppId, userId);
-        
+
             var result = new ResultModel<UserRole>(userRole);
             return Json(result);
         }

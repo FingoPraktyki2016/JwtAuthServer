@@ -56,8 +56,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
             mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
                 .Returns(getAllResults.AsQueryable());
-            mockedUserAppsRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()))
-                .Callback<DataAccess.Models.UserApps>(userApps => dataUserAppSaved = userApps);
+
             var action = new GrantRole(mockedUserAppsRepository.Object);
 
             // Action
@@ -84,8 +83,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
             mockedUserAppsRepository.Setup(r => r.GetAll())
                 .Returns(getAllResults);
-            mockedUserAppsRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()))
-                .Callback<DataAccess.Models.UserApps>(userApps => dataUserAppSaved = userApps);
+
             var action = new GrantRole(mockedUserAppsRepository.Object);
 
             // Action
@@ -108,8 +106,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
             mockedUserAppsRepository.Setup(r => r.GetAll())
                 .Returns(getAllResults);
-            mockedUserAppsRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()))
-                .Callback<DataAccess.Models.UserApps>(userApps => dataUserAppSaved = userApps);
+
             var action = new GrantRole(mockedUserAppsRepository.Object);
 
             // Action
@@ -132,8 +129,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
             mockedUserAppsRepository.Setup(r => r.GetAll())
                 .Returns(getAllResults);
-            mockedUserAppsRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()))
-                .Callback<DataAccess.Models.UserApps>(userApps => dataUserAppSaved = userApps);
+
             var action = new GrantRole(mockedUserAppsRepository.Object);
 
             // Action

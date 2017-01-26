@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -28,6 +29,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return "user have Permission";
         }
 
+        [AllowAnonymous]
         [HttpGet("/auth/login")]
         public ActionResult Login()
         {
@@ -35,6 +37,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(LoginModel);
         }
 
+        [AllowAnonymous]
         [HttpPost("/auth/login")]
         public ActionResult Login(LoginModel model)
         {
@@ -42,6 +45,7 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 ModelState.AddModelError("Email", "Invalid email or password");
                 logger.Information("Model is not valid");
+
                 return View(model);
             }
 
@@ -55,18 +59,19 @@ namespace LegnicaIT.JwtManager.Controllers
 
                 return View(model);
             }
+
             HttpContext.Session.SetString("token", result.Value.ToString());
             ViewData["Message"] = model.Email;
 
             return View("LoginSuccess");
         }
 
+        [AllowAnonymous]
         [HttpGet("/auth/logout")]
         public ActionResult Logout()
         {
             try
             {
-                HttpContext.Session.Get("token");
                 HttpContext.Session.Remove("token");
                 HttpContext.Session.Clear();
             }
