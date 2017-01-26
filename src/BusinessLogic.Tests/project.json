@@ -3,11 +3,11 @@
 
   "testRunner": "xunit",
   "dependencies": {
-    "xunit": "2.2.0-beta4-build3444",
     "Moq": "4.6.38-alpha",
     "Microsoft.NETCore.App": "1.1.0",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "BusinessLogic": "1.0.0-*"
+    "BusinessLogic": "1.0.0-*",
+    "xunit": "2.2.0-beta5-build3474"
   },
   "frameworks": {
     "netcoreapp1.0": {
