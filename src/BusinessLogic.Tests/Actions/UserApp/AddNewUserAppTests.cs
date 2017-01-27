@@ -39,10 +39,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
 
             mockedUserRepository.Setup(r => r.GetById(userAppToAdd.UserId))
-               .Returns(user);
+                .Returns(user);
 
             mockedAppRepository.Setup(r => r.GetById(userAppToAdd.AppId))
-              .Returns(app);
+                .Returns(app);
 
             var action = new AddNewUserApp(mockedUserAppRepository.Object, mockedUserRepository.Object,
                 mockedAppRepository.Object);
@@ -59,9 +59,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         public void Invoke_InvalidData_AddNorSaveAreCalled()
         {
             // prepare
-            var userAppToAdd = new UserAppModel()
-            {
-            };
+            var userAppToAdd = new UserAppModel();
 
             var mockedUserRepository = new Mock<IUserRepository>();
             var mockedAppRepository = new Mock<IAppRepository>();

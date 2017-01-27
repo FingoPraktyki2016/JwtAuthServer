@@ -18,7 +18,12 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             // prepare
             var hasher = new Hasher();
             var salt = hasher.GenerateRandomSalt();
-            var dataUser = new DataAccess.Models.User() { Email = "email@dot.com", PasswordSalt = salt, PasswordHash = hasher.CreateHash("test", salt) };
+            var dataUser = new DataAccess.Models.User()
+            {
+                Email = "email@dot.com",
+                PasswordSalt = salt,
+                PasswordHash = hasher.CreateHash("test", salt)
+            };
             var findByResult = new List<DataAccess.Models.User>() { dataUser };
             var mockedUserRepository = new Mock<IUserRepository>();
             mockedUserRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.User, bool>>>()))
@@ -36,7 +41,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_EmptyRepository_ReturnsFalse()
         {
             // prepare
-            var findByResult = new List<DataAccess.Models.User>() { };
+            var findByResult = new List<DataAccess.Models.User>();
             var mockedUserRepository = new Mock<IUserRepository>();
             mockedUserRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.User, bool>>>()))
                 .Returns(findByResult.AsQueryable);

@@ -33,7 +33,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_EmptyRepository_ReturnsZero()
         {
             // prepare
-            var findByResult = new List<DataAccess.Models.User>() { };
+            var findByResult = new List<DataAccess.Models.User>();
             var mockedUserRepository = new Mock<IUserRepository>();
             mockedUserRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.User, bool>>>()))
                 .Returns(findByResult.AsQueryable);

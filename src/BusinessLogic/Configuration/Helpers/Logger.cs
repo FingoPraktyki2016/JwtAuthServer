@@ -15,7 +15,7 @@ namespace LegnicaIT.BusinessLogic.Configuration.Helpers
             var factory = new LoggerFactory();
 
             var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), settings.Value.Default);
-            factory.AddDebug();
+            factory.AddDebug(logLevel);
             var _logger = factory.CreateLogger(type);
 
             logger = _logger;

@@ -29,7 +29,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
         public void Invoke_InvalidData_AddNorSaveAreCalled()
         {
             // prepare
-            var appToAdd = new AppModel() { };
+            var appToAdd = new AppModel();
             var mockedAppRepository = new Mock<IAppRepository>();
 
             var action = new AddNewApp(mockedAppRepository.Object);

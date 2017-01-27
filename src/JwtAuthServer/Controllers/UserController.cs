@@ -72,20 +72,20 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             return Json(result);
         }
 
-        //[HttpGet("grantrole")]
-        //[Authorize(Roles = "SuperAdmin")]
-        //public UserRoleRepository GrantRole()
-        //{
-        //    //grantRole.Invoke(1, 1);
-        //    return null;
-        //}
+        /*[HttpGet("grantrole")]
+        [Authorize(Roles = "SuperAdmin")]
+        public UserRoleRepository GrantRole()
+        {
+            //grantRole.Invoke(1, 1);
+            return null;
+        }*/
 
-        //[HttpGet("revokerole")]
-        ////[Authorize(Roles = "SuperAdmin")]
-        //public UserRoleRepository RevokeRole()
-        //{
-        //    //revokeRole.Invoke(1, 1);
-        //    return null;
-        //}
+        /*[HttpGet("revokerole")]
+        //[Authorize(Roles = "SuperAdmin")]
+        public UserRoleRepository RevokeRole()
+        {
+            //revokeRole.Invoke(1, 1);
+            return null;
+        }*/
     }
 }
