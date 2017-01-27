@@ -1,7 +1,6 @@
 ﻿using System;
-using LegnicaIT.BusinessLogic.Models.Base;
 
-namespace LegnicaIT.BusinessLogic.Models.User
+namespace LegnicaIT.BusinessLogic.Models
 {
     public class UserModel : BaseModel
     {

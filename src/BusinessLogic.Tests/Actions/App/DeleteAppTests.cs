@@ -1,5 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Implementation;
-using LegnicaIT.BusinessLogic.Models.App;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Moq;
 using Xunit;
@@ -44,7 +44,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             };
 
             var mockedAppRepository = new Mock<IAppRepository>();
-            mockedAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.App)null);
+            mockedAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.App) null);
 
             var action = new DeleteApp(mockedAppRepository.Object);
 

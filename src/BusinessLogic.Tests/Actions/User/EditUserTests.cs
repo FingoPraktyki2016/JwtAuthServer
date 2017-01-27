@@ -1,5 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Implementation;
-using LegnicaIT.BusinessLogic.Models.User;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Moq;
 using Xunit;

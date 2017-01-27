@@ -1,7 +1,6 @@
-﻿using LegnicaIT.BusinessLogic.Models.Base;
-using LegnicaIT.BusinessLogic.Enums;
+﻿using LegnicaIT.BusinessLogic.Enums;
 
-namespace LegnicaIT.BusinessLogic.Models.UserApp
+namespace LegnicaIT.BusinessLogic.Models
 {
     public class UserAppModel : BaseModel
     {

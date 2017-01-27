@@ -1,11 +1,11 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.UserApp.Implementation;
-using LegnicaIT.BusinessLogic.Models.UserApp;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using LegnicaIT.BusinessLogic.Models;
 using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LegnicaIT.BusinessLogic.Models.Base
+namespace LegnicaIT.BusinessLogic.Models
 {
     public class BaseModel
     {

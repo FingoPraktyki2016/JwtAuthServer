@@ -1,5 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.Base;
-using LegnicaIT.BusinessLogic.Models.App;
+using LegnicaIT.BusinessLogic.Models;
 
 namespace LegnicaIT.BusinessLogic.Actions.App.Interfaces
 {

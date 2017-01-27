@@ -1,7 +1,6 @@
-﻿using LegnicaIT.BusinessLogic.Models.Base;
-using System;
+﻿using System;
 
-namespace LegnicaIT.BusinessLogic.Models.App
+namespace LegnicaIT.BusinessLogic.Models
 {
     public class AppModel : BaseModel
     {

@@ -2,12 +2,10 @@
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
-using LegnicaIT.BusinessLogic.Models.App;
-using LegnicaIT.BusinessLogic.Models.User;
-using LegnicaIT.BusinessLogic.Models.UserApp;
 using LegnicaIT.DataAccess.Context;
 using System;
 using System.Linq;
+using LegnicaIT.BusinessLogic.Models;
 
 namespace LegnicaIT.BusinessLogic.Configuration.Seeder
 {
