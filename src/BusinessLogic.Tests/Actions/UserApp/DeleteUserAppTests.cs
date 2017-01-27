@@ -36,7 +36,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         }
 
         [Fact]
-        public void Invoke_ValidData_DeleteNorSaveAreCalled()
+        public void Invoke_ForNullUserApps_DeleteNorSaveAreCalled()
         {
             // prepare
             var userAppToDelete = new AppModel()
@@ -45,7 +45,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             };
 
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
-            mockedUserAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.UserApps)null);
+            mockedUserAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.UserApps) null);
 
             var action = new DeleteUserApp(mockedUserAppRepository.Object);
 

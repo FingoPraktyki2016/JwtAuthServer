@@ -121,7 +121,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         }
 
         [Fact]
-        public void Invoke_EmptyRepository_NotSavedInDatabase()
+        public void Invoke_NullUserApps_NotSavedInDatabase()
         {
             // Prepare
             var dataUserApp = new DataAccess.Models.UserApps();

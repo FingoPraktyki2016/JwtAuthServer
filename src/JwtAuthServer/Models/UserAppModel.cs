@@ -1,14 +1,20 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 
 namespace LegnicaIT.JwtAuthServer.Models
 {
-    public class AppUserModel
+    public class UserAppModel
     {
+        [Required]
         public string Email { get; set; }
+
+        [Required]
         public int AppId { get; set; }
+
+        [Required]
         public string Role { get; set; }
 
         public void FillFromClaims(IEnumerable<Claim> claims)
@@ -26,7 +32,7 @@ namespace LegnicaIT.JwtAuthServer.Models
                 var converter = TypeDescriptor.GetConverter(typeof(T));
                 if (converter != null)
                 {
-                    return (T)converter.ConvertFromString(claim.Value);
+                    return (T) converter.ConvertFromString(claim.Value);
                 }
             }
 

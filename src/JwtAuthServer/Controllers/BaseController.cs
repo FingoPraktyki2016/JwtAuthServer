@@ -9,7 +9,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 {
     public class BaseController : Controller
     {
-        protected AppUserModel LoggedUser { get; set; }
+        protected UserAppModel LoggedUser { get; set; }
         public Logger logger { get; set; }
 
         public BaseController(IOptions<LoggerConfig> loggerSettings)
@@ -25,7 +25,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 
             if (user != null && user.Identity.IsAuthenticated)
             {
-                LoggedUser = new AppUserModel();
+                LoggedUser = new UserAppModel();
                 // convert security claims to our custom user data
                 LoggedUser.FillFromClaims(user.Claims);
             }
