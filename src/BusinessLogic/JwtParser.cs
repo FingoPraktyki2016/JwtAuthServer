@@ -73,8 +73,17 @@ namespace LegnicaIT.BusinessLogic
                 IsValid = false
             };
 
-            SecurityToken validatedToken;
-            handler.ValidateToken(token, parameters, out validatedToken);
+            // Catch invalid token
+            try
+            {
+                SecurityToken validatedToken;
+                handler.ValidateToken(token, parameters, out validatedToken);
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+
             var jwt = handler.ReadToken(token) as JwtSecurityToken;
 
             if (jwt != null)
