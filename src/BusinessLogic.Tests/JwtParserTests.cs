@@ -88,7 +88,12 @@ namespace LegnicaIT.BusinessLogic.Tests
 
             AcquireTokenModel tokenModel = parser.AcquireToken("rafal.gradziel@fingo.pl", 1, UserRole.None);
             VerifyResultModel result = parser.Verify(tokenModel.Token);
-            string expiryDateString = result.ExpiryDate.Value.ToString(dateFormat);
+            string expiryDateString = null;
+
+            if (result.ExpiryDate != null)
+            {
+                expiryDateString = result.ExpiryDate.Value.ToString(dateFormat);
+            }
 
             Assert.Equal(dateNowFutureString, expiryDateString);
         }

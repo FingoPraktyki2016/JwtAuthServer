@@ -50,3 +50,8 @@ textarea {
 }
 
 .input-validation-error { background-color: lightsalmon; }
+
+.jwt-btn-big {
+    height: 50px;
+    width: 150px
+}

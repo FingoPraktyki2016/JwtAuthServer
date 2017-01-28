@@ -73,21 +73,17 @@ namespace LegnicaIT.BusinessLogic
                 IsValid = false
             };
 
-            try
-            {
-                SecurityToken validatedToken;
-                handler.ValidateToken(token, parameters, out validatedToken);
-                var jwt = handler.ReadToken(token) as JwtSecurityToken;
+            SecurityToken validatedToken;
+            handler.ValidateToken(token, parameters, out validatedToken);
+            var jwt = handler.ReadToken(token) as JwtSecurityToken;
 
+            if (jwt != null)
+            {
                 result.ExpiryDate = jwt.ValidTo;
-                result.IsValid = true;
                 result.Email = GetClaim(jwt, "email");
                 result.AppId = Convert.ToInt32(GetClaim(jwt, "appId"));
                 result.Role = GetClaim(jwt, "role");
-            }
-            catch (Exception)
-            {
-                // FIXME: why empty? Return something
+                result.IsValid = true;
             }
 
             return result;
@@ -111,12 +107,12 @@ namespace LegnicaIT.BusinessLogic
 
                 foreach (var ur in Enum.GetValues(typeof(UserRole)))
                 {
-                    if ((UserRole)ur == UserRole.None)
+                    if ((UserRole) ur == UserRole.None)
                     {
                         continue;
                     }
 
-                    if (userRole.HasRole((UserRole)ur))
+                    if (userRole.HasRole((UserRole) ur))
                     {
                         identity.AddClaim(new Claim(ClaimTypes.Role, ur.ToString()));
                     }
