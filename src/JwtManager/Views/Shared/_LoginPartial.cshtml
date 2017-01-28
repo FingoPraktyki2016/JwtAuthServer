@@ -1,5 +1,4 @@
-﻿@*TODO: check if user is registered*@
-@if (false)
+﻿@if (User.Identity.IsAuthenticated)
 {
     <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
