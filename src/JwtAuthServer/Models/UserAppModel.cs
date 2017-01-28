@@ -20,7 +20,7 @@ namespace LegnicaIT.JwtAuthServer.Models
         public void FillFromClaims(IEnumerable<Claim> claims)
         {
             Email = GetClaimValue<string>(claims, ClaimTypes.Email);
-            AppId = GetClaimValue<int>(claims, "AppId");
+            AppId = GetClaimValue<int>(claims, "appId");
             Role = GetClaimValue<string>(claims, ClaimTypes.Role);
         }
 

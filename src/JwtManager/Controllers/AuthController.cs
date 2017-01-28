@@ -63,7 +63,7 @@ namespace LegnicaIT.JwtManager.Controllers
             HttpContext.Session.SetString("token", result.Value.ToString());
             ViewData["Message"] = model.Email;
 
-            return View("/Views/Home/Index.cshtml");
+            return RedirectToAction("Index", "Home");
         }
 
         [AllowAnonymous]

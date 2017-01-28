@@ -52,7 +52,7 @@ namespace LegnicaIT.JwtManager.Authorization
                     }
                 }
 
-                if (isValid)
+                if (!isValid)
                 {
                     context.Result = new RedirectToActionResult("Login", "Auth", null);
                     return;

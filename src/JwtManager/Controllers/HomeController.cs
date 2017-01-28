@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -12,6 +13,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
