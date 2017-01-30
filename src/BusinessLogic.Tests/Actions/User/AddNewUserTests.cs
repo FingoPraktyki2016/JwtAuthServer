@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 using LegnicaIT.BusinessLogic.Models;
 using Xunit;
 
@@ -12,6 +13,39 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 {
     public class AddNewUserTests
     {
+        [Fact]
+        public void Invoke_ValidData_AddsUserToDatabaseWithCorrectValues()
+        {
+            // prepare
+            var user = new UserModel()
+            {
+                Email = "email",
+                Password = "plain",
+                Name = "Ryszard"
+            };
+            DataAccess.Models.User userSaved = null;
+
+            var mockedUserRepo = new Mock<IUserRepository>();
+            mockedUserRepo.Setup(r => r.Add(It.IsAny<DataAccess.Models.User>()))
+                .Callback<DataAccess.Models.User>(u => userSaved = u);
+
+            var mockedHasher = new Mock<IHasher>();
+            mockedHasher.Setup(h => h.GenerateRandomSalt()).Returns("salt-generated");
+            mockedHasher.Setup(h => h.CreateHash("plain", "salt-generated")).Returns("plain-hashed");
+
+            var action = new AddNewUser(mockedUserRepo.Object, mockedHasher.Object);
+
+            // action
+            action.Invoke(user);
+
+            // assert
+            Assert.Equal("plain-hashed", userSaved.PasswordHash);
+            Assert.Equal("salt-generated", userSaved.PasswordSalt);
+            Assert.Equal("Ryszard", userSaved.Name);
+            mockedUserRepo.Verify(r => r.Add(It.IsAny<DataAccess.Models.User>()), Times.Once());
+            mockedUserRepo.Verify(r => r.Save(), Times.Once());
+        }
+
         [Fact]
         public void Invoke_ValidData_AddAndSaveAreCalled()
         {
