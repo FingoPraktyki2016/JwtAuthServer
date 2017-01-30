@@ -25,7 +25,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 Name = dbUser.Name,
             };
 
-            return userModel ?? null;
+            return userModel;
         }
     }
 }

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [AuthorizeFilter(UserRole.User)]
     public class UserController : Controller
     {
         //
@@ -23,6 +24,7 @@ namespace LegnicaIT.JwtManager.Controllers
         public IActionResult Me()
         {
             var model = JsonConvert.DeserializeObject<UserModel>(HttpContext.Session.GetString("UserDetails"));
+
             return View(model);
         }
 
