@@ -12,7 +12,9 @@ namespace LegnicaIT.JwtManager.Controllers
     [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
-        public UserController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
+        public UserController(
+            IOptions<ManagerSettings> managerSettings,
+            IOptions<LoggerConfig> loggerSettings)
             : base(managerSettings, loggerSettings)
         {
         }
@@ -44,7 +46,9 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public IActionResult Edit()
         {
-            return View();
+            var model = LoggedUser.GetUserDetails();
+            var viewModel = new FormModel<UserModel>(true, model);
+            return View(viewModel);
         }
 
         /*
@@ -55,7 +59,8 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(UserModel model)
         {
-            return View();
+            var viewModel = new FormModel<UserModel>(true, model);
+            return View(viewModel);
         }
 
         /*

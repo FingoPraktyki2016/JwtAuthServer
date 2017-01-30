@@ -9,6 +9,6 @@
     </div>
     @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
-        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email) : Html.LabelForModel(Model.Model.Name))
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name) : Html.LabelForModel(Model.Model.Name))
     </div>
 </div>

@@ -8,7 +8,9 @@ namespace LegnicaIT.JwtManager.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
+        public HomeController(
+            IOptions<ManagerSettings> managerSettings,
+            IOptions<LoggerConfig> loggerSettings)
             : base(managerSettings, loggerSettings)
         {
         }
