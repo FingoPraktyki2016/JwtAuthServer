@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
         public UserController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
