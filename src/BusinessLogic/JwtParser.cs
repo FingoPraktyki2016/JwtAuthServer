@@ -17,10 +17,23 @@ namespace LegnicaIT.BusinessLogic
         private readonly SymmetricSecurityKey encodedSecretKey;
         private readonly IDateTimeProvider dateTimeProvider;
 
-        public JwtParser(IDateTimeProvider dateTimeProvider = null)
+        /// <summary>
+        /// JWT token parser
+        /// </summary>
+        public JwtParser()
         {
-            this.dateTimeProvider = dateTimeProvider ?? new DateTimeProvider();
             encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetSecretKey()));
+            this.dateTimeProvider = new DateTimeProvider();
+        }
+
+        /// <summary>
+        /// JWT token parser - for tests
+        /// </summary>
+        /// <param name="dateTimeProvider">Mocked DateTimeProvider</param>
+        internal JwtParser(IDateTimeProvider dateTimeProvider)
+        {
+            encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetSecretKey()));
+            this.dateTimeProvider = dateTimeProvider;
         }
 
         public string GetIssuerName()

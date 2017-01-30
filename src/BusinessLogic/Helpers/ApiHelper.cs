@@ -8,9 +8,23 @@ namespace LegnicaIT.BusinessLogic.Helpers
     {
         private readonly IApiClient client;
 
-        public ApiHelper(string api, IApiClient mockedClient = null)
+        /// <summary>
+        /// API helper
+        /// </summary>
+        /// <param name="api">API url location</param>
+        public ApiHelper(string api)
         {
-            client = mockedClient ?? new ApiClient(api);
+            client = new ApiClient(api);
+        }
+
+        /// <summary>
+        /// API helper for tests
+        /// </summary>
+        /// <param name="api">API url location</param>
+        /// <param name="mockedClient">Mocked API client</param>
+        internal ApiHelper(string api, IApiClient mockedClient)
+        {
+            client = mockedClient;
         }
 
         public ApiResponseModel AcquireToken(string email, string password, string appId)
