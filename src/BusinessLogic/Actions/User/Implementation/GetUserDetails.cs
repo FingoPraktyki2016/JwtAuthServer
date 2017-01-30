@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
+using System.Linq;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
@@ -16,7 +16,16 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public UserModel Invoke(string email)
         {
+            if (email == null)
+            {
+                return null;
+            }
+
             var dbUser = userRepository.FindBy(x => x.Email == email).FirstOrDefault();
+            if (dbUser == null)
+            {
+                return null;
+            }
 
             var userModel = new UserModel()
             {
