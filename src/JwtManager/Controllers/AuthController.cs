@@ -73,18 +73,21 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToActionPermanent("Index", "Home");
         }
 
+        //TODO Change to HttpPost later
         [AllowAnonymous]
         [HttpGet("/auth/logout")]
         public ActionResult Logout()
         {
-            if(HttpContext.Session.GetString("token") != null || HttpContext.Session.GetString("token") != "" ){
+            if (HttpContext.Session.GetString("token") != null || HttpContext.Session.GetString("token") != "" ){
                 HttpContext.Session.Remove("token");
-                HttpContext.Session.Clear();
             }
             else
             {
                 logger.Information($"Something went wrong during logout");
             }
+
+            HttpContext.Session.Clear();
+
             return RedirectToAction("Login");
         }
     }
