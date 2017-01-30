@@ -20,6 +20,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
                     var byteArraySalt = Convert.FromBase64String(salt);
                     var deriveBytes = new Rfc2898DeriveBytes(password, byteArraySalt, iterations);
                     var key = deriveBytes.GetBytes(keySize);
+
                     return Convert.ToBase64String(key);
                 }
             }
@@ -27,6 +28,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             {
                 Debug.WriteLine(e.Message);
             }
+
             return null;
         }
 
@@ -35,6 +37,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             var rng = RandomNumberGenerator.Create();
             var buffor = new byte[saltSize];
             rng.GetBytes(buffor);
+
             return Convert.ToBase64String(buffor);
         }
     }

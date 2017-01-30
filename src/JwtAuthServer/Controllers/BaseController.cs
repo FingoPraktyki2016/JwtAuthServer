@@ -29,6 +29,11 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 // convert security claims to our custom user data
                 LoggedUser.FillFromClaims(user.Claims);
             }
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
 
             if (!context.ModelState.IsValid)
             {
