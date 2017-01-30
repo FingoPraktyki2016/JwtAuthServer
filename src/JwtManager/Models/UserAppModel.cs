@@ -1,31 +1,28 @@
 ﻿using LegnicaIT.BusinessLogic.Models;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Models
 {
     public class UserAppModel
     {
-        private readonly HttpContext httpContext;
+        public string Email;
+        public string Name;
+        public int Id;
 
-        public UserAppModel(HttpContext httpContext)
+        public UserAppModel(string sessionValue)
         {
-            this.httpContext = httpContext;
+            var userModel = JsonConvert.DeserializeObject<UserModel>(sessionValue);
+
+            this.Email = userModel.Email;
+            this.Name = userModel.Name;
+            this.Id = userModel.Id;
         }
 
-        public UserModel GetUserDetails()
+        public UserModel GetModel()
         {
-            // Gonna come back to this later
-            try
-            {
-                var userModel = JsonConvert.DeserializeObject<UserModel>(httpContext.Session.GetString("UserDetails"));
-
-                return userModel;
-            }
-            catch
-            {
-                return null;
-            }
+            var userModel = new UserModel() {Email = this.Email, Id = this.Id, Name = this.Name};
+            return userModel;
         }
     }
 }
+

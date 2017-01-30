@@ -2,6 +2,7 @@
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
@@ -26,7 +27,10 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuting(context);
 
-            LoggedUser = new UserAppModel(context.HttpContext);
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserDetails")))
+            {
+                LoggedUser = new UserAppModel(HttpContext.Session.GetString("UserDetails"));
+            }
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)

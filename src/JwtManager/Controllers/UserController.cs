@@ -36,7 +36,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public IActionResult Me()
         {
-            var model = LoggedUser.GetUserDetails();
+            var model = LoggedUser.GetModel();
             return View(new FormModel<UserModel>(false, model));
         }
 
@@ -46,7 +46,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public IActionResult Edit()
         {
-            var model = LoggedUser.GetUserDetails();
+            var model = LoggedUser.GetModel();
             var viewModel = new FormModel<UserModel>(true, model);
             return View(viewModel);
         }
