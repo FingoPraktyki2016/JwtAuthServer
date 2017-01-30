@@ -20,7 +20,10 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(int id, string plainPassword)
         {
-            var salt = hasher.GenerateRandomSalt();
+            if (plainPassword == null)
+            {
+                return;
+            }
 
             var userToEdit = userRepository.GetById(id);
 
@@ -29,6 +32,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 return;
             }
 
+            var salt = hasher.GenerateRandomSalt();
             userToEdit.PasswordHash = hasher.CreateHash(plainPassword, salt);
             userToEdit.PasswordSalt = salt;
 
