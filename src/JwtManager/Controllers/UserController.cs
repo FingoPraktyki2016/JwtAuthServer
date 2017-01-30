@@ -3,23 +3,22 @@ using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
-    [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
-        public UserController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings) : base(managerSettings, loggerSettings)
+        public UserController(IOptions<ManagerSettings> managerSettings, IOptions<LoggerConfig> loggerSettings)
+            : base(managerSettings, loggerSettings)
         {
         }
 
         /*
-         * GET: /User/Details
+          * GET: /User/Details
          */
+
         [AuthorizeFilter(UserRole.Manager)]
         public IActionResult Details(int id)
         {
@@ -30,16 +29,17 @@ namespace LegnicaIT.JwtManager.Controllers
         /*
          * GET: /User/Me
          */
+
         public IActionResult Me()
         {
-            var model = JsonConvert.DeserializeObject<UserModel>(HttpContext.Session.GetString("UserDetails"));
-
-            return View(model);
+            var model = LoggedUser.GetUserDetails();
+            return Json(model);
         }
 
         /*
          * GET: /User/Edit
          */
+
         public IActionResult Edit()
         {
             return View();
@@ -48,6 +48,7 @@ namespace LegnicaIT.JwtManager.Controllers
         /*
          * POST: /User/Edit
          */
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(UserModel model)
@@ -58,6 +59,7 @@ namespace LegnicaIT.JwtManager.Controllers
         /*
          * GET: /User/ChangePassword
          */
+
         public IActionResult ChangePassword()
         {
             return View();
@@ -66,19 +68,12 @@ namespace LegnicaIT.JwtManager.Controllers
         /*
          * POST: /User/ChangePassword
          */
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ChangePassword(UserModel model)
         {
             return View();
         }
-
-        [HttpGet ("details")]
-        [AuthorizeFilter (UserRole.SuperAdmin)]
-        public IActionResult Details()
-        {
-            return View();
-        }
-
     }
 }
