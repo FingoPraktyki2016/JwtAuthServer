@@ -26,11 +26,11 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpGet("/auth")]
         [AuthorizeFilter(UserRole.Manager)]
-        public string Index()
+        public ActionResult Index()
         {
-            //TO DO don't return clear strings. Do string or var permission and then return permission.
-            //Also use ResultModel as used in JwtAuthServer
-            return "user have Permission";
+            var result = new ResultModel<string>("User have Manager permission");
+
+            return Json(result);
         }
 
         [AllowAnonymous]
