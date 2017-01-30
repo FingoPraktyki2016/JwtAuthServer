@@ -75,7 +75,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
             ViewData["Message"] = model.Email;
 
-            return View("/Views/Home/Index.cshtml");
+            return RedirectToActionPermanent("Index", "Home");
         }
 
         //TODO Change to HttpPost later

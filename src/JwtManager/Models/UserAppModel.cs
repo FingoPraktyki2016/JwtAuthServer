@@ -19,10 +19,13 @@ namespace LegnicaIT.JwtManager.Models
             try
             {
                 var userModel = JsonConvert.DeserializeObject<UserModel>(httpContext.Session.GetString("UserDetails"));
+
                 return userModel;
             }
-            catch { }
-            return null;
+            catch
+            {
+                return null;
+            }
         }
     }
 }
