@@ -72,5 +72,13 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             return View();
         }
+
+        [HttpGet ("details")]
+        [AuthorizeFilter (UserRole.SuperAdmin)]
+        public IActionResult Details()
+        {
+            return View();
+        }
+
     }
 }
