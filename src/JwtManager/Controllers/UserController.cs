@@ -3,6 +3,7 @@ using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
+using LegnicaIT.JwtManager.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -34,7 +35,7 @@ namespace LegnicaIT.JwtManager.Controllers
         public IActionResult Me()
         {
             var model = LoggedUser.GetUserDetails();
-            return Json(model);
+            return View(new FormModel<UserModel>(false, model));
         }
 
         /*

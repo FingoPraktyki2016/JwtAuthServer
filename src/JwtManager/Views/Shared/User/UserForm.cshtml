@@ -1,19 +1,14 @@
-﻿@using LegnicaIT.BusinessLogic.Models
-@model UserModel
-
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model LegnicaIT.JwtManager.Models.User.FormModel<LegnicaIT.BusinessLogic.Models.UserModel>
 
 <h2 class="form-signin-heading">User details</h2>
 
 <div class="form-group">
-    @Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-2" })
+    @Html.LabelFor(m => m.Model.Email, new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
-        @(false ? Html.TextBoxFor(m => m.Email) : Html.LabelForModel(Model.Email))
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email) : Html.LabelForModel(Model.Model.Email))
     </div>
-    @Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-2" })
+    @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
-        @(false ? Html.TextBoxFor(m => m.Name) : Html.LabelForModel(Model.Name))
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email) : Html.LabelForModel(Model.Model.Name))
     </div>
 </div>
