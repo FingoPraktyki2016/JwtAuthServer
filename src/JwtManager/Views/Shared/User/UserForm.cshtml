@@ -1,0 +1,19 @@
+﻿@using LegnicaIT.BusinessLogic.Models.User
+@model UserModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="form-signin-heading">User details</h2>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @(false ? Html.TextBoxFor(m => m.Email) : Html.LabelForModel(Model.Email))
+    </div>
+    @Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @(false ? Html.TextBoxFor(m => m.Name) : Html.LabelForModel(Model.Name))
+    </div>
+</div>

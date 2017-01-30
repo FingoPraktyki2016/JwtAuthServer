@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using LegnicaIT.BusinessLogic.Configuration.Helpers;
+using LegnicaIT.DataAccess.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LegnicaIT.JwtManager
 {
@@ -29,6 +33,11 @@ namespace LegnicaIT.JwtManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
+
+            RegisterDependecy.Register(services);
+
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddOptions();
