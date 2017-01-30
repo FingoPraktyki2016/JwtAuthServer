@@ -18,7 +18,9 @@ namespace LegnicaIT.JwtManager.Controllers
     {
         private readonly IGetUserDetails getUserDetails;
 
-        public AuthController(IOptions<ManagerSettings> managerSettings, IGetUserDetails getUserDetails, IOptions<LoggerConfig> loggerSettings)
+        public AuthController(IOptions<ManagerSettings> managerSettings,
+            IGetUserDetails getUserDetails,
+            IOptions<LoggerConfig> loggerSettings)
             : base(managerSettings, loggerSettings)
         {
             this.getUserDetails = getUserDetails;
