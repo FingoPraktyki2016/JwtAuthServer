@@ -77,16 +77,14 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpGet("/auth/logout")]
         public ActionResult Logout()
         {
-            try
-            {
+            if(HttpContext.Session.GetString("token") != null || HttpContext.Session.GetString("token") != "" ){
                 HttpContext.Session.Remove("token");
                 HttpContext.Session.Clear();
             }
-            catch (Exception e)
+            else
             {
-                logger.Information($"Something went wrong during logout : {e}");
+                logger.Information($"Something went wrong during logout");
             }
-
             return RedirectToAction("Login");
         }
     }
