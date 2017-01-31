@@ -82,7 +82,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("/auth/logout")]
         public ActionResult Logout()
         {
-            if (HttpContext.Session.GetString("token") != null || HttpContext.Session.GetString("token") != "")
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
             {
                 HttpContext.Session.Remove("token");
             }
