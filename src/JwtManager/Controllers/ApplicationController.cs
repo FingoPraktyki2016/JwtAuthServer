@@ -7,38 +7,43 @@ using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
+using LegnicaIT.JwtManager.Models;
+using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
     [AuthorizeFilter(UserRole.Manager)]
     public class ApplicationController : BaseController
     {
+        private readonly IGetUserApps getUserApps;
         private readonly IGetApp getApp;
 
         public ApplicationController(
+            IGetUserApps getUserApps,          
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
             IGetApp getApp)
             : base(managerSettings, loggerSettings)
         {
             this.getApp = getApp;
-        }
+             this.getUserApps = getUserApps;
+    }
 
         public IActionResult Index()
         {
-            //TODO List of all user apps
-            //  var models = new List<AppModel>( );  // TODO how to get all user apps from logged user
+            var userApps = getUserApps.Invoke(LoggedUser.Id);
 
-            var model = new AppViewModel()
+            var model = new AppModel()
             {
                 Id = 1,
                 Name = "App1"
             };
 
             //TODO A View with list of applications
-            return View(new FormModel<AppViewModel>(false, model));
-
-            //  return View();
+            //  return View(new FormModel<AppModel>(false,userApps));
+            return Json(userApps);
+            
         }
 
         [HttpPost]
