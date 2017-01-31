@@ -21,6 +21,7 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
                 {
                     Name = app.Name
                 };
+
                 appRepository.Add(newApp);
                 appRepository.Save();
             }
