@@ -20,7 +20,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public void Invoke(int id, string plainPassword)
         {
-            if (plainPassword == null)
+            if (string.IsNullOrEmpty(plainPassword))
             {
                 return;
             }

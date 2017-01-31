@@ -16,7 +16,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public UserModel Invoke(string email)
         {
-            if (email == null)
+            if (string.IsNullOrEmpty(email))
             {
                 return null;
             }

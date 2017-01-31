@@ -1,8 +1,8 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using System.Linq;
-using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
@@ -21,7 +21,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public bool Invoke(string email, string password)
         {
-            if (password == null || email == null)
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 return false;
             }

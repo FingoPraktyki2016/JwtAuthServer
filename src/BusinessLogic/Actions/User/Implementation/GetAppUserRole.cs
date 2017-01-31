@@ -15,9 +15,9 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userAppRepository = userAppRepository;
         }
 
-        public UserRole Invoke(int appId, int user)
+        public UserRole Invoke(int appId, int userId)
         {
-            var userAppRole = userAppRepository.FindBy(m => m.User.Id == user && m.App.Id == appId).FirstOrDefault();
+            var userAppRole = userAppRepository.FindBy(m => m.User.Id == userId && m.App.Id == appId).FirstOrDefault();
 
             if (userAppRole == null)
             {

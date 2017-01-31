@@ -16,8 +16,6 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             {
                 Id = 1,
                 Name = "Name",
-                PasswordSalt = "salt", // should be untouched
-                PasswordHash = "hash", // should be untouched
             };
             var userUpdated = new UserModel()
             {
@@ -39,8 +37,6 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 
             // assert
             Assert.Equal("Name2", userSaved.Name);
-            Assert.Equal("salt", userSaved.PasswordSalt);
-            Assert.Equal("hash", userSaved.PasswordHash);
         }
 
         [Fact]
@@ -48,7 +44,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         {
             // prepare
             var userFromDb = new DataAccess.Models.User() { Id = 1 };
-            var userUpdated = new UserModel() { Id = 1 };
+            var userUpdated = new UserModel() { Id = 1, Name = "Name" };
             var mockedUserRepo = new Mock<IUserRepository>();
             mockedUserRepo.Setup(r => r.GetById(1))
                 .Returns(userFromDb);
