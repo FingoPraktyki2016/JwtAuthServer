@@ -78,9 +78,8 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToActionPermanent("Index", "Home");
         }
 
-        //TODO Change to HttpPost later
         [AllowAnonymous]
-        [HttpGet("/auth/logout")]
+        [HttpPost("/auth/logout")]
         public ActionResult Logout()
         {
             if (HttpContext.Session.GetString("token") != null || HttpContext.Session.GetString("token") != "")

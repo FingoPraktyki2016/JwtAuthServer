@@ -27,27 +27,32 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuting(context);
 
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserDetails")))
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserDetails")))
             {
-                LoggedUser = new UserAppModel(HttpContext.Session.GetString("UserDetails"));
+                return;
             }
+
+            LoggedUser = new UserAppModel(HttpContext.Session.GetString("UserDetails"));
+            ViewData["LoggedUser"] = LoggedUser;
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             base.OnActionExecuted(context);
 
-            if (!context.ModelState.IsValid)
+            if (context.ModelState.IsValid)
             {
-                foreach (var modelStateKey in ModelState.Keys)
+                return;
+            }
+
+            foreach (var modelStateKey in ModelState.Keys)
+            {
+                var modelStateVal = ModelState[modelStateKey];
+                foreach (var error in modelStateVal.Errors)
                 {
-                    var modelStateVal = ModelState[modelStateKey];
-                    foreach (var error in modelStateVal.Errors)
-                    {
-                        var key = modelStateKey;
-                        var errorMessage = error.ErrorMessage;
-                        logger.Warning($"Key: {key}, Error: {errorMessage}");
-                    }
+                    var key = modelStateKey;
+                    var errorMessage = error.ErrorMessage;
+                    logger.Warning($"Key: {key}, Error: {errorMessage}");
                 }
             }
         }
