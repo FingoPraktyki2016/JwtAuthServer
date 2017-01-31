@@ -5,10 +5,10 @@
 <div class="form-group">
     @Html.LabelFor(m => m.Model.Email, new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
-        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email) : Html.LabelForModel(Model.Model.Email))
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email, new { @class = "form-control"}) : Html.LabelForModel(Model.Model.Email))
     </div>
     @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
-        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name) : Html.LabelForModel(Model.Model.Name))
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Name))
     </div>
 </div>
