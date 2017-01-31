@@ -4,8 +4,10 @@ using LegnicaIT.JwtManager.Configuration;
 using Microsoft.Extensions.Options;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.BusinessLogic.Enums;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
+using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -14,16 +16,22 @@ namespace LegnicaIT.JwtManager.Controllers
     {
         private readonly IGetUserApps getUserApps;
         private readonly IGetApp getApp;
+        private readonly IAddNewApp addNewApp;
+        private readonly IEditApp editApp;
 
         public ApplicationController(
             IGetUserApps getUserApps,
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
-            IGetApp getApp)
+            IGetApp getApp,
+            IAddNewApp addNewApp,
+            IEditApp editApp)
             : base(managerSettings, loggerSettings)
         {
             this.getApp = getApp;
             this.getUserApps = getUserApps;
+            this.addNewApp = addNewApp;
+            this.editApp = editApp;
         }
 
         public IActionResult Index()
@@ -89,6 +97,9 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Add(AppViewModel model)
         {
+            //addNewApp.Invoke(model);
+
+            // TODO: Redirect to app details
             return View(model);
         }
 
@@ -106,9 +117,11 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(AppViewModel model)
         {
-            var viewModel = new FormModel<AppViewModel>(true, model);
+            var newModel = new AppModel() { Id = model.Id, Name = model.Name };
 
-            return View(viewModel);
+            editApp.Invoke(newModel);
+
+            return RedirectToAction("Edit");
         }
     }
 }
