@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [AuthorizeFilter(UserRole.Manager)]
     public class ApplicationController : BaseController
     {
         public ApplicationController(
@@ -16,57 +17,30 @@ namespace LegnicaIT.JwtManager.Controllers
         {
         }
 
-        [AuthorizeFilter(UserRole.Manager)]
-        [HttpPost("index")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Index(string s)
-        {
-
-
-            return View();
-        }
-
-
-        [AuthorizeFilter(UserRole.Manager)]
         [HttpGet("index")]
         public IActionResult Index()
         {
-
-
             return View();
         }
 
-
-        [AuthorizeFilter(UserRole.Manager)]
         [HttpPost("adduser")]
+        [ValidateAntiForgeryToken]
         public IActionResult AddUser(string s)
         {
-
             return View();
         }
 
-
-        [AuthorizeFilter(UserRole.Manager)]
         [HttpGet("adduser")]
         public IActionResult AddUser()
         {
-
-
             return View();
         }
 
-        [AuthorizeFilter(UserRole.Manager)]
         [HttpPost("edituser")]
+        [ValidateAntiForgeryToken]
         public IActionResult EditUser(string s)
         {
-
-
             return View();
         }
-
-
-
-
-
     }
 }

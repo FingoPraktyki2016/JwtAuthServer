@@ -27,6 +27,7 @@ namespace LegnicaIT.JwtAuthServer.Models
         private T GetClaimValue<T>(IEnumerable<Claim> claims, string name)
         {
             var claim = claims.FirstOrDefault(c => c.Type == name);
+
             if (claim != null)
             {
                 var converter = TypeDescriptor.GetConverter(typeof(T));

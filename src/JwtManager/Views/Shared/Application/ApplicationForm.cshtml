@@ -1,0 +1,11 @@
+﻿@model LegnicaIT.JwtManager.Models.User.FormModel<LegnicaIT.JwtManager.Models.AppModel>
+
+    <h2 class="form-signin-heading">User details</h2>
+
+    <div class="form-group">
+        @Html.HiddenFor(m => m.Model.Id)
+    <div class="col-sm-10">
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name) : Html.LabelForModel(Model.Model.Name))
+    </div>
+    @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
+</div>

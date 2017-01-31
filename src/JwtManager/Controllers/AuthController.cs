@@ -1,7 +1,6 @@
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
-using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
@@ -11,8 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -46,6 +43,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         [HttpPost("/auth/login")]
         public ActionResult Login(LoginModel model)
         {
@@ -79,6 +77,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         [HttpPost("/auth/logout")]
         public ActionResult Logout()
         {
