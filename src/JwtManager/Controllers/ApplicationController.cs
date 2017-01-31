@@ -56,7 +56,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AuthorizeFilter(UserRole.Manager)]
-        [HttpPost("adduser")]
+        [HttpPost("edituser")]
         public IActionResult EditUser(string s)
         {
 
