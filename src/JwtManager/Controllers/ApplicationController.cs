@@ -6,6 +6,15 @@ using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
+<<<<<<<
+
+=======
+
+using LegnicaIT.JwtManager.Models;
+
+using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+>>>>>>>
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -22,13 +31,18 @@ namespace LegnicaIT.JwtManager.Controllers
             IGetApp getApp)
             : base(managerSettings, loggerSettings)
         {
+<<<<<<<
             this.getApp = getApp;
             this.getUserApps = getUserApps;
         }
+=======
+            this.getUserApps = getUserApps;
+        }
+>>>>>>>
 
         public IActionResult Index()
         {
-            var userApps = getUserApps.Invoke(LoggedUser.Id);
+            var userApps = getUserApps.Invoke(LoggedUser.UserModel.Id);
 
             //TODO A View with list of applications
             //  return View(new FormModel<AppModel>(false,userApps));

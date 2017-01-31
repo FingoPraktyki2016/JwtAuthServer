@@ -31,7 +31,7 @@ namespace LegnicaIT.JwtManager.Authorization
 
             public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
             {
-                var controller = (BaseController) context.Controller;
+                var controller = (BaseController)context.Controller;
                 var settings = controller.Settings;
                 bool isValid = false;
 
@@ -45,8 +45,9 @@ namespace LegnicaIT.JwtManager.Authorization
 
                     if (rolesResult.Status.Code == ResultCode.Ok)
                     {
-                        UserRole userRole = (UserRole) Enum.Parse(typeof(UserRole), rolesResult.Value.ToString());
+                        UserRole userRole = (UserRole)Enum.Parse(typeof(UserRole), rolesResult.Value.ToString());
 
+                        controller.LoggedUser.Role = userRole;
                         // make sure all required roles are assigned to user
                         isValid = requiredPermissions.RequiredPermission.All(rp => userRole.HasRole(rp));
                     }

@@ -1,12 +1,12 @@
 ﻿@using LegnicaIT.JwtManager.Models
 @if (ViewData.ContainsKey("LoggedUser"))
 {
-    var LoggedUser = (UserAppModel) ViewData["LoggedUser"];
+    var LoggedUser = (UserAppModel)ViewData["LoggedUser"];
 
     <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="" asp-controller="User" asp-action="Me" title="Manage">Hello @LoggedUser.Name!</a>
+                <a asp-area="" asp-controller="User" asp-action="Me" title="Manage">Hello @LoggedUser.UserModel.Name!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
