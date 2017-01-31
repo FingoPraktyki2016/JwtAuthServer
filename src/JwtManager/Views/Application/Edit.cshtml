@@ -1,0 +1,7 @@
+﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.AppModel>
+
+@using (Html.BeginForm(FormMethod.Post, true))
+{
+    @Html.Partial("Application/ApplicationForm", Model)
+    <input type="submit" class="btn btn-primary" id="btnEdit" value="Edit" />
+}

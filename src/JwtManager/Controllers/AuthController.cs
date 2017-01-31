@@ -25,7 +25,6 @@ namespace LegnicaIT.JwtManager.Controllers
             this.getUserDetails = getUserDetails;
         }
 
-        [HttpGet("/auth")]
         [AuthorizeFilter(UserRole.Manager)]
         public ActionResult Index()
         {
@@ -35,7 +34,6 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("/auth/login")]
         public ActionResult Login()
         {
             var LoginModel = new LoginModel();
@@ -44,7 +42,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [HttpPost("/auth/login")]
+        [HttpPost]
         public ActionResult Login(LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -78,7 +76,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [HttpPost("/auth/logout")]
+        [HttpPost]
         public ActionResult Logout()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
