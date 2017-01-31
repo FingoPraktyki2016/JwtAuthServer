@@ -13,16 +13,18 @@ namespace LegnicaIT.JwtManager.Models
         {
             var userModel = JsonConvert.DeserializeObject<UserModel>(sessionValue);
 
-            this.Email = userModel.Email;
-            this.Name = userModel.Name;
-            this.Id = userModel.Id;
+            if (userModel != null)
+            {
+                Email = userModel.Email;
+                Name = userModel.Name;
+                Id = userModel.Id;
+            }
         }
 
         public UserModel GetModel()
         {
-            var userModel = new UserModel() {Email = this.Email, Id = this.Id, Name = this.Name};
+            var userModel = new UserModel() { Email = this.Email, Id = this.Id, Name = this.Name };
             return userModel;
         }
     }
 }
-
