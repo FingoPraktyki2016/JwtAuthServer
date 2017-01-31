@@ -16,11 +16,6 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 
         public AppModel Invoke(int id)
         {
-            if (string.IsNullOrEmpty(id.ToString()))
-            {
-                return null;
-            }
-
             var app = appRepository.FindBy(x => x.Id == id).FirstOrDefault();
 
             if (app == null)

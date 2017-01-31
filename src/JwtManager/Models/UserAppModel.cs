@@ -35,10 +35,11 @@ namespace LegnicaIT.JwtManager.Models
         {
             var handler = new JwtSecurityTokenHandler();
             var jwt = handler.ReadToken(tokenString) as JwtSecurityToken;
+
             if (jwt != null)
             {
                 AppId = Convert.ToInt32(GetClaim(jwt, "appId"));
-                Role = (UserRole)Enum.Parse(typeof(UserRole), GetClaim(jwt, "role"));
+                Role = (UserRole) Enum.Parse(typeof(UserRole), GetClaim(jwt, "role"));
             }
         }
 
