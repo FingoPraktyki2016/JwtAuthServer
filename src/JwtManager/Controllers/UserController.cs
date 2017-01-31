@@ -3,7 +3,7 @@ using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
-using LegnicaIT.JwtManager.Models.User;
+using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

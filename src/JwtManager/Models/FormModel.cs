@@ -1,4 +1,4 @@
-﻿namespace LegnicaIT.JwtManager.Models.User
+﻿namespace LegnicaIT.JwtManager.Models
 {
     public class FormModel<T>
     {
