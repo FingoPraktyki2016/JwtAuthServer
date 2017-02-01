@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
-using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -81,7 +80,7 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 //TODO error info
             }
-                var newAppuser = new LegnicaIT.BusinessLogic.Models.UserAppModel
+            var newAppuser = new LegnicaIT.BusinessLogic.Models.UserAppModel
             {
                 AppId = appuser.AppId,
                 UserId = appuser.UserId,
@@ -96,7 +95,6 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddUser(int id)
         {
-
             //TODO Adduser View with action AddUser
             return View();
         }
@@ -117,7 +115,6 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ListUsers(int appId) // Based on selected app?
         {
-
             return View("ListUsers");
         }
 
@@ -129,7 +126,7 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 //TODO error info
             }
-              
+
             revokeRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
             return RedirectToAction("ListUsers");
         }
@@ -143,7 +140,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 //TODO error info
             }
 
-            grantRole.Invoke(appuser.AppId,appuser.UserId,appuser.Role);
+            grantRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
             return RedirectToAction("ListUsers");
         }
 
