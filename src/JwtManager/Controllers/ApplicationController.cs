@@ -62,48 +62,42 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddUser(UserAppModel appuser)
+        public IActionResult AddUser(AppUserViewModel appuser)
         {
-
-
-
-            //  UserApp AddNewUserApp  - UserId, AppId, UserRole - do modelu UserAppModel
-
-
-            var newAppuser = new UserAppModel
+            if (!ModelState.IsValid)
             {
-            
-
+                //TODO error info
+            }
+                var newAppuser = new LegnicaIT.BusinessLogic.Models.UserAppModel
+            {
+                AppId = appuser.AppId,
+                UserId = appuser.UserId,
+                Role = appuser.Role
             };
 
+            addUserApp.Invoke(newAppuser);
 
-
-            addUserApp.Invoke();
-
-            
-
-
-            //TODO Add new app user. Go to Index or refresh view?
-            return View();
-        }
-
-        public IActionResult AddUser()
-        {
-            //TODO A view with User text boxes string email,name and int id
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditUser(UserAppModel appuser)
+        public IActionResult DeleteUser(AppUserViewModel appuser)
+        {  
+            // deleteUserApp.Invoke();
+            return View();
+        }
+
+        public IActionResult AddUser(int id)
         {
-            //TODO Go to Index or refresh view?
+
+            //TODO Adduser View with action AddUser
             return View();
         }
 
         public IActionResult Listusers() // Based on selected app?
         {
-            //TODO A view with User text boxes string email,name and int id
+
             return View();
         }
 
