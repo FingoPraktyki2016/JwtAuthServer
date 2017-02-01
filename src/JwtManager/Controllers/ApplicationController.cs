@@ -9,6 +9,7 @@ using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using LegnicaIT.JwtManager.Helpers;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -120,6 +121,15 @@ namespace LegnicaIT.JwtManager.Controllers
         public IActionResult Add()
         {
             var model = new AppViewModel();
+
+            var alertHelper = new AlertHelper();
+
+            alertHelper.Danger("Danger test");
+            alertHelper.Success("Success message test");
+
+            var alerts = alertHelper.GetAlerts();
+
+            TempData["alertMessages"] = alerts;
 
             return View(new FormModel<AppViewModel>(model, true));
         }
