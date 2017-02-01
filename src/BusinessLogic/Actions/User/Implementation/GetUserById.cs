@@ -5,24 +5,18 @@ using System.Linq;
 
 namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 {
-    public class GetUserDetails : IGetUserDetails
+    public class GetUserById : IGetUserById
     {
         private readonly IUserRepository userRepository;
 
-        public GetUserDetails(IUserRepository userRepository)
+        public GetUserById(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
         }
 
-        public UserModel Invoke(string email)
+        public UserModel Invoke(int id)
         {
-            if (string.IsNullOrEmpty(email))
-            {
-                return null;
-            }
-
-            var dbUser = userRepository.FindBy(x => x.Email == email).FirstOrDefault();
-
+            var dbUser = userRepository.FindBy(x => x.Id == id).FirstOrDefault();
             if (dbUser == null)
             {
                 return null;

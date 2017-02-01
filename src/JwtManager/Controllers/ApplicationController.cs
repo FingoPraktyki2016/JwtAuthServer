@@ -1,12 +1,16 @@
-﻿using LegnicaIT.JwtManager.Configuration;
+﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.JwtManager.Configuration;
 using Microsoft.Extensions.Options;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.BusinessLogic.Enums;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using System.Collections.Generic;
+using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -14,15 +18,24 @@ namespace LegnicaIT.JwtManager.Controllers
     public class ApplicationController : BaseController
     {
         private readonly IGetUserApps getUserApps;
+        private readonly IGetApp getApp;
+        private readonly IAddNewApp addNewApp;
+        private readonly IEditApp editApp;
 
         public ApplicationController(
-            IGetUserApps getUserApps,          
+            IGetUserApps getUserApps,
             IOptions<ManagerSettings> managerSettings,
-            IOptions<LoggerConfig> loggerSettings)
+            IOptions<LoggerConfig> loggerSettings,
+            IGetApp getApp,
+            IAddNewApp addNewApp,
+            IEditApp editApp)
             : base(managerSettings, loggerSettings)
         {
-             this.getUserApps = getUserApps;
-    }
+            this.getApp = getApp;
+            this.getUserApps = getUserApps;
+            this.addNewApp = addNewApp;
+            this.editApp = editApp;
+        }
 
         public IActionResult Index()
         {
@@ -81,15 +94,16 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.SuperAdmin)]
         public IActionResult Details(int id)
         {
-            var model = new AppModel() { Id = 5, Name = "bla" };
+            var app = getApp.Invoke(id);
+            var model = new AppViewModel { Id = app.Id, Name = app.Name };
 
-            return View(new FormModel<AppModel>(false, model));
+            return View(new FormModel<AppViewModel>(model));
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
         public IActionResult Add()
         {
-            var model = new AppModel();
+            var model = new AppViewModel();
 
             return View(model);
         }
@@ -97,28 +111,39 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.SuperAdmin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(AppModel model)
+        public IActionResult Add(AppViewModel model)
         {
+            //addNewApp.Invoke(model);
+
+            // TODO: Redirect to app details
             return View(model);
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
         public IActionResult Edit(int id)
         {
-            var model = new AppModel();
-            var viewModel = new FormModel<AppModel>(true, model);
+            var app = getApp.Invoke(id);
 
-            return View(viewModel);
+            var model = new AppViewModel { Id = app.Id, Name = app.Name };
+
+            return View(new FormModel<AppViewModel>(model, true));
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(AppModel model)
+        public IActionResult Edit(AppViewModel model)
         {
-            var viewModel = new FormModel<AppModel>(true, model);
+            if (!ModelState.IsValid)
+            {
+                return View(new FormModel<AppViewModel>(model, true));
+            }
 
-            return View(viewModel);
+            var newModel = new AppModel() { Id = model.Id, Name = model.Name };
+
+            editApp.Invoke(newModel);
+
+            return RedirectToAction("Details", new { id = newModel.Id });
         }
     }
 }

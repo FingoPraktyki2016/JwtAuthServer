@@ -1,4 +1,5 @@
-﻿using LegnicaIT.BusinessLogic.Enums;
+﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Authorization;
@@ -9,76 +10,73 @@ using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    //to do add appbased authorization
+
     [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
+        private readonly IGetUserById getUserById;
+        private readonly IEditUser editUser;
+
         public UserController(
             IOptions<ManagerSettings> managerSettings,
-            IOptions<LoggerConfig> loggerSettings)
+            IOptions<LoggerConfig> loggerSettings,
+            IGetUserById getUserById,
+            IEditUser editUser
+            )
             : base(managerSettings, loggerSettings)
         {
+            this.getUserById = getUserById;
+            this.editUser = editUser;
         }
 
-        /*
-          * GET: /User/Details
-         */
-
-        [AuthorizeFilter(UserRole.Manager)]
-        public IActionResult Details(int id)
+        public ActionResult Details(int id)
         {
-            var model = new UserModel();
-            return View(model);
+            //if (id == LoggedUser.UserModel.Id)
+            //{
+            //    RedirectToAction("Me");
+            //}
+
+            var model = getUserById.Invoke(id);
+            return View(new FormModel<UserModel>(model));
         }
 
-        /*
-         * GET: /User/Me
-         */
-
-        public IActionResult Me()
+        public ActionResult Me()
         {
-            var model = LoggedUser.GetModel();
-            return View(new FormModel<UserModel>(false, model));
+            var model = LoggedUser.UserModel;
+            return View(new FormModel<UserModel>(model));
         }
 
-        /*
-         * GET: /User/Edit
-         */
-
-        public IActionResult Edit()
+        public ActionResult Edit(int id)
         {
-            var model = LoggedUser.GetModel();
-            var viewModel = new FormModel<UserModel>(true, model);
+            var model = LoggedUser.UserModel;
+            if (model.Id == id)
+            {
+                var userViewModel = new FormModel<UserModel>(model, true);
+                return View(userViewModel);
+            }
+            var user = getUserById.Invoke(id);
+            var viewModel = new FormModel<UserModel>(user, true);
             return View(viewModel);
         }
-
-        /*
-         * POST: /User/Edit
-         */
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(UserModel model)
+        public ActionResult Edit(UserModel model)
         {
-            var viewModel = new FormModel<UserModel>(true, model);
+            var viewModel = new FormModel<UserModel>(model, true);
+            editUser.Invoke(model);
             return View(viewModel);
         }
 
-        /*
-         * GET: /User/ChangePassword
-         */
-
-        public IActionResult ChangePassword()
+        public ActionResult ChangePassword()
         {
             return View();
         }
 
-        /*
-         * POST: /User/ChangePassword
-         */
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ChangePassword(UserModel model)
+        public ActionResult ChangePassword(UserModel model)
         {
             return View();
         }
