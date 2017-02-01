@@ -7,6 +7,13 @@
 
     @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
     <div class="col-sm-10">
-        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" }) : Html.Raw(Model.Model.Name))
+            @if (Model.IsEdit)
+            {
+                @Html.TextBoxFor(m => m.Model.Name, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.Model.Name, "", new {@class = "text-danger"})
+            } else
+            {
+                @Html.Raw(Model.Model.Name)
+            }
     </div>
 </div>

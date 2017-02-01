@@ -7,8 +7,6 @@ using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
-using LegnicaIT.BusinessLogic.Helpers;
-using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using System.Collections.Generic;
 using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 
@@ -39,30 +37,28 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public IActionResult Index()
         {
-            var userApps = getUserApps.Invoke(LoggedUser.Id);
-            List<AppModel> listOfApps = new List<AppModel>();
+            var userApps = getUserApps.Invoke(LoggedUser.UserModel.Id);
+            List<AppViewModel> listOfApps = new List<AppViewModel>();
+
             foreach (var appFromDb in userApps)
             {
-                var model = new AppModel()
+                var model = new AppViewModel
                 {
                     Id = appFromDb.Id,
                     Name = appFromDb.Name
                 };
+
                 listOfApps.Add(model);
             }
 
             //TODO AppModel Error
-            return View(new FormModel<List<AppModel>>(false, listOfApps));
-
-           // return Json(userApps);
-            
+            return View(new FormModel<List<AppViewModel>>(listOfApps));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddUser(UserAppModel appuser)
         {
-
             //TODO Add new app user. Go to Index or refresh view?
             return View();
         }
