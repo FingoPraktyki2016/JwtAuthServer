@@ -38,7 +38,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (id == LoggedUser.UserModel.Id)
             {
-                return RedirectToAction("Me", LoggedUser.UserModel);
+                return RedirectToAction("Me");
             }
 
             if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Display, id))
