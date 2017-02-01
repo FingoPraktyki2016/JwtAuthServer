@@ -1,19 +1,17 @@
 ﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.AppViewModel>
 
-<h2 class="form-signin-heading">Apps</h2>
+<h2>Apps</h2>
 
 <div class="form-group">
     @(Model.IsEdit ? Html.HiddenFor(m => m.Model.Id) : null)
 
-    @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
-    <div class="col-sm-10">
-            @if (Model.IsEdit)
-            {
-                @Html.TextBoxFor(m => m.Model.Name, new {@class = "form-control"})
-                @Html.ValidationMessageFor(m => m.Model.Name, "", new {@class = "text-danger"})
-            } else
-            {
-                @Html.Raw(Model.Model.Name)
-            }
-    </div>
+    @Html.LabelFor(m => m.Model.Name)
+    @if (Model.IsEdit)
+    {
+        @Html.TextBoxFor(m => m.Model.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Model.Name, "", new {@class = "text-danger"})
+    } else
+    {
+        @Html.Raw(Model.Model.Name)
+    }
 </div>

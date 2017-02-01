@@ -15,6 +15,11 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 
         public void Invoke(AppModel app)
         {
+            if (!app.IsValid())
+            {
+                return;
+            }
+
             var appToEdit = appRepository.GetById(app.Id);
 
             if (appToEdit == null)

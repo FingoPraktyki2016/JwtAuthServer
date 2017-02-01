@@ -17,30 +17,34 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IGetUserById getUserById;
         private readonly IEditUser editUser;
         private readonly IEditUserPassword editUserPassword;
+        private readonly ICheckUserPermission checkUserPermission;
 
         public UserController(
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
             IGetUserById getUserById,
             IEditUser editUser,
-            IEditUserPassword editUserPassword
-            )
+            IEditUserPassword editUserPassword,
+            ICheckUserPermission checkUserPermission)
             : base(managerSettings, loggerSettings)
         {
             this.getUserById = getUserById;
             this.editUser = editUser;
             this.editUserPassword = editUserPassword;
+            this.checkUserPermission = checkUserPermission;
         }
 
-        [AuthorizeFilter(UserRole.User)]
         public ActionResult Details(int id)
         {
             if (id == LoggedUser.UserModel.Id)
             {
-                RedirectToAction("Me", LoggedUser.UserModel);
+                return RedirectToAction("Me");
             }
 
-            //TODO: Add app validation/role validation
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Display, id))
+            {
+                return View("Error");
+            }
 
             var model = getUserById.Invoke(id);
             var viewModel = new EditUserDetailsViewModel()
@@ -79,7 +83,11 @@ namespace LegnicaIT.JwtManager.Controllers
                 return View(userViewModel);
             }
 
-            //TODO: Add appid and role validation
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Edit, id))
+            {
+                return View("Error");
+            }
+
             var model = getUserById.Invoke(id);
             var viewModelWrapper = new EditUserDetailsViewModel()
             {
@@ -94,16 +102,15 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditUserDetailsViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userModel = new UserModel() { Id = model.Id, Name = model.Name };
-                editUser.Invoke(userModel);
-
-                return RedirectToAction("Details", model.Id);
+                var viewModel = new FormModel<EditUserDetailsViewModel>(model, true);
+                return View(viewModel);
             }
+            var userModel = new UserModel() { Id = model.Id, Name = model.Name };
+            editUser.Invoke(userModel);
 
-            var viewModel = new FormModel<EditUserDetailsViewModel>(model, true);
-            return View(viewModel);
+            return RedirectToAction("Details", model.Id);
         }
 
         public ActionResult ChangePassword()
@@ -115,10 +122,13 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(EditPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                editUserPassword.Invoke(LoggedUser.UserModel.Id, model.NewPassword);
+                var viewModel = new FormModel<EditPasswordViewModel>(model, true);
+                return View(viewModel);
             }
+
+            editUserPassword.Invoke(LoggedUser.UserModel.Id, model.NewPassword);
             //Redirect to view "Password changed?"
             return View();
         }

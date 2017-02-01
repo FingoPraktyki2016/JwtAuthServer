@@ -1,6 +1,6 @@
 ﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.AppViewModel>
 
-@using (Html.BeginForm(FormMethod.Post, true, new { @class = "form-horizontal" }))
+@using (Html.BeginForm(FormMethod.Post, true))
 {
     @Html.Partial("Application/ApplicationForm", Model)
 

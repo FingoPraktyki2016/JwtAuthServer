@@ -94,8 +94,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             action.Invoke(appToEdit);
 
             // assert
-            mockedAppRepository.Verify(r => r.Save(), Times.Once());
-            mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Once());
+            mockedAppRepository.Verify(r => r.Save(), Times.Never);
+            mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Never);
         }
     }
 }
