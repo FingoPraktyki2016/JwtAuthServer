@@ -7,14 +7,14 @@ using System.Linq;
 
 namespace LegnicaIT.JwtManager.Models
 {
-    public class UserAppModel
+    public class LoggedUserModel
     {
         public UserModel UserModel = new UserModel();
 
         public int AppId;
         public UserRole Role;
 
-        public UserAppModel(string userDetailsString, string tokenString)
+        public LoggedUserModel(string userDetailsString, string tokenString)
         {
             AssignUserDetailsValues(userDetailsString);
             AssignTokenValues(tokenString);

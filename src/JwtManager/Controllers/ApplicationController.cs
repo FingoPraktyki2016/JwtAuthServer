@@ -8,7 +8,6 @@ using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -57,7 +56,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddUser(UserAppModel appuser)
+        public IActionResult AddUser(LoggedUserModel appuser)
         {
             //TODO Add new app user. Go to Index or refresh view?
             return View();
@@ -71,7 +70,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditUser(UserAppModel appuser)
+        public IActionResult EditUser(LoggedUserModel appuser)
         {
             //TODO Go to Index or refresh view?
             return View();

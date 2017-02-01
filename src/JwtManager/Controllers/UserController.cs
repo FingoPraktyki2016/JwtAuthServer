@@ -17,22 +17,23 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IGetUserById getUserById;
         private readonly IEditUser editUser;
         private readonly IEditUserPassword editUserPassword;
+        private readonly ICheckUserPermission checkUserPermission;
 
         public UserController(
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
             IGetUserById getUserById,
             IEditUser editUser,
-            IEditUserPassword editUserPassword
-            )
+            IEditUserPassword editUserPassword,
+            ICheckUserPermission checkUserPermission)
             : base(managerSettings, loggerSettings)
         {
             this.getUserById = getUserById;
             this.editUser = editUser;
             this.editUserPassword = editUserPassword;
+            this.checkUserPermission = checkUserPermission;
         }
 
-        [AuthorizeFilter(UserRole.User)]
         public ActionResult Details(int id)
         {
             if (id == LoggedUser.UserModel.Id)
@@ -40,16 +41,19 @@ namespace LegnicaIT.JwtManager.Controllers
                 RedirectToAction("Me", LoggedUser.UserModel);
             }
 
-            //TODO: Add app validation/role validation
-
-            var model = getUserById.Invoke(id);
-            var viewModel = new EditUserDetailsViewModel()
+            if (checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Display, id))
             {
-                Name = model.Name,
-                Email = model.Email
-            };
+                var model = getUserById.Invoke(id);
+                var viewModel = new EditUserDetailsViewModel()
+                {
+                    Name = model.Name,
+                    Email = model.Email
+                };
 
-            return View(new FormModel<EditUserDetailsViewModel>(viewModel));
+                return View(new FormModel<EditUserDetailsViewModel>(viewModel));
+            }
+
+            return RedirectToAction("Me", LoggedUser.UserModel);
         }
 
         public ActionResult Me()
