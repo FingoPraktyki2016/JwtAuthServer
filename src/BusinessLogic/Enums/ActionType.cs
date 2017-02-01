@@ -3,6 +3,7 @@
     public enum ActionType
     {
         Display,
-        Edit
+        Edit,
+        Remove
     }
 }

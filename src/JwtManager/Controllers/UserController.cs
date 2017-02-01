@@ -38,22 +38,22 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (id == LoggedUser.UserModel.Id)
             {
-                RedirectToAction("Me", LoggedUser.UserModel);
+                return RedirectToAction("Me", LoggedUser.UserModel);
             }
 
-            if (checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Display, id))
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Display, id))
             {
-                var model = getUserById.Invoke(id);
-                var viewModel = new EditUserDetailsViewModel()
-                {
-                    Name = model.Name,
-                    Email = model.Email
-                };
-
-                return View(new FormModel<EditUserDetailsViewModel>(viewModel));
+                return View("Error");
             }
 
-            return RedirectToAction("Me", LoggedUser.UserModel);
+            var model = getUserById.Invoke(id);
+            var viewModel = new EditUserDetailsViewModel()
+            {
+                Name = model.Name,
+                Email = model.Email
+            };
+
+            return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
         public ActionResult Me()
@@ -83,7 +83,11 @@ namespace LegnicaIT.JwtManager.Controllers
                 return View(userViewModel);
             }
 
-            //TODO: Add appid and role validation
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Edit, id))
+            {
+                return View("Error");
+            }
+
             var model = getUserById.Invoke(id);
             var viewModelWrapper = new EditUserDetailsViewModel()
             {
@@ -98,16 +102,15 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditUserDetailsViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userModel = new UserModel() { Id = model.Id, Name = model.Name };
-                editUser.Invoke(userModel);
-
-                return RedirectToAction("Details", model.Id);
+                var viewModel = new FormModel<EditUserDetailsViewModel>(model, true);
+                return View(viewModel);
             }
+            var userModel = new UserModel() { Id = model.Id, Name = model.Name };
+            editUser.Invoke(userModel);
 
-            var viewModel = new FormModel<EditUserDetailsViewModel>(model, true);
-            return View(viewModel);
+            return RedirectToAction("Details", model.Id);
         }
 
         public ActionResult ChangePassword()
@@ -119,10 +122,13 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(EditPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                editUserPassword.Invoke(LoggedUser.UserModel.Id, model.NewPassword);
+                var viewModel = new FormModel<EditPasswordViewModel>(model, true);
+                return View(viewModel);
             }
+
+            editUserPassword.Invoke(LoggedUser.UserModel.Id, model.NewPassword);
             //Redirect to view "Password changed?"
             return View();
         }
