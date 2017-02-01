@@ -12,7 +12,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.getAppUserRole = getAppUserRole;
         }
 
-        public bool Invoke(int requestorId, int appId, ActionType actionType, int questionedUserId)
+        public bool Invoke(int requestorId, int appId, int questionedUserId)
         {
             var requestorUserAppRole = getAppUserRole.Invoke(appId, requestorId);
 

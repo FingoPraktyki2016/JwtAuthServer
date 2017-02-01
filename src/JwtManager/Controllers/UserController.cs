@@ -41,7 +41,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 return RedirectToAction("Me");
             }
 
-            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Display, id))
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
             {
                 return View("Error");
             }
@@ -83,7 +83,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 return View(userViewModel);
             }
 
-            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, ActionType.Edit, id))
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
             {
                 return View("Error");
             }

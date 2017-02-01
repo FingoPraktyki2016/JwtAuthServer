@@ -8,11 +8,11 @@ namespace LegnicaIT.BusinessLogic.Models
 
         public string Password { get; set; }
 
-        public DateTime EmailConfirmedOn { get; set; }
+        public DateTime? EmailConfirmedOn { get; set; }
 
         public string Name { get; set; }
 
-        public DateTime LockedOn { get; set; }
+        public DateTime? LockedOn { get; set; }
 
         public override bool IsValid()
         {
