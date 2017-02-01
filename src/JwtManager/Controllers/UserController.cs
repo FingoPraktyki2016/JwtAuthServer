@@ -38,13 +38,13 @@ namespace LegnicaIT.JwtManager.Controllers
             //}
 
             var model = getUserById.Invoke(id);
-            return View(new FormModel<UserModel>(false, model));
+            return View(new FormModel<UserModel>(model));
         }
 
         public ActionResult Me()
         {
             var model = LoggedUser.UserModel;
-            return View(new FormModel<UserModel>(false, model));
+            return View(new FormModel<UserModel>(model));
         }
 
         public ActionResult Edit(int id)
@@ -52,11 +52,11 @@ namespace LegnicaIT.JwtManager.Controllers
             var model = LoggedUser.UserModel;
             if (model.Id == id)
             {
-                var userViewModel = new FormModel<UserModel>(true, model);
+                var userViewModel = new FormModel<UserModel>(model, true);
                 return View(userViewModel);
             }
             var user = getUserById.Invoke(id);
-            var viewModel = new FormModel<UserModel>(true, user);
+            var viewModel = new FormModel<UserModel>(user, true);
             return View(viewModel);
         }
 
@@ -64,7 +64,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserModel model)
         {
-            var viewModel = new FormModel<UserModel>(true, model);
+            var viewModel = new FormModel<UserModel>(model, true);
             editUser.Invoke(model);
             return View(viewModel);
         }

@@ -2,13 +2,13 @@
 {
     public class FormModel<T>
     {
-        public bool IsEdit { get; set; }
         public T Model { get; set; }
+        public bool IsEdit { get; set; }
 
-        public FormModel(bool isEdit, T model)
+        public FormModel(T model, bool isEdit = false)
         {
-            this.IsEdit = isEdit;
-            this.Model = model;
+            Model = model;
+            IsEdit = isEdit;
         }
     }
 }
