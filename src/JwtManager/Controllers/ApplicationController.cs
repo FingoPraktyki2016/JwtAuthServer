@@ -10,35 +10,45 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.JwtManager.Helpers;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
     [AuthorizeFilter(UserRole.Manager)]
     public class ApplicationController : BaseController
     {
+        private readonly IGetAppUserRole getUserRole;
+        private readonly IRevokeRole revokeRole;
+        private readonly IGrantRole grantRole;
+        private readonly IDeleteUserApp deleteUserApp;
         private readonly IGetUserApps getUserApps;
         private readonly IGetApp getApp;
         private readonly IAddNewApp addNewApp;
         private readonly IEditApp editApp;
-        private readonly IDeleteApp deleteApp;
         private readonly IAddNewUserApp addUserApp;
 
         public ApplicationController(
+            IGetAppUserRole getUserRole,
+            IRevokeRole revokeRole,
+            IGrantRole grantRole,
+            IDeleteUserApp deleteUserApp,
             IAddNewUserApp addUserApp,
             IGetUserApps getUserApps,
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
             IGetApp getApp,
             IAddNewApp addNewApp,
-            IDeleteApp deleteApp,
             IEditApp editApp)
             : base(managerSettings, loggerSettings)
         {
+            this.getUserRole = getUserRole;
+            this.revokeRole = revokeRole;
+            this.grantRole = grantRole;
+            this.deleteUserApp = deleteUserApp;
             this.addUserApp = addUserApp;
             this.getApp = getApp;
             this.getUserApps = getUserApps;
             this.addNewApp = addNewApp;
-            this.deleteApp = deleteApp;
             this.editApp = editApp;
         }
 
@@ -83,25 +93,66 @@ namespace LegnicaIT.JwtManager.Controllers
             return View();
         }
 
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteUser(AppUserViewModel appuser)
-        {
-            // deleteUserApp.Invoke();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditUser(UserAppModel appuser)
+        public IActionResult AddUser(int id)
         {
             //TODO Adduser View with action AddUser
             return View();
         }
 
-        public IActionResult Listusers() // Based on selected app?
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteUser(AppUserViewModel appuser)
         {
+            if (!ModelState.IsValid)
+            {
+                //TODO error info
+            }
+
+            deleteUserApp.Invoke(appuser.UserId);
             return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult ListUsers(int appId) // Based on selected app?
+        {
+            return View("ListUsers");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RevokeUserRole(AppUserViewModel appuser)
+        {
+            if (!ModelState.IsValid)
+            {
+                //TODO error info
+            }
+
+            revokeRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
+            return RedirectToAction("ListUsers");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GrantUserRole(AppUserViewModel appuser)
+        {
+            if (!ModelState.IsValid)
+            {
+                //TODO error info
+            }
+
+            grantRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
+            return RedirectToAction("ListUsers");
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeUserRole(int appId, int userId)
+        {
+            var userRole = getUserRole.Invoke(appId, userId);
+
+            ViewData["userRole"] = userRole;
+
+            return View("ChangeUserRole");
         }
 
         /*
@@ -176,15 +227,6 @@ namespace LegnicaIT.JwtManager.Controllers
 
             // TODO: Alert success
             return RedirectToAction("Details", new { id = newModel.Id });
-        }
-
-        [HttpDelete]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
-        {
-            // TODO
-
-            return RedirectToAction("Index");
         }
     }
 }
