@@ -3,7 +3,8 @@
 {
     var LoggedUser = (UserAppModel)ViewData["LoggedUser"];
 
-    <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+    using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", @id = "logoutForm" }))
+    {
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-area="" asp-controller="User" asp-action="Me" title="Manage">Hello @LoggedUser.UserModel.Name!</a>
@@ -12,10 +13,10 @@
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
             </li>
         </ul>
-    </form>
-}
-else
-{
+        }
+    }
+    else
+    {
     <ul class="nav navbar-nav navbar-right">
         <li>
             <a asp-controller="Auth" asp-action="Register">Register</a>

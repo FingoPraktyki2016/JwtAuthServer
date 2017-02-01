@@ -20,6 +20,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IGetApp getApp;
         private readonly IAddNewApp addNewApp;
         private readonly IEditApp editApp;
+        private readonly IDeleteApp deleteApp;
         private readonly IAddNewUserApp addUserApp;
 
         public ApplicationController(
@@ -29,6 +30,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IOptions<LoggerConfig> loggerSettings,
             IGetApp getApp,
             IAddNewApp addNewApp,
+            IDeleteApp deleteApp,
             IEditApp editApp)
             : base(managerSettings, loggerSettings)
         {
@@ -36,6 +38,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.getApp = getApp;
             this.getUserApps = getUserApps;
             this.addNewApp = addNewApp;
+            this.deleteApp = deleteApp;
             this.editApp = editApp;
         }
 
@@ -64,24 +67,13 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddUser(UserAppModel appuser)
         {
-
-
-
             //  UserApp AddNewUserApp  - UserId, AppId, UserRole - do modelu UserAppModel
 
-
-            var newAppuser = new UserAppModel
+            /*var newAppuser = new UserAppModel
             {
-            
-
             };
 
-
-
-            addUserApp.Invoke();
-
-            
-
+            addUserApp.Invoke();*/
 
             //TODO Add new app user. Go to Index or refresh view?
             return View();
@@ -170,6 +162,15 @@ namespace LegnicaIT.JwtManager.Controllers
 
             // TODO: Alert success
             return RedirectToAction("Details", new { id = newModel.Id });
+        }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            // TODO
+
+            return RedirectToAction("Index");
         }
     }
 }
