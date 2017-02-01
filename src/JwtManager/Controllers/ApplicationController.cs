@@ -8,7 +8,6 @@ using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
@@ -62,48 +61,42 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddUser(LoggedUserModel appuser)
+        public IActionResult AddUser(AppUserViewModel appuser)
         {
-
-
-
-            //  UserApp AddNewUserApp  - UserId, AppId, UserRole - do modelu UserAppModel
-
-
-            var newAppuser = new UserAppModel
+            if (!ModelState.IsValid)
             {
-            
-
+                //TODO error info
+            }
+            var newAppuser = new LegnicaIT.BusinessLogic.Models.UserAppModel
+            {
+                AppId = appuser.AppId,
+                UserId = appuser.UserId,
+                Role = appuser.Role
             };
 
+            addUserApp.Invoke(newAppuser);
 
-
-            addUserApp.Invoke();
-
-            
-
-
-            //TODO Add new app user. Go to Index or refresh view?
-            return View();
-        }
-
-        public IActionResult AddUser()
-        {
-            //TODO A view with User text boxes string email,name and int id
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditUser(LoggedUserModel appuser)
+        public IActionResult DeleteUser(AppUserViewModel appuser)
         {
-            //TODO Go to Index or refresh view?
+            // deleteUserApp.Invoke();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditUser(UserAppModel appuser)
+        {
+            //TODO Adduser View with action AddUser
             return View();
         }
 
         public IActionResult Listusers() // Based on selected app?
         {
-            //TODO A view with User text boxes string email,name and int id
             return View();
         }
 
