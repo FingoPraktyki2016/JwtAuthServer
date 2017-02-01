@@ -9,6 +9,7 @@ using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
+using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -19,8 +20,10 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IGetApp getApp;
         private readonly IAddNewApp addNewApp;
         private readonly IEditApp editApp;
+        private readonly IAddNewUserApp addUserApp;
 
         public ApplicationController(
+            IAddNewUserApp addUserApp,
             IGetUserApps getUserApps,
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
@@ -29,6 +32,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IEditApp editApp)
             : base(managerSettings, loggerSettings)
         {
+            this.addUserApp = addUserApp;
             this.getApp = getApp;
             this.getUserApps = getUserApps;
             this.addNewApp = addNewApp;
@@ -51,14 +55,34 @@ namespace LegnicaIT.JwtManager.Controllers
                 listOfApps.Add(model);
             }
 
-            //TODO AppModel Error
-            return View(new FormModel<List<AppViewModel>>(listOfApps));
+            ViewData["apps"] = listOfApps;
+
+            return View("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddUser(UserAppModel appuser)
         {
+
+
+
+            //  UserApp AddNewUserApp  - UserId, AppId, UserRole - do modelu UserAppModel
+
+
+            var newAppuser = new UserAppModel
+            {
+            
+
+            };
+
+
+
+            addUserApp.Invoke();
+
+            
+
+
             //TODO Add new app user. Go to Index or refresh view?
             return View();
         }
@@ -87,7 +111,7 @@ namespace LegnicaIT.JwtManager.Controllers
          *  Show/add/edit applications
          */
 
-        [AuthorizeFilter(UserRole.SuperAdmin)]
+        [AuthorizeFilter(UserRole.User)]
         public IActionResult Details(int id)
         {
             var app = getApp.Invoke(id);
@@ -115,7 +139,6 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(model);
         }
 
-        [AuthorizeFilter(UserRole.SuperAdmin)]
         public IActionResult Edit(int id)
         {
             var app = getApp.Invoke(id);
@@ -125,7 +148,6 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(new FormModel<AppViewModel>(model, true));
         }
 
-        [AuthorizeFilter(UserRole.SuperAdmin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(AppViewModel model)
