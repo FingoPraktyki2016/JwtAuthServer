@@ -1,15 +1,15 @@
-﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.BusinessLogic.Models.UserModel>
+﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.User.EditUserDetailsViewModel>
 
-    <h2 class="form-signin-heading">User details</h2>
+<h2 class="form-signin-heading">User details</h2>
 
-    <div class="form-group">
-        @(Model.IsEdit ? Html.HiddenFor(m => m.Model.Id) : null)
-        @Html.LabelFor(m => m.Model.Email, new { @class = "control-label col-sm-2" })
-        <div class="col-sm-10">
-            @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Email))
-        </div>
-        @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
-        <div class="col-sm-10">
-            @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Name))
-        </div>
+<div class="form-group">
+    @(Model.IsEdit ? Html.HiddenFor(m => m.Model.Id) : null)
+    @Html.LabelFor(m => m.Model.Email, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Email))
     </div>
+    @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Name))
+    </div>
+</div>

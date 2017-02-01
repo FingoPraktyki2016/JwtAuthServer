@@ -125,7 +125,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             var model = new AppViewModel();
 
-            return View(model);
+            return View(new FormModel<AppViewModel>(model, true));
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
@@ -133,10 +133,17 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Add(AppViewModel model)
         {
-            //addNewApp.Invoke(model);
+            if (!ModelState.IsValid)
+            {
+                // TODO: Alert danger
+                return View(new FormModel<AppViewModel>(model, true));
+            }
 
-            // TODO: Redirect to app details
-            return View(model);
+            var newModel = new AppModel { Id = model.Id, Name = model.Name };
+            addNewApp.Invoke(newModel);
+
+            // TODO: Alert success
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
@@ -154,13 +161,14 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
+                // TODO: Alert danger
                 return View(new FormModel<AppViewModel>(model, true));
             }
 
-            var newModel = new AppModel() { Id = model.Id, Name = model.Name };
-
+            var newModel = new AppModel { Id = model.Id, Name = model.Name };
             editApp.Invoke(newModel);
 
+            // TODO: Alert success
             return RedirectToAction("Details", new { id = newModel.Id });
         }
     }

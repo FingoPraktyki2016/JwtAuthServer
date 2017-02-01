@@ -43,7 +43,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         }
 
         [Fact]
-        public void Invoke_ValidData_SaveIsCalled()
+        public void Invoke_ValidData_SaveAndEditAreCalled()
         {
             // prepare
             var userFromDb = new DataAccess.Models.User() { Id = 1 };
@@ -59,6 +59,27 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             // assert
             // TODO: Add more asserts
             mockedUserRepo.Verify(r => r.Save(), Times.Once());
+            mockedUserRepo.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Once());
+        }
+
+        [Fact]
+        public void Invoke_InvalidData_SaveAndEditAreCalled()
+        {
+            // prepare
+            var userFromDb = new DataAccess.Models.User() { Id = 1 };
+            var mockedUserRepo = new Mock<IUserRepository>();
+            mockedUserRepo.Setup(r => r.GetById(1))
+                .Returns(userFromDb);
+
+            var action = new EditUserPassword(mockedUserRepo.Object);
+
+            // action
+            action.Invoke(1, "");
+
+            // assert
+            // TODO: Add more asserts
+            mockedUserRepo.Verify(r => r.Save(), Times.Never);
+            mockedUserRepo.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Never);
         }
     }
 }
