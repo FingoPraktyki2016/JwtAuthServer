@@ -1,12 +1,19 @@
-﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.AppModel>
+﻿@model LegnicaIT.JwtManager.Models.FormModel<List<LegnicaIT.JwtManager.Models.AppModel>>
 
 <h2 class="form-signin-heading">Apps</h2>
 
 <div class="form-group">
-    @Html.HiddenFor(m => m.Model.Id)
 
-    @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
-    <div class="col-sm-10">
-        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Name))
-    </div>
+    @{foreach (var item in Model.Model)
+        {
+            @Html.HiddenFor(m => item.Id)
+
+            @Html.LabelFor(m => item.Name, new { @class = "control-label col-sm-2" })
+            <div class="col-sm-10">
+                @(Model.IsEdit ? Html.TextBoxFor(m => item.Name, new { @class = "form-control" }) : Html.LabelForModel(item.Name))
+            </div>
+
+        }
+
+    }
 </div>
