@@ -5,67 +5,104 @@ using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
-    //to do add appbased authorization
-
     [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
         private readonly IGetUserById getUserById;
         private readonly IEditUser editUser;
+        private readonly IEditUserPassword editUserPassword;
 
         public UserController(
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
             IGetUserById getUserById,
-            IEditUser editUser
+            IEditUser editUser,
+            IEditUserPassword editUserPassword
             )
             : base(managerSettings, loggerSettings)
         {
             this.getUserById = getUserById;
             this.editUser = editUser;
+            this.editUserPassword = editUserPassword;
         }
 
+        [AuthorizeFilter(UserRole.User)]
         public ActionResult Details(int id)
         {
-            //if (id == LoggedUser.UserModel.Id)
-            //{
-            //    RedirectToAction("Me");
-            //}
+            if (id == LoggedUser.UserModel.Id)
+            {
+                RedirectToAction("Me", LoggedUser.UserModel);
+            }
+
+            //TODO: Add app validation/role validation
 
             var model = getUserById.Invoke(id);
-            return View(new FormModel<UserModel>(model));
+            var viewModel = new EditUserDetailsViewModel()
+            {
+                Name = model.Name,
+                Email = model.Email
+            };
+
+            return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
         public ActionResult Me()
         {
             var model = LoggedUser.UserModel;
-            return View(new FormModel<UserModel>(model));
+
+            var viewModel = new EditUserDetailsViewModel()
+            {
+                Name = model.Name,
+                Email = model.Email
+            };
+
+            return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
         public ActionResult Edit(int id)
         {
-            var model = LoggedUser.UserModel;
-            if (model.Id == id)
+            var loggedUser = LoggedUser.UserModel;
+            if (loggedUser.Id == id)
             {
-                var userViewModel = new FormModel<UserModel>(model, true);
+                var viewModel = new EditUserDetailsViewModel()
+                {
+                    Name = loggedUser.Name,
+                    Email = loggedUser.Email
+                };
+                var userViewModel = new FormModel<EditUserDetailsViewModel>(viewModel, true);
                 return View(userViewModel);
             }
-            var user = getUserById.Invoke(id);
-            var viewModel = new FormModel<UserModel>(user, true);
-            return View(viewModel);
+
+            //TODO: Add appid and role validation
+            var model = getUserById.Invoke(id);
+            var viewModelWrapper = new EditUserDetailsViewModel()
+            {
+                Name = model.Name,
+                Email = model.Email
+            };
+            var userviewModel = new FormModel<EditUserDetailsViewModel>(viewModelWrapper, true);
+            return View(userviewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserModel model)
+        public ActionResult Edit(EditUserDetailsViewModel model)
         {
-            var viewModel = new FormModel<UserModel>(model, true);
-            editUser.Invoke(model);
+            if (ModelState.IsValid)
+            {
+                var userModel = new UserModel() { Id = model.Id, Name = model.Name };
+                editUser.Invoke(userModel);
+
+                return RedirectToAction("Details", model.Id);
+            }
+
+            var viewModel = new FormModel<EditUserDetailsViewModel>(model, true);
             return View(viewModel);
         }
 
@@ -76,8 +113,13 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePassword(UserModel model)
+        public ActionResult ChangePassword(EditPasswordViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                editUserPassword.Invoke(LoggedUser.UserModel.Id, model.NewPassword);
+            }
+            //Redirect to view "Password changed?"
             return View();
         }
     }

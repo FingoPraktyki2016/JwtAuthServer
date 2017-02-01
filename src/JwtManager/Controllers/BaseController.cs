@@ -27,12 +27,13 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuting(context);
 
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserDetails")))
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserDetails")) ||
+                string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
             {
                 return;
             }
 
-            LoggedUser = new UserAppModel(HttpContext.Session.GetString("UserDetails"));
+            LoggedUser = new UserAppModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
             ViewData["LoggedUser"] = LoggedUser;
         }
 

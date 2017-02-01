@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LegnicaIT.JwtManager.Models
+namespace LegnicaIT.JwtManager.Models.User
 {
     public class EditUserDetailsViewModel
     {

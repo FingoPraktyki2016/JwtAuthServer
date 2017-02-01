@@ -14,9 +14,10 @@ namespace LegnicaIT.JwtManager.Models
         public int AppId;
         public UserRole Role;
 
-        public UserAppModel(string userDetailsString)
+        public UserAppModel(string userDetailsString, string tokenString)
         {
             AssignUserDetailsValues(userDetailsString);
+            AssignTokenValues(tokenString);
         }
 
         private void AssignUserDetailsValues(string userDetailsString)
@@ -39,7 +40,6 @@ namespace LegnicaIT.JwtManager.Models
             if (jwt != null)
             {
                 AppId = Convert.ToInt32(GetClaim(jwt, "appId"));
-                Role = (UserRole) Enum.Parse(typeof(UserRole), GetClaim(jwt, "role"));
             }
         }
 
