@@ -8,7 +8,6 @@ using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
@@ -65,23 +64,29 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddUser(UserAppModel appuser)
+        public IActionResult AddUser(AppUserViewModel appuser)
         {
-            //  UserApp AddNewUserApp  - UserId, AppId, UserRole - do modelu UserAppModel
-
-            /*var newAppuser = new UserAppModel
+            if (!ModelState.IsValid)
             {
+                //TODO error info
+            }
+            var newAppuser = new LegnicaIT.BusinessLogic.Models.UserAppModel
+            {
+                AppId = appuser.AppId,
+                UserId = appuser.UserId,
+                Role = appuser.Role
             };
 
-            addUserApp.Invoke();*/
+            addUserApp.Invoke(newAppuser);
 
-            //TODO Add new app user. Go to Index or refresh view?
             return View();
         }
 
-        public IActionResult AddUser()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteUser(AppUserViewModel appuser)
         {
-            //TODO A view with User text boxes string email,name and int id
+            // deleteUserApp.Invoke();
             return View();
         }
 
@@ -89,13 +94,12 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditUser(UserAppModel appuser)
         {
-            //TODO Go to Index or refresh view?
+            //TODO Adduser View with action AddUser
             return View();
         }
 
         public IActionResult Listusers() // Based on selected app?
         {
-            //TODO A view with User text boxes string email,name and int id
             return View();
         }
 

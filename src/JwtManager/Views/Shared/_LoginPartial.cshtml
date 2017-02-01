@@ -1,7 +1,7 @@
 ﻿@using LegnicaIT.JwtManager.Models
 @if (ViewData.ContainsKey("LoggedUser"))
 {
-    var LoggedUser = (UserAppModel)ViewData["LoggedUser"];
+    var LoggedUser = (LoggedUserModel)ViewData["LoggedUser"];
 
     using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", @id = "logoutForm" }))
     {

@@ -11,7 +11,7 @@ namespace LegnicaIT.JwtManager.Controllers
 {
     public class BaseController : Controller
     {
-        public UserAppModel LoggedUser;
+        public LoggedUserModel LoggedUser;
         public ManagerSettings Settings { get; }
         public Logger logger { get; set; }
 
@@ -33,7 +33,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 return;
             }
 
-            LoggedUser = new UserAppModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
+            LoggedUser = new LoggedUserModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
             ViewData["LoggedUser"] = LoggedUser;
         }
 
