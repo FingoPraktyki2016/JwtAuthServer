@@ -8,14 +8,19 @@ using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using UserAppModel = LegnicaIT.JwtManager.Models.UserAppModel;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
     [AuthorizeFilter(UserRole.Manager)]
     public class ApplicationController : BaseController
     {
+        private readonly IGetAppUserRole getUserRole;
+        private readonly IRevokeRole revokeRole;
+        private readonly IGrantRole grantRole;
+        private readonly IDeleteUserApp deleteUserApp;
         private readonly IGetUserApps getUserApps;
         private readonly IGetApp getApp;
         private readonly IAddNewApp addNewApp;
@@ -23,6 +28,10 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IAddNewUserApp addUserApp;
 
         public ApplicationController(
+            IGetAppUserRole getUserRole,
+            IRevokeRole revokeRole,
+            IGrantRole grantRole,
+            IDeleteUserApp deleteUserApp,
             IAddNewUserApp addUserApp,
             IGetUserApps getUserApps,
             IOptions<ManagerSettings> managerSettings,
@@ -32,6 +41,10 @@ namespace LegnicaIT.JwtManager.Controllers
             IEditApp editApp)
             : base(managerSettings, loggerSettings)
         {
+            this.getUserRole = getUserRole;
+            this.revokeRole = revokeRole;
+            this.grantRole = grantRole;
+            this.deleteUserApp = deleteUserApp;
             this.addUserApp = addUserApp;
             this.getApp = getApp;
             this.getUserApps = getUserApps;
@@ -80,14 +93,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View();
         }
 
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteUser(AppUserViewModel appuser)
-        {  
-            // deleteUserApp.Invoke();
-            return View();
-        }
-
         public IActionResult AddUser(int id)
         {
 
@@ -95,10 +101,60 @@ namespace LegnicaIT.JwtManager.Controllers
             return View();
         }
 
-        public IActionResult Listusers() // Based on selected app?
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteUser(AppUserViewModel appuser)
+        {
+            if (!ModelState.IsValid)
+            {
+                //TODO error info
+            }
+
+            deleteUserApp.Invoke(appuser.UserId);
+            return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult ListUsers(int appId) // Based on selected app?
         {
 
-            return View();
+            return View("ListUsers");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RevokeUserRole(AppUserViewModel appuser)
+        {
+            if (!ModelState.IsValid)
+            {
+                //TODO error info
+            }
+              
+            revokeRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
+            return RedirectToAction("ListUsers");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GrantUserRole(AppUserViewModel appuser)
+        {
+            if (!ModelState.IsValid)
+            {
+                //TODO error info
+            }
+
+            grantRole.Invoke(appuser.AppId,appuser.UserId,appuser.Role);
+            return RedirectToAction("ListUsers");
+        }
+
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeUserRole(int appId, int userId)
+        {
+            var userRole = getUserRole.Invoke(appId, userId);
+
+            ViewData["userRole"] = userRole;
+
+            return View("ChangeUserRole");
         }
 
         /*
