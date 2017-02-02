@@ -50,8 +50,8 @@ namespace LegnicaIT.BusinessLogic.Configuration.Helpers
                 foreach (var missing in list.Where(i => i.Value == false).Select(i => i.Key.Name))
                 {
                     Debug.WriteLine($"Mismatch between interfaces and implementations for {typeof(T).Name}: {missing}");
+                    throw new NotImplementedException();
                 }
-                throw new NotImplementedException();
             }
         }
     }

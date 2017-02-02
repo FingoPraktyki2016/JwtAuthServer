@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 
 namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 {
-    public class CheckUserPermissionToApp
+    public class CheckUserPermissionToApp : ICheckUserPermissionToApp
     {
         private readonly IUserAppRepository userAppRepository;
 
