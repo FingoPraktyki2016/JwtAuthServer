@@ -5,6 +5,6 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Interfaces
 {
     public interface IEditUser : IAction
     {
-        void Invoke(UserModel user);
+        bool Invoke(UserModel user);
     }
 }

@@ -20,12 +20,12 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.hasher = hasher ?? new Hasher();
         }
 
-        public void Invoke(UserModel user)
+        public int Invoke(UserModel user)
         {
             if (!user.IsValid() ||
                 userRepository.FindBy(x => x.Email == user.Email).Any())
             {
-                return;
+                return 0;
             }
 
             var salt = hasher.GenerateRandomSalt();
@@ -40,6 +40,8 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
             userRepository.Add(newUser);
             userRepository.Save();
+
+            return newUser.Id;
         }
     }
 }

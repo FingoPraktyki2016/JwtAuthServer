@@ -4,6 +4,6 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Interfaces
 {
     public interface IDeleteUser : IAction
     {
-        void Invoke(int id);
+        bool Invoke(int id);
     }
 }

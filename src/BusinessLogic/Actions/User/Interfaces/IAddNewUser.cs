@@ -5,6 +5,6 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Interfaces
 {
     public interface IAddNewUser : IAction
     {
-        void Invoke(UserModel user);
+        int Invoke(UserModel user);
     }
 }
