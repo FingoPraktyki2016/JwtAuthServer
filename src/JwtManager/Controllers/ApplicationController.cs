@@ -16,6 +16,7 @@ namespace LegnicaIT.JwtManager.Controllers
     [AuthorizeFilter(UserRole.Manager)]
     public class ApplicationController : BaseController
     {
+        private readonly IGetAppUsers getAppUsers;
         private readonly IGetAppUserRole getUserRole;
         private readonly IRevokeRole revokeRole;
         private readonly IGrantRole grantRole;
@@ -28,6 +29,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IDeleteApp deleteApp;
 
         public ApplicationController(
+            IGetAppUsers getAppUsers,
             IGetAppUserRole getUserRole,
             IRevokeRole revokeRole,
             IGrantRole grantRole,
@@ -42,6 +44,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IDeleteApp deleteApp)
             : base(managerSettings, loggerSettings)
         {
+            this.getAppUsers = getAppUsers;
             this.getUserRole = getUserRole;
             this.revokeRole = revokeRole;
             this.grantRole = grantRole;
@@ -117,9 +120,11 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult ListUsers(int appId) // Based on selected app?
+        public IActionResult ListUsers(int appId)
         {
-            return View();
+            var usersList = getAppUsers.Invoke(appId);
+
+            return View("ListUsers");
         }
 
         [HttpPost]
