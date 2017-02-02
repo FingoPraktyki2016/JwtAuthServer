@@ -29,6 +29,9 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuting(context);
 
+            // FIXME
+            //TempData["alertMessages"] = Alert.GetAlerts();
+
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserDetails")) ||
                 string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
             {
@@ -42,8 +45,6 @@ namespace LegnicaIT.JwtManager.Controllers
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             base.OnActionExecuted(context);
-
-            //TempData["alertMessages"] = Alert.GetAlerts();
 
             if (context.ModelState.IsValid)
             {

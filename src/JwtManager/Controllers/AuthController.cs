@@ -36,6 +36,9 @@ namespace LegnicaIT.JwtManager.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            Alert.Danger("blabla", "Tytu³");
+            Alert.Success();
+
             var LoginModel = new LoginModel();
             return View(LoginModel);
         }

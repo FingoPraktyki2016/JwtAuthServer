@@ -1,0 +1,22 @@
+﻿@using LegnicaIT.JwtManager.Models
+@{
+    var alertMessages = (List<AlertModel>) TempData["alertMessages"];
+
+    if (alertMessages.Count == 0)
+    {
+        @Html.Raw("Ni ma alertufff")
+    }
+
+    foreach (var alert in alertMessages)
+    {
+        <div class="alert alert-@alert.Type.ToString().ToLower() alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            @if (!string.IsNullOrEmpty(alert.Title))
+            {
+                <a href="#" class="alert-link">@alert.Title</a>
+            }
+            @alert.Message
+        </div>
+    }
+}

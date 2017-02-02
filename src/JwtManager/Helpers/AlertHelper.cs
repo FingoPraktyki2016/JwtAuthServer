@@ -5,7 +5,7 @@ namespace LegnicaIT.JwtManager.Helpers
 {
     public class AlertHelper
     {
-        public List<AlertModel> Alerts = new List<AlertModel>();
+        private readonly List<AlertModel> Alerts = new List<AlertModel>();
 
         public List<AlertModel> GetAlerts()
         {

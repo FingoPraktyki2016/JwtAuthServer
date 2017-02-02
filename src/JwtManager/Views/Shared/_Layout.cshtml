@@ -1,5 +1,4 @@
-﻿@using LegnicaIT.JwtManager.Models
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -42,16 +41,7 @@
     <div class="container body-content">
         @if (TempData.ContainsKey("alertMessages"))
         {
-            var alertMessages = (List<AlertModel>) TempData["alertMessages"];
-
-            foreach (var alert in alertMessages)
-            {
-                <div class="alert alert-@alert.Type.ToString().ToLower() alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-                    @alert.Message
-                </div>
-            }
+            @Html.Partial("_AlertsPartial")
         }
 
         @RenderBody()
