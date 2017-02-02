@@ -16,6 +16,7 @@ namespace LegnicaIT.JwtManager.Controllers
     [AuthorizeFilter(UserRole.Manager)]
     public class ApplicationController : BaseController
     {
+        private readonly IGetAppUsers getAppUsers;
         private readonly IGetAppUserRole getUserRole;
         private readonly IRevokeRole revokeRole;
         private readonly IGrantRole grantRole;
@@ -28,6 +29,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IDeleteApp deleteApp;
 
         public ApplicationController(
+            IGetAppUsers getAppUsers,
             IGetAppUserRole getUserRole,
             IRevokeRole revokeRole,
             IGrantRole grantRole,
@@ -42,6 +44,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IDeleteApp deleteApp)
             : base(managerSettings, loggerSettings)
         {
+            this.getAppUsers = getAppUsers;
             this.getUserRole = getUserRole;
             this.revokeRole = revokeRole;
             this.grantRole = grantRole;
@@ -70,6 +73,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 listOfApps.Add(model);
             }
 
+            //TODO Pass data to views by view models (explicite: return View("Index", model)), not by ViewData[]
             ViewData["apps"] = listOfApps;
 
             return View("Index");
@@ -96,7 +100,6 @@ namespace LegnicaIT.JwtManager.Controllers
             return View();
         }
 
-        [ValidateAntiForgeryToken]
         public IActionResult AddUser(int id)
         {
             //TODO Adduser View with action AddUser
@@ -116,10 +119,14 @@ namespace LegnicaIT.JwtManager.Controllers
             return View();
         }
 
-        [ValidateAntiForgeryToken]
-        public IActionResult ListUsers(int appId) // Based on selected app?
+        public IActionResult ListUsers(int appId)
         {
-            return View();
+            var usersList = getAppUsers.Invoke(appId);
+
+           //TODO Pass data to views by view models(explicite: return View("Index", model)), not by ViewData[]
+        //   ViewData["users"] = usersList;
+
+            return Json(usersList);
         }
 
         [HttpPost]
@@ -148,7 +155,6 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("ListUsers");
         }
 
-        [ValidateAntiForgeryToken]
         public IActionResult ChangeUserRole(int appId, int userId)
         {
             var userRole = getUserRole.Invoke(appId, userId);

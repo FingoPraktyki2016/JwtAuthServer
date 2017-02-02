@@ -18,18 +18,18 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.hasher = hasher ?? new Hasher();
         }
 
-        public void Invoke(int id, string plainPassword)
+        public bool Invoke(int id, string plainPassword)
         {
             if (string.IsNullOrEmpty(plainPassword))
             {
-                return;
+                return false;
             }
 
             var userToEdit = userRepository.GetById(id);
 
             if (userToEdit == null)
             {
-                return;
+                return false;
             }
 
             var salt = hasher.GenerateRandomSalt();
@@ -38,6 +38,8 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
             userRepository.Edit(userToEdit);
             userRepository.Save();
+
+            return true;
         }
     }
 }

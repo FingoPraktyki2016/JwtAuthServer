@@ -69,9 +69,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
                 mockedAppRepository.Object);
 
             // action
-            action.Invoke(userAppToAdd);
+            var actionResult = action.Invoke(userAppToAdd);
 
             // assert
+            Assert.Equal(0, actionResult);
             mockedUserAppRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppRepository.Verify(r => r.Save(), Times.Never);
         }
@@ -105,9 +106,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
                 mockedAppRepository.Object);
 
             // action
-            action.Invoke(userAppToAdd);
+            var actionResult = action.Invoke(userAppToAdd);
 
             // assert
+            Assert.Equal(0, actionResult);
             mockedUserAppRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppRepository.Verify(r => r.Save(), Times.Never);
         }
