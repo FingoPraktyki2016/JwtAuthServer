@@ -211,10 +211,15 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             var newModel = new AppModel { Id = model.Id, Name = model.Name };
-            addNewApp.Invoke(newModel);
 
-            // TODO: check if added
-            Alert.Success();
+            if (addNewApp.Invoke(newModel) != 0)
+            {
+                Alert.Success();
+            }
+            else
+            {
+                Alert.Danger("Something went wrong");
+            }
 
             return RedirectToAction("Index");
         }
@@ -238,9 +243,16 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             var newModel = new AppModel { Id = model.Id, Name = model.Name };
-            editApp.Invoke(newModel);
 
-            Alert.Success();
+            if (editApp.Invoke(newModel))
+            {
+                Alert.Success();
+            }
+            else
+            {
+                Alert.Danger("Something went wrong");
+            }
+
             return RedirectToAction("Details", new { id = newModel.Id });
         }
 
@@ -248,9 +260,14 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            deleteApp.Invoke(id);
-            // TODO: Return something in DeleteApp to check if deleted - bool?
-            Alert.Success();
+            if (deleteApp.Invoke(id))
+            {
+                Alert.Success();
+            }
+            else
+            {
+                Alert.Danger("Something went wrong");
+            }
 
             return RedirectToAction("Index");
         }
