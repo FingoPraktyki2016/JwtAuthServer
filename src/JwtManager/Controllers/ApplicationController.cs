@@ -9,7 +9,6 @@ using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
-using LegnicaIT.JwtManager.Helpers;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
@@ -26,6 +25,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IAddNewApp addNewApp;
         private readonly IEditApp editApp;
         private readonly IAddNewUserApp addUserApp;
+        private readonly IDeleteApp deleteApp;
 
         public ApplicationController(
             IGetAppUserRole getUserRole,
@@ -38,7 +38,8 @@ namespace LegnicaIT.JwtManager.Controllers
             IOptions<LoggerConfig> loggerSettings,
             IGetApp getApp,
             IAddNewApp addNewApp,
-            IEditApp editApp)
+            IEditApp editApp,
+            IDeleteApp deleteApp)
             : base(managerSettings, loggerSettings)
         {
             this.getUserRole = getUserRole;
@@ -50,6 +51,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.getUserApps = getUserApps;
             this.addNewApp = addNewApp;
             this.editApp = editApp;
+            this.deleteApp = deleteApp;
         }
 
         public IActionResult Index()
@@ -79,9 +81,10 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //TODO error info
+                Alert.Warning();
             }
-            var newAppuser = new LegnicaIT.BusinessLogic.Models.UserAppModel
+
+            var newAppuser = new UserAppModel
             {
                 AppId = appuser.AppId,
                 UserId = appuser.UserId,
@@ -106,7 +109,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //TODO error info
+                Alert.Warning();
             }
 
             deleteUserApp.Invoke(appuser.UserId);
@@ -116,7 +119,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ListUsers(int appId) // Based on selected app?
         {
-            return View("ListUsers");
+            return View();
         }
 
         [HttpPost]
@@ -125,7 +128,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //TODO error info
+                Alert.Warning();
             }
 
             revokeRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
@@ -138,7 +141,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //TODO error info
+                Alert.Warning();
             }
 
             grantRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
@@ -152,7 +155,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
             ViewData["userRole"] = userRole;
 
-            return View("ChangeUserRole");
+            return View();
         }
 
         /*
@@ -173,15 +176,6 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             var model = new AppViewModel();
 
-            var alertHelper = new AlertHelper();
-
-            alertHelper.Danger("Danger test");
-            alertHelper.Success("Success message test");
-
-            var alerts = alertHelper.GetAlerts();
-
-            TempData["alertMessages"] = alerts;
-
             return View(new FormModel<AppViewModel>(model, true));
         }
 
@@ -192,21 +186,22 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // TODO: Alert danger
+                Alert.Warning();
                 return View(new FormModel<AppViewModel>(model, true));
             }
 
             var newModel = new AppModel { Id = model.Id, Name = model.Name };
             addNewApp.Invoke(newModel);
 
-            // TODO: Alert success
+            // TODO: check if added
+            Alert.Success();
+
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
             var app = getApp.Invoke(id);
-
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
 
             return View(new FormModel<AppViewModel>(model, true));
@@ -218,15 +213,26 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // TODO: Alert danger
+                Alert.Warning();
                 return View(new FormModel<AppViewModel>(model, true));
             }
 
             var newModel = new AppModel { Id = model.Id, Name = model.Name };
             editApp.Invoke(newModel);
 
-            // TODO: Alert success
+            Alert.Success();
             return RedirectToAction("Details", new { id = newModel.Id });
+        }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            deleteApp.Invoke(id);
+            // TODO: Return something in DeleteApp to check if deleted - bool?
+            Alert.Success();
+
+            return RedirectToAction("Index");
         }
     }
 }

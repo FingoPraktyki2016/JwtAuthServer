@@ -12,7 +12,7 @@ namespace LegnicaIT.JwtManager.Helpers
             return Alerts;
         }
 
-        public void Success(string message, string title = null)
+        public void Success(string message = "Action completed", string title = null)
         {
             Alerts.Add(new AlertModel
             {
@@ -32,7 +32,7 @@ namespace LegnicaIT.JwtManager.Helpers
             });
         }
 
-        public void Warning(string message, string title = null)
+        public void Warning(string message = "Your data is invalid", string title = null)
         {
             Alerts.Add(new AlertModel
             {

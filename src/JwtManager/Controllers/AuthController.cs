@@ -85,7 +85,7 @@ namespace LegnicaIT.JwtManager.Controllers
             }
             else
             {
-                logger.Information($"Something went wrong during logout");
+                logger.Information("Something went wrong during logout");
             }
 
             HttpContext.Session.Clear();

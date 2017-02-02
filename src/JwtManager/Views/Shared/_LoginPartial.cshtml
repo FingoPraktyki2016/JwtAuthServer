@@ -3,7 +3,7 @@
 {
     var LoggedUser = (LoggedUserModel)ViewData["LoggedUser"];
 
-    using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", @id = "logoutForm" }))
+    using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", id = "logoutForm" }))
     {
         <ul class="nav navbar-nav navbar-right">
             <li>

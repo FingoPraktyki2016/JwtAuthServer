@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
+using LegnicaIT.JwtManager.Helpers;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace LegnicaIT.JwtManager.Controllers
         public LoggedUserModel LoggedUser;
         public ManagerSettings Settings { get; }
         public Logger logger { get; set; }
+        public AlertHelper Alert = new AlertHelper();
 
         public BaseController(
             IOptions<ManagerSettings> managerSettings,
@@ -41,6 +43,8 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuted(context);
 
+            TempData["alertMessages"] = Alert.GetAlerts();
+
             if (context.ModelState.IsValid)
             {
                 return;
@@ -49,6 +53,7 @@ namespace LegnicaIT.JwtManager.Controllers
             foreach (var modelStateKey in ModelState.Keys)
             {
                 var modelStateVal = ModelState[modelStateKey];
+
                 foreach (var error in modelStateVal.Errors)
                 {
                     var key = modelStateKey;
