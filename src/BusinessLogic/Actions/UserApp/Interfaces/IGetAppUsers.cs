@@ -2,7 +2,7 @@
 using LegnicaIT.BusinessLogic.Models;
 using System.Collections.Generic;
 
-namespace LegnicaIT.BusinessLogic.Actions.App.Interfaces
+namespace LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces
 {
     public interface IGetAppUsers :IAction
     {
