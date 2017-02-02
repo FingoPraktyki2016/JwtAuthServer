@@ -19,7 +19,7 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
             this.appRepository = appRepository;
         }
 
-        public void Invoke(UserAppModel model)
+        public int Invoke(UserAppModel model)
         {
             var userApp = new DataAccess.Models.UserApps()
             {
@@ -32,11 +32,13 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
                 userApp.App == null ||
                 userAppRepository.FindBy(x => x.App.Id == userApp.App.Id && x.User.Id == userApp.User.Id).Any())
             {
-                return;
+                return 0;
             }
 
             userAppRepository.Add(userApp);
             userAppRepository.Save();
+
+            return userApp.Id;
         }
     }
 }

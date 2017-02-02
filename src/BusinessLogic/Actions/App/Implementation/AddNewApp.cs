@@ -13,11 +13,11 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
             this.appRepository = appRepository;
         }
 
-        public void Invoke(AppModel app)
+        public int Invoke(AppModel app)
         {
             if (!app.IsValid())
             {
-                return;
+                return 0;
             }
 
             var newApp = new DataAccess.Models.App()
@@ -27,6 +27,8 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 
             appRepository.Add(newApp);
             appRepository.Save();
+
+            return newApp.Id;
         }
     }
 }

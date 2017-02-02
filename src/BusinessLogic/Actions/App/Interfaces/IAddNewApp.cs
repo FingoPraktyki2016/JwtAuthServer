@@ -5,6 +5,6 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Interfaces
 {
     public interface IAddNewApp : IAction
     {
-        void Invoke(AppModel app);
+        int Invoke(AppModel app);
     }
 }

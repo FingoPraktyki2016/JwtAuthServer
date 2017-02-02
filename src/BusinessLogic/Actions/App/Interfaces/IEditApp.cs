@@ -5,6 +5,6 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Interfaces
 {
     public interface IEditApp : IAction
     {
-        void Invoke(AppModel app);
+        bool Invoke(AppModel app);
     }
 }

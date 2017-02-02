@@ -13,24 +13,26 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userRepository = userRepository;
         }
 
-        public void Invoke(UserModel user)
+        public bool Invoke(UserModel user)
         {
             if (string.IsNullOrEmpty(user.Name))
             {
-                return;
+                return false;
             }
 
             var userToEdit = userRepository.GetById(user.Id);
 
             if (userToEdit == null)
             {
-                return;
+                return false;
             }
 
             userToEdit.Name = user.Name;
 
             userRepository.Edit(userToEdit);
             userRepository.Save();
+
+            return true;
         }
     }
 }

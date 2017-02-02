@@ -12,17 +12,19 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userRepository = userRepository;
         }
 
-        public void Invoke(int id)
+        public bool Invoke(int id)
         {
             var userToDelete = userRepository.GetById(id);
 
             if (userToDelete == null)
             {
-                return;
+                return false;
             }
 
             userRepository.Delete(userToDelete);
             userRepository.Save();
+
+            return true;
         }
     }
 }
