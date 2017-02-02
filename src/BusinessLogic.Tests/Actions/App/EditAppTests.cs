@@ -35,9 +35,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var action = new EditApp(mockedAppRepository.Object);
 
             // action
-            action.Invoke(appToEdit);
+            var actionResult = action.Invoke(appToEdit);
 
             // assert
+            Assert.True(actionResult);
             Assert.Equal("Name2", appSaved.Name);
             mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Once);
             mockedAppRepository.Verify(r => r.Save(), Times.Once);
@@ -64,9 +65,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var action = new EditApp(mockedAppRepository.Object);
 
             // action
-            action.Invoke(appToEdit);
+            var actionResult = action.Invoke(appToEdit);
 
             // assert
+            Assert.True(actionResult);
             mockedAppRepository.Verify(r => r.Save(), Times.Once());
             mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Once());
         }
@@ -91,9 +93,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var action = new EditApp(mockedAppRepository.Object);
 
             // action
-            action.Invoke(appToEdit);
+            var actionResult = action.Invoke(appToEdit);
 
             // assert
+            Assert.False(actionResult);
             mockedAppRepository.Verify(r => r.Save(), Times.Never);
             mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Never);
         }

@@ -27,9 +27,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var action = new DeleteUserApp(mockedUserAppRepository.Object);
 
             // action
-            action.Invoke(userAppToDelete.Id);
+            var actionResult = action.Invoke(userAppToDelete.Id);
 
             // assert
+            Assert.True(actionResult);
             mockedUserAppRepository.Verify(r => r.Delete(It.IsAny<DataAccess.Models.UserApps>()), Times.Once());
             mockedUserAppRepository.Verify(r => r.Save(), Times.Once());
         }
@@ -49,9 +50,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var action = new DeleteUserApp(mockedUserAppRepository.Object);
 
             // action
-            action.Invoke(userAppToDelete.Id);
+            var actionResult = action.Invoke(userAppToDelete.Id);
 
             // assert
+            Assert.False(actionResult);
             mockedUserAppRepository.Verify(r => r.Delete(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppRepository.Verify(r => r.Save(), Times.Never);
         }

@@ -35,9 +35,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var action = new AddNewApp(mockedAppRepository.Object);
 
             // action
-            action.Invoke(appToAdd);
+            var actionResult = action.Invoke(appToAdd);
 
             // assert
+            Assert.Equal(0, actionResult);
             mockedAppRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.App>()), Times.Never);
             mockedAppRepository.Verify(r => r.Save(), Times.Never);
         }

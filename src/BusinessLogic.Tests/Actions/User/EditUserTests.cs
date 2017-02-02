@@ -33,9 +33,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new EditUser(mockedUserRepo.Object);
 
             // action
-            action.Invoke(userUpdated);
+            var actionResult = action.Invoke(userUpdated);
 
             // assert
+            Assert.True(actionResult);
             Assert.Equal("Name2", userSaved.Name);
         }
 
@@ -51,9 +52,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new EditUser(mockedUserRepo.Object);
 
             // action
-            action.Invoke(userUpdated);
+            var actionResult = action.Invoke(userUpdated);
 
             // assert
+            Assert.True(actionResult);
             mockedUserRepo.Verify(r => r.Save(), Times.Once());
             mockedUserRepo.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Once());
         }
@@ -70,9 +72,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new EditUser(mockedUserRepo.Object);
 
             // action
-            action.Invoke(userUpdated);
+            var actionResult = action.Invoke(userUpdated);
 
             // assert
+            Assert.False(actionResult);
             mockedUserRepo.Verify(r => r.Save(), Times.Never);
             mockedUserRepo.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Never);
         }

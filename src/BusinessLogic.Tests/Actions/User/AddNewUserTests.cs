@@ -17,7 +17,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_ValidData_AddsUserToDatabaseWithCorrectValues()
         {
             // prepare
-            var user = new UserModel()
+            var userData = new UserModel()
             {
                 Email = "email",
                 Password = "plain",
@@ -36,7 +36,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new AddNewUser(mockedUserRepo.Object, mockedHasher.Object);
 
             // action
-            action.Invoke(user);
+            action.Invoke(userData);
 
             // assert
             Assert.Equal("plain-hashed", userSaved.PasswordHash);
@@ -73,9 +73,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new AddNewUser(mockedUserRepository.Object);
 
             // action
-            action.Invoke(userToAdd);
+            var actionResult = action.Invoke(userToAdd);
 
             // assert
+            Assert.Equal(0, actionResult);
             mockedUserRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.User>()), Times.Never);
             mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }
@@ -102,9 +103,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new AddNewUser(mockedUserRepository.Object);
 
             // action
-            action.Invoke(userToAdd);
+            var actionResult = action.Invoke(userToAdd);
 
             // assert
+            Assert.Equal(0, actionResult);
             mockedUserRepository.Verify(r => r.Add(It.IsAny<DataAccess.Models.User>()), Times.Never);
             mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }
