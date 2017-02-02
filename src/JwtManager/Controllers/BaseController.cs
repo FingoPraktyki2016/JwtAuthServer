@@ -43,7 +43,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuted(context);
 
-            TempData["alertMessages"] = Alert.GetAlerts();
+            //TempData["alertMessages"] = Alert.GetAlerts();
 
             if (context.ModelState.IsValid)
             {
