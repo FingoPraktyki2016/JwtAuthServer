@@ -82,8 +82,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps>() { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
-            mockedUserAppsRepository.Setup(r => r.GetAll())
-                .Returns(getAllResults);
+            mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
+          .Returns(getAllResults.AsQueryable());
 
             var action = new RevokeRole(mockedUserAppsRepository.Object);
 
@@ -105,8 +105,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps>() { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
-            mockedUserAppsRepository.Setup(r => r.GetAll())
-                .Returns(getAllResults);
+            mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
+            .Returns(getAllResults.AsQueryable());
 
             var action = new RevokeRole(mockedUserAppsRepository.Object);
 
@@ -128,8 +128,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps>() { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
-            mockedUserAppsRepository.Setup(r => r.GetAll())
-                .Returns(getAllResults);
+            mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
+                .Returns(getAllResults.AsQueryable());
 
             var action = new RevokeRole(mockedUserAppsRepository.Object);
 
