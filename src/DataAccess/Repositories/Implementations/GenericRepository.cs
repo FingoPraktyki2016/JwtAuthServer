@@ -11,12 +11,19 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        protected DbSet<T> dbSet;
+        public IQueryable<T> DbSet
+        {
+            get { return dbSet.Where(e => e.DeletedOn == null); }
+        }
+
+        private readonly DbSet<T> dbSet;
+
         protected IJwtDbContext context;
 
         protected GenericRepository(IJwtDbContext _context)
         {
             context = _context;
+
             dbSet = _context.Set<T>();
         }
 
@@ -39,14 +46,14 @@ namespace LegnicaIT.DataAccess.Repositories.Implementations
             return !query.Any() ? Enumerable.Empty<T>().AsQueryable() : query;
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return dbSet.AsEnumerable();
+            return DbSet.AsQueryable();
         }
 
         public virtual T GetById(int id)
         {
-            return dbSet.FirstOrDefault(m => m.Id == id);
+            return DbSet.FirstOrDefault(m => m.Id == id);
         }
 
         public virtual void Edit(T entity)

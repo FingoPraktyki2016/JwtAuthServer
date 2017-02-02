@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -13,7 +12,7 @@ namespace LegnicaIT.DataAccess.Repositories.Interfaces
 
         IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
 
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
 
         T GetById(int id);
 

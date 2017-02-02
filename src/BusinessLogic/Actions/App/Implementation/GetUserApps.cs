@@ -1,9 +1,8 @@
-﻿
-using System.Linq;
+﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using System.Collections.Generic;
-using LegnicaIT.BusinessLogic.Models;
-using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+using System.Linq;
 
 namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 {
@@ -21,15 +20,18 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 
         public List<AppModel> Invoke(int userId)
         {
-            var userapps = userAppRepository.FindBy(x => x.User.Id == userId).Select(x => x.App.Id);
             List<AppModel> listOfApps = new List<AppModel>();
 
-            var listUserApps = userAppRepository.FindBy(x=>x.Id != 10000);
-            var listApps = appRepository.FindBy(x => x.Id != 10000);
+            var listUserApps = userAppRepository.GetAll();
+            var listApps = appRepository.GetAll();
 
-            var list = (from e1 in listUserApps join s1 in listApps on e1.App.Id equals s1.Id where e1.User.Id == userId select s1).ToList();     
-           
-            foreach(var appFromDb in list)
+            var list = (from userApps in listUserApps
+                        join app in listApps on userApps.App.Id equals app.Id
+                        where userApps.User.Id == userId
+                        select app).ToList();
+
+            //TODO: Automap
+            foreach (var appFromDb in list)
             {
                 var model = new AppModel()
                 {
