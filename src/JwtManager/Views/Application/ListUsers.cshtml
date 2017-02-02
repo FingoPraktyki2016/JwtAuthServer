@@ -1,0 +1,33 @@
+﻿@using LegnicaIT.JwtManager.Models
+@model UserDetailsFromAppViewModel
+
+@{
+    ViewData["Title"] = "App Users";
+}
+
+<h2>Application users</h2>
+<button type="button" class="btn btn-success button"  onclick="location.href='@Url.Action("AddUser", "Application", new { appId = ViewData["appId"] })';return false;">Add user</button>
+    <table class="table table-striped table-responsive" >
+        <thead class="thead-inverse">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+@foreach (var user in (List<UserDetailsFromAppViewModel>)ViewData["users"])
+{
+    <tr>
+        <td>@user.Id</td>
+        <td>@user.Name</td>
+        <td>@user.Email</td>
+        <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new { appId = ViewData["appId"], userId = user.Id }) </td>
+        <td width="50px">
+            <button type="button" class="btn btn-danger">Delete</button>
+        </td>
+    </tr>
+}    
+        </tbody>
+    </table>
