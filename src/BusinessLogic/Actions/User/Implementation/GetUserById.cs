@@ -16,7 +16,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public UserModel Invoke(int id)
         {
-            var dbUser = userRepository.FindBy(x => x.Id == id).FirstOrDefault();
+            var dbUser = userRepository.GetById(id);
             if (dbUser == null)
             {
                 return null;
@@ -27,11 +27,11 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 Id = dbUser.Id,
                 Email = dbUser.Email,
                 Name = dbUser.Name,
-                EmailConfirmedOn = dbUser.EmailConfirmedOn.Value,
+                EmailConfirmedOn = dbUser.EmailConfirmedOn,
                 CreatedOn = dbUser.CreatedOn,
                 ModifiedOn = dbUser.ModifiedOn,
-                LockedOn = dbUser.LockedOn.Value,
-                DeletedOn = dbUser.DeletedOn.Value,
+                LockedOn = dbUser.LockedOn,
+                DeletedOn = dbUser.DeletedOn,
             };
 
             return userModel;
