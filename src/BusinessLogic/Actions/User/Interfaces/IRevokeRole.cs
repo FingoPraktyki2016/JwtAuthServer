@@ -5,6 +5,6 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Interfaces
 {
     public interface IRevokeRole : IAction
     {
-        void Invoke(int appId, int user, UserRole newRole);
+        bool Invoke(int appId, int user, UserRole newRole);
     }
 }

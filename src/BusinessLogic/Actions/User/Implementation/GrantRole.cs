@@ -15,25 +15,27 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userAppRepository = userAppRepository;
         }
 
-        public void Invoke(int appId, int user, UserRole newRole)
+        public bool Invoke(int appId, int user, UserRole newRole)
         {
             var userApp = userAppRepository.FindBy(m => m.User.Id == user && m.App.Id == appId).FirstOrDefault();
 
             if (userApp == null)
             {
-                return;
+                return false;
             }
 
             var userRole = (UserRole)userApp.Role;
 
             if (userRole.HasRole(newRole))
             {
-                return;
+                return false;
             }
 
             userApp.Role = (DataAccess.Enums.UserRole)newRole;
             userAppRepository.Edit(userApp);
             userAppRepository.Save();
+
+            return true;
         }
     }
 }
