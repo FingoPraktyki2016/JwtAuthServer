@@ -27,9 +27,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new DeleteUser(mockedUserRepository.Object);
 
             // action
-            action.Invoke(userToDelete.Id);
+            var actionResult = action.Invoke(userToDelete.Id);
 
             // assert
+            Assert.True(actionResult);
             mockedUserRepository.Verify(r => r.Delete(It.IsAny<DataAccess.Models.User>()), Times.Once());
             mockedUserRepository.Verify(r => r.Save(), Times.Once());
         }
@@ -48,9 +49,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new DeleteUser(mockedUserRepository.Object);
 
             // action
-            action.Invoke(userToDelete.Id);
+            var actionResult = action.Invoke(userToDelete.Id);
 
             // assert
+            Assert.False(actionResult);
             mockedUserRepository.Verify(r => r.Delete(It.IsAny<DataAccess.Models.User>()), Times.Never);
             mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }

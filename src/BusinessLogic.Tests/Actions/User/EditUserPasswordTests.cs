@@ -34,9 +34,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new EditUserPassword(mockedUserRepo.Object, mockedHasher.Object);
 
             // action
-            action.Invoke(1, "plain");
+            var actionResult = action.Invoke(1, "plain");
 
             // assert
+            Assert.True(actionResult);
             Assert.Equal("plain-hashed", userSaved.PasswordHash);
             Assert.Equal("salt-generated", userSaved.PasswordSalt);
             Assert.Equal("Name", userSaved.Name);
@@ -54,10 +55,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new EditUserPassword(mockedUserRepo.Object);
 
             // action
-            action.Invoke(1, "plain");
+            var actionResult = action.Invoke(1, "plain");
 
             // assert
-            // TODO: Add more asserts
+            Assert.True(actionResult);
             mockedUserRepo.Verify(r => r.Save(), Times.Once());
             mockedUserRepo.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Once());
         }
@@ -74,9 +75,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new EditUserPassword(mockedUserRepo.Object);
 
             // action
-            action.Invoke(1, "");
+            var actionResult = action.Invoke(1, "");
 
             // assert
+            Assert.False(actionResult);
             mockedUserRepo.Verify(r => r.Save(), Times.Never);
             mockedUserRepo.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Never);
         }
