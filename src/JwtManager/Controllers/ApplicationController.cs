@@ -97,13 +97,15 @@ namespace LegnicaIT.JwtManager.Controllers
 
             addUserApp.Invoke(newAppuser);
 
-            return View();
+            return RedirectToAction("ListUsers");
         }
 
-        public IActionResult AddUser(int id)
+        public IActionResult AddUser(int appId)
         {
+            ViewData["appId"] = appId;
+
             //TODO Adduser View with action AddUser
-            return View();
+            return View("AddUser");
         }
 
         [HttpPost]
@@ -119,14 +121,30 @@ namespace LegnicaIT.JwtManager.Controllers
             return View();
         }
 
-        public IActionResult ListUsers(int appId)
-        {
+      public IActionResult ListUsers(int appId)
+        { 
             var usersList = getAppUsers.Invoke(appId);
 
-           //TODO Pass data to views by view models(explicite: return View("Index", model)), not by ViewData[]
-        //   ViewData["users"] = usersList;
+            List<UserDetailsFromAppViewModel> listOfUsers = new List<UserDetailsFromAppViewModel>();
 
-            return Json(usersList);
+            foreach (var user in usersList)
+            {
+                var model = new UserDetailsFromAppViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Role = user.Role
+                };
+
+                listOfUsers.Add(model);
+            }
+
+            //TODO Pass data to views by view models(explicite: return View("Index", model)), not by ViewData[]
+            ViewData["appId"] = appId;
+            ViewData["users"] = listOfUsers;
+
+            return View("ListUsers");
         }
 
         [HttpPost]
