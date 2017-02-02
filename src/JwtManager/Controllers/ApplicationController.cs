@@ -110,18 +110,14 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteUser(AppUserViewModel appuser)
+        public IActionResult DeleteUser(int userId)
         {
-            if (!ModelState.IsValid)
-            {
-                Alert.Warning();
-            }
 
-            deleteUserApp.Invoke(appuser.UserId);
-            return View();
+            //TODO  deleteAppUser.Invoke(userId)  
+            return RedirectToAction("ListUsers");
         }
 
-      public IActionResult ListUsers(int appId)
+      public IActionResult ListUsers(int appId =4) //TODO for tests
         { 
             var usersList = getAppUsers.Invoke(appId);
 

@@ -24,9 +24,14 @@
         <td>@user.Name</td>
         <td>@user.Email</td>
         <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new { appId = ViewData["appId"], userId = user.Id }) </td>
-        <td width="50px">
-            <button type="button" class="btn btn-danger">Delete</button>
+
+        <td>
+            @using (Html.BeginForm("DeleteUser", "Application", FormMethod.Post, new { userId = @user.Id }))
+            {
+                        <button type="submit" class="btn btn-danger">Delete</button>
+            }
         </td>
+
     </tr>
 }    
         </tbody>
