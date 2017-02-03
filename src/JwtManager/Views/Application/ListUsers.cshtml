@@ -6,33 +6,34 @@
 }
 
 <h2>Application users</h2>
-<button type="button" class="btn btn-success button"  onclick="location.href='@Url.Action("AddUser", "Application", new { appId = ViewData["appId"] })';return false;">Add user</button>
-    <table class="table table-striped table-responsive" >
-        <thead class="thead-inverse">
+@Html.ActionLink("Add user", "AddUser", "Application", new { appId = ViewData["appId"] }, new { @class = "btn btn-success", role = "button" })
+
+<table class="table table-striped table-responsive">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in (List<UserDetailsFromAppViewModel>) ViewData["users"])
+        {
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-@foreach (var user in (List<UserDetailsFromAppViewModel>)ViewData["users"])
-{
-    <tr>
-        <td>@user.Id</td>
-        <td>@user.Name</td>
-        <td>@user.Email</td>
-        <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new { appId = ViewData["appId"], userId = user.Id }) </td>
+                <td>@user.Id</td>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new {appId = ViewData["appId"], userId = user.Id})</td>
 
-        <td>
-            @using (Html.BeginForm("DeleteUser", "Application", FormMethod.Post, new { userId = @user.Id }))
-            {
+                <td>
+                    @using (Html.BeginForm("DeleteUser", "Application", new { userId = user.Id, appId = ViewData["appId"], FormMethod.Post}))
+                    {
                         <button type="submit" class="btn btn-danger">Delete</button>
-            }
-        </td>
-
-    </tr>
-}    
-        </tbody>
-    </table>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
