@@ -110,10 +110,21 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteUser(int userId)
+        public IActionResult DeleteUser(int userId, int appId)
         {
 
-            //TODO  deleteAppUser.Invoke(userId)  
+            var boolDeleteUser = deleteUserApp.Invoke(userId, appId);
+
+
+            if  (boolDeleteUser == true)
+            {
+                Alert.Success();
+            }
+            else
+            {
+                Alert.Danger("Something went wrong");
+            }
+
             return RedirectToAction("ListUsers");
         }
 
@@ -140,7 +151,7 @@ namespace LegnicaIT.JwtManager.Controllers
             ViewData["appId"] = appId;
             ViewData["users"] = listOfUsers;
 
-            return View("ListUsers");
+            return View();
         }
 
         [HttpPost]
