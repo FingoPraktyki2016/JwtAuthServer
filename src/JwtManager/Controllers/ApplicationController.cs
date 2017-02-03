@@ -57,7 +57,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.deleteApp = deleteApp;
         }
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
             var userApps = getUserApps.Invoke(LoggedUser.UserModel.Id);
             List<AppViewModel> listOfApps = new List<AppViewModel>();
@@ -81,7 +81,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddUser(AppUserViewModel appuser)
+        public ActionResult AddUser(AppUserViewModel appuser)
         {
             if (!ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("ListUsers");
         }
 
-        public IActionResult AddUser(int appId)
+        public ActionResult AddUser(int appId)
         {
             ViewData["appId"] = appId;
 
@@ -110,7 +110,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteUser(int userId, int appId)
+        public ActionResult DeleteUser(int userId, int appId)
         {
             if (deleteUserApp.Invoke(userId, appId))
             {
@@ -124,7 +124,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = appId});
         }
 
-        public IActionResult ListUsers(int appId = 4) //TODO for tests
+        public ActionResult ListUsers(int appId = 4) //TODO for tests
         {
             var usersList = getAppUsers.Invoke(appId);
 
@@ -152,7 +152,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RevokeUserRole(AppUserViewModel appuser)
+        public ActionResult RevokeUserRole(AppUserViewModel appuser)
         {
             if (!ModelState.IsValid)
             {
@@ -165,7 +165,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult GrantUserRole(AppUserViewModel appuser)
+        public ActionResult GrantUserRole(AppUserViewModel appuser)
         {
             if (!ModelState.IsValid)
             {
@@ -176,7 +176,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("ListUsers");
         }
 
-        public IActionResult ChangeUserRole(int appId, int userId)
+        public ActionResult ChangeUserRole(int appId, int userId)
         {
             var userRole = getUserRole.Invoke(appId, userId);
 
@@ -190,7 +190,7 @@ namespace LegnicaIT.JwtManager.Controllers
          */
 
         [AuthorizeFilter(UserRole.User)]
-        public IActionResult Details(int id)
+        public ActionResult Details(int id)
         {
             var app = getApp.Invoke(id);
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
@@ -201,7 +201,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
-        public IActionResult Add()
+        public ActionResult Add()
         {
             var model = new AppViewModel();
 
@@ -211,7 +211,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.SuperAdmin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(AppViewModel model)
+        public ActionResult Add(AppViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -233,7 +233,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit(int id)
+        public ActionResult Edit(int id)
         {
             var app = getApp.Invoke(id);
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
@@ -243,7 +243,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(AppViewModel model)
+        public ActionResult Edit(AppViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -265,9 +265,11 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = newModel.Id });
         }
 
-        [HttpDelete]
+        // FIXME:
+        //[HttpDelete]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             if (deleteApp.Invoke(id))
             {

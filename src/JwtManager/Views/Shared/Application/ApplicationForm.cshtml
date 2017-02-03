@@ -10,7 +10,8 @@
         @Html.LabelFor(m => m.Model.Name)
         @Html.TextBoxFor(m => m.Model.Name, new {@class = "form-control"})
         @Html.ValidationMessageFor(m => m.Model.Name, "", new {@class = "text-danger"})
-    } else
+    }
+    else
     {
         <strong>Name:</strong>
         @Html.Raw(Model.Model.Name)
