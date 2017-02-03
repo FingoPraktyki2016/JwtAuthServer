@@ -39,7 +39,6 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             LoggedUser = new LoggedUserModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
-            ViewData["LoggedUser"] = LoggedUser;
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
