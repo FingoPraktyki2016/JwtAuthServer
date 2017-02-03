@@ -46,20 +46,18 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuted(context);
 
-            if (context.ModelState.IsValid)
+            if (!context.ModelState.IsValid)
             {
-                return;
-            }
-
-            foreach (var modelStateKey in ModelState.Keys)
-            {
-                var modelStateVal = ModelState[modelStateKey];
-
-                foreach (var error in modelStateVal.Errors)
+                foreach (var modelStateKey in ModelState.Keys)
                 {
-                    var key = modelStateKey;
-                    var errorMessage = error.ErrorMessage;
-                    logger.Warning($"Key: {key}, Error: {errorMessage}");
+                    var modelStateVal = ModelState[modelStateKey];
+
+                    foreach (var error in modelStateVal.Errors)
+                    {
+                        var key = modelStateKey;
+                        var errorMessage = error.ErrorMessage;
+                        logger.Warning($"Key: {key}, Error: {errorMessage}");
+                    }
                 }
             }
         }

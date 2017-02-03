@@ -40,6 +40,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 foreach (var modelStateKey in ModelState.Keys)
                 {
                     var modelStateVal = ModelState[modelStateKey];
+
                     foreach (var error in modelStateVal.Errors)
                     {
                         var key = modelStateKey;
