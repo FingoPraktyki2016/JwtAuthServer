@@ -4,6 +4,7 @@ using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
+using LegnicaIT.JwtManager.Helpers;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ namespace LegnicaIT.JwtManager.Controllers
     public class AuthController : BaseController
     {
         private readonly IGetUserDetails getUserDetails;
+        private readonly BreadcrumbHelper Breadcrumb = new BreadcrumbHelper();
 
         public AuthController(IOptions<ManagerSettings> managerSettings,
             IGetUserDetails getUserDetails,
@@ -23,6 +25,7 @@ namespace LegnicaIT.JwtManager.Controllers
             : base(managerSettings, loggerSettings)
         {
             this.getUserDetails = getUserDetails;
+            Breadcrumb.Add("Authorization", "Index", "Auth");
         }
 
         [AuthorizeFilter(UserRole.Manager)]
@@ -36,8 +39,9 @@ namespace LegnicaIT.JwtManager.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            Alert.Danger("blabla", "Tytu³");
-            Alert.Success();
+            Breadcrumb.Add("Login", "Login", "Auth");
+
+            ViewData.Add("breadcrumbItems", Breadcrumb.GetBreadcrumbItems());
 
             var LoginModel = new LoginModel();
             return View(LoginModel);

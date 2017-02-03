@@ -38,14 +38,19 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @if (TempData.ContainsKey("alertMessages"))
-        {
-            @Html.Partial("_AlertsPartial")
-        }
+<div class="container body-content">
+    @if (ViewData.ContainsKey("breadcrumbItems"))
+    {
+        @Html.Partial("_BreadcrumbPartial")
+    }
 
-        @RenderBody()
-    </div>
+    @if (TempData.ContainsKey("alertMessages"))
+    {
+        @Html.Partial("_AlertsPartial")
+    }
+
+    @RenderBody()
+</div>
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

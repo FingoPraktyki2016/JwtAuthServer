@@ -1,0 +1,18 @@
+﻿@using LegnicaIT.JwtManager.Models
+
+@{
+    var breadcrumbItems = (List<BreadcrumbModel>) ViewData["breadcrumbItems"];
+
+    if (breadcrumbItems.Any())
+    {
+        <ol class="breadcrumb">
+            
+            @foreach (var item in breadcrumbItems)
+            {
+
+            }
+
+        </ol>
+    }
+}
+            

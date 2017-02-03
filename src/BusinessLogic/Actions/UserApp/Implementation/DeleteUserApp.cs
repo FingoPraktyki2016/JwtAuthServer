@@ -21,6 +21,7 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
             {
                 return false;
             }
+
             userAppRepository.Delete(appToDelete);
             userAppRepository.Save();
 

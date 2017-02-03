@@ -27,7 +27,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var action = new DeleteUserApp(mockedUserAppRepository.Object);
 
             // action
-            var actionResult = action.Invoke(userAppToDelete.Id);
+            // FIXME Grzegorz Radziejewski
+            var actionResult = action.Invoke(userAppToDelete.Id, userAppFromDB.Id);
 
             // assert
             Assert.True(actionResult);
@@ -50,7 +51,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var action = new DeleteUserApp(mockedUserAppRepository.Object);
 
             // action
-            var actionResult = action.Invoke(userAppToDelete.Id);
+            // FIXME Grzegorz Radziejewski
+            var actionResult = action.Invoke(userAppToDelete.Id, 5);
 
             // assert
             Assert.False(actionResult);
