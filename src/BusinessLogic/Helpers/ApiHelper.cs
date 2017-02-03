@@ -51,6 +51,13 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return CallPost("api/user/getroles", null, token);
         }
 
+        public ApiResponseModel SwitchApp(string token, string appId)
+        {
+            var param = new Dictionary<string, string> { { "appId", appId } };
+
+            return CallPost("api/auth/switchapp", param, token);
+        }
+
         internal ApiResponseModel CallPost(string route, Dictionary<string, string> dict, string token = null)
         {
             client.Initialize();

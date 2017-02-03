@@ -1,4 +1,5 @@
-﻿using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models;
@@ -25,8 +26,9 @@ namespace LegnicaIT.JwtManager.Controllers
             IGetUserById getUserById,
             IEditUser editUser,
             IEditUserPassword editUserPassword,
-            ICheckUserPermission checkUserPermission)
-            : base(managerSettings, loggerSettings)
+            ICheckUserPermission checkUserPermission,
+            IGetUserApps getUserApps)
+            : base(managerSettings, loggerSettings, getUserApps)
         {
             this.getUserById = getUserById;
             this.editUser = editUser;

@@ -15,12 +15,13 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 
         public bool Invoke(int userId, int appId)
         {
-            var appToDelete = userAppRepository.FindBy(x=>x.User.Id  == userId && x.App.Id == appId ).FirstOrDefault();
+            var appToDelete = userAppRepository.FindBy(x=>x.User.Id == userId && x.App.Id == appId).FirstOrDefault();
 
             if (appToDelete == null)
             {
                 return false;
             }
+
             userAppRepository.Delete(appToDelete);
             userAppRepository.Save();
 

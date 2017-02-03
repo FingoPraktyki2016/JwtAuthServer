@@ -1,9 +1,11 @@
+using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
+using LegnicaIT.JwtManager.Helpers;
 using LegnicaIT.JwtManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +18,16 @@ namespace LegnicaIT.JwtManager.Controllers
     public class AuthController : BaseController
     {
         private readonly IGetUserDetails getUserDetails;
+        private readonly BreadcrumbHelper Breadcrumb = new BreadcrumbHelper();
 
         public AuthController(IOptions<ManagerSettings> managerSettings,
             IGetUserDetails getUserDetails,
+            IGetUserApps getUserApps,
             IOptions<LoggerConfig> loggerSettings)
-            : base(managerSettings, loggerSettings)
+            : base(managerSettings, loggerSettings, getUserApps)
         {
             this.getUserDetails = getUserDetails;
+            Breadcrumb.Add("Authorization", "Index", "Auth");
         }
 
         [AuthorizeFilter(UserRole.Manager)]
@@ -36,8 +41,9 @@ namespace LegnicaIT.JwtManager.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            Alert.Danger("blabla", "Tytu³");
-            Alert.Success();
+            Breadcrumb.Add("Login", "Login", "Auth");
+
+            ViewData.Add("breadcrumbItems", Breadcrumb.GetBreadcrumbItems());
 
             var LoginModel = new LoginModel();
             return View(LoginModel);
@@ -57,7 +63,7 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             var handler = new ApiHelper(Settings.ApiReference);
-            var resultString = handler.AcquireToken(model.Email, model.Password, model.AppId);
+            var resultString = handler.AcquireToken(model.Email, model.Password, "1");
             var result = JsonConvert.DeserializeObject<ResultModel<object>>(resultString.ResponseMessage);
 
             if (result.Status.Code == ResultCode.Error)
@@ -74,10 +80,39 @@ namespace LegnicaIT.JwtManager.Controllers
 
             ViewData["Message"] = model.Email;
 
-            return RedirectToActionPermanent("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
-        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult SwitchApp(int appId)
+        {
+            if (appId == LoggedUser.AppId || appId == 0)
+            {
+                return View("Error");
+            }
+
+            var token = HttpContext.Session.GetString("token");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return View("Error");
+            }
+
+            var handler = new ApiHelper(Settings.ApiReference);
+            var resultString = handler.SwitchApp(token, appId.ToString());
+            var result = JsonConvert.DeserializeObject<ResultModel<object>>(resultString.ResponseMessage);
+
+            if (result.Status.Code == ResultCode.Error)
+            {
+                logger.Information("Token is not valid");
+                return View("Error");
+            }
+
+            HttpContext.Session.SetString("token", result.Value.ToString());
+            return RedirectToAction("Details", "Application", new { id = appId });
+        }
+
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Logout()

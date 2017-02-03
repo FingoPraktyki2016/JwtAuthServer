@@ -1,30 +1,63 @@
-﻿@using LegnicaIT.JwtManager.Models
+﻿@using LegnicaIT.BusinessLogic.Models
+@using LegnicaIT.JwtManager.Models
 @using Newtonsoft.Json
 @if (TempData.ContainsKey("LoggedUser"))
 {
+    List<AppModel> ListOfApps = new List<AppModel>();
     var serializedUser = TempData["LoggedUser"].ToString();
     LoggedUserModel LoggedUser = JsonConvert.DeserializeObject<LoggedUserModel>(serializedUser); ;
 
-    using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", id = "logoutForm" }))
+    if (LoggedUser != null)
     {
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="User" asp-action="Me" title="Manage">Hello @LoggedUser.UserModel.Name!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
-            </li>
-        </ul>
-        }
+        ListOfApps = (List<AppModel>)ViewData["apps"];
     }
-    else
-    {
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a asp-controller="Auth" asp-action="Register">Register</a>
-        </li>
-        <li>
-            <a asp-controller="Auth" asp-action="Login">Log in</a>
-        </li>
-    </ul>
-}
+
+    <div class="navbar-right">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                Dropdown Example
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @{
+                    if (LoggedUser != null && ListOfApps.Any())
+                    {
+                        foreach (var app in ListOfApps)
+                        {
+                            <li>
+                                @using (Html.BeginForm("SwitchApp", "Auth", new { appId = @app.Id }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-danger">@app.Name</button>
+                                }
+                            </li>
+                        }
+                    }
+
+                }
+            </ul>
+        </div>
+    </div>
+                    using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", id = "logoutForm" }))
+                    {
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a asp-area="" asp-controller="User" asp-action="Me" title="Manage">Hello @LoggedUser.UserModel.Name!</a>
+                            </li>
+                            <li>
+                                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                            </li>
+                        </ul>
+                        }
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a asp-controller="Auth" asp-action="Register">Register</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Auth" asp-action="Login">Log in</a>
+                            </li>
+                        </ul>
+                    }

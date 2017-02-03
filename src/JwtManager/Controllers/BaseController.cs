@@ -1,4 +1,5 @@
-﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
+﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Helpers;
@@ -18,12 +19,16 @@ namespace LegnicaIT.JwtManager.Controllers
         public Logger logger { get; set; }
         public AlertHelper Alert = new AlertHelper();
 
+        private readonly IGetUserApps _getUserApps;
+
         public BaseController(
             IOptions<ManagerSettings> managerSettings,
-            IOptions<LoggerConfig> loggerSettings)
+            IOptions<LoggerConfig> loggerSettings,
+            IGetUserApps getUserApps)
         {
             Settings = managerSettings.Value;
             logger = new Logger(GetType(), loggerSettings);
+            _getUserApps = getUserApps;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -37,6 +42,11 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             LoggedUser = new LoggedUserModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
+
+            if (LoggedUser != null)
+            {
+                ViewData.Add("apps", _getUserApps.Invoke(LoggedUser.UserModel.Id));
+            }
             TempData["LoggedUser"] = JsonConvert.SerializeObject(LoggedUser);
         }
 
