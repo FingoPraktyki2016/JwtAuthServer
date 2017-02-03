@@ -42,7 +42,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IAddNewApp addNewApp,
             IEditApp editApp,
             IDeleteApp deleteApp)
-            : base(managerSettings, loggerSettings)
+            : base(managerSettings, loggerSettings, getUserApps)
         {
             this.getAppUsers = getAppUsers;
             this.getUserRole = getUserRole;
@@ -121,7 +121,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 Alert.Danger("Something went wrong");
             }
 
-            return RedirectToAction("Details", new { id = appId});
+            return RedirectToAction("Details", new { id = appId });
         }
 
         public ActionResult ListUsers(int appId = 4) //TODO for tests
@@ -176,13 +176,13 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("ListUsers");
         }
 
-         public IActionResult ChangeUserRole(int appId =1, int userId=1) //for tests
+        public IActionResult ChangeUserRole(int appId = 1, int userId = 1) //for tests
         {
-           var userRole = getUserRole.Invoke(appId, userId);
+            var userRole = getUserRole.Invoke(appId, userId);
 
             var model = new AppUserViewModel()
             {
-                AppId=appId,
+                AppId = appId,
                 UserId = userId,
                 Role = userRole
             };

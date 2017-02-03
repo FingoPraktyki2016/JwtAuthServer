@@ -1,10 +1,41 @@
-﻿@using LegnicaIT.JwtManager.Models
+﻿@using LegnicaIT.BusinessLogic.Models
+@using LegnicaIT.JwtManager.Models
 @if (ViewData.ContainsKey("LoggedUser"))
 {
     var LoggedUser = (LoggedUserModel)ViewData["LoggedUser"];
+    List<AppModel> ListOfApps = new List<AppModel>();
+
+    if (LoggedUser != null)
+    {
+        ListOfApps = (List<AppModel>)ViewData["apps"];
+    }
 
     using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", id = "logoutForm" }))
     {
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                Dropdown Example
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @{
+                    if (LoggedUser != null && ListOfApps.Any())
+                    {
+                        foreach (var app in ListOfApps)
+                        {
+                            <li>
+                                @using (Html.BeginForm("SwitchApp", "Auth", new { appId = @app.Id }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-danger">@app.Name</button>
+                                }
+                            </li>
+                        }
+                    }
+
+                }
+            </ul>
+        </div>
+
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-area="" asp-controller="User" asp-action="Me" title="Manage">Hello @LoggedUser.UserModel.Name!</a>
@@ -13,16 +44,16 @@
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
             </li>
         </ul>
-        }
-    }
-    else
-    {
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a asp-controller="Auth" asp-action="Register">Register</a>
-        </li>
-        <li>
-            <a asp-controller="Auth" asp-action="Login">Log in</a>
-        </li>
-    </ul>
-}
+                        }
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a asp-controller="Auth" asp-action="Register">Register</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Auth" asp-action="Login">Log in</a>
+                            </li>
+                        </ul>
+                    }

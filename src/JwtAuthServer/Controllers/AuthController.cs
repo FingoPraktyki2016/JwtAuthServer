@@ -1,5 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtAuthServer.Helpers;
@@ -16,16 +18,20 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         private readonly ICheckUserExist checkUserExist;
         private readonly IGetAppUserRole getAppUserRole;
         private readonly IGetUserId getUserId;
+        private readonly ICheckUserPermissionToApp checkUserPermissionToApp;
 
-        public AuthController(ICheckUserExist checkUserExist,
+        public AuthController(
+            ICheckUserExist checkUserExist,
             IGetAppUserRole getAppUserRole,
             IGetUserId getUserId,
+            ICheckUserPermissionToApp checkUserPermissionToApp,
             IOptions<LoggerConfig> loggerSettings)
             : base(loggerSettings)
         {
             this.checkUserExist = checkUserExist;
             this.getAppUserRole = getAppUserRole;
             this.getUserId = getUserId;
+            this.checkUserPermissionToApp = checkUserPermissionToApp;
         }
 
         [HttpPost("verify")]
@@ -61,11 +67,29 @@ namespace LegnicaIT.JwtAuthServer.Controllers
                 return Json(errorResult);
             }
 
-            var userId = getUserId.Invoke(model.Email);
-            var userRole = getAppUserRole.Invoke(model.AppId, userId);
+            var parser = new JwtParser();
+            var acquireResult = parser.AcquireToken(model.Email, 1, UserRole.User);
+            var result = new ResultModel<string>(acquireResult.Token);
+
+            return Json(result);
+        }
+
+        [HttpPost("switchapp")]
+        [Authorize]
+        public JsonResult SwitchApp(int appId)
+        {
+            var userId = getUserId.Invoke(LoggedUser.Email);
+            if (!checkUserPermissionToApp.Invoke(userId, appId))
+            {
+                ModelState.AddModelError("AppId", "User dones't have permission to this app");
+                var errorResult = ModelState.GetErrorModel();
+
+                return Json(errorResult);
+            }
+            var userRole = getAppUserRole.Invoke(appId, userId);
 
             var parser = new JwtParser();
-            var acquireResult = parser.AcquireToken(model.Email, model.AppId, userRole);
+            var acquireResult = parser.AcquireToken(LoggedUser.Email, appId, userRole);
             var result = new ResultModel<string>(acquireResult.Token);
 
             return Json(result);
