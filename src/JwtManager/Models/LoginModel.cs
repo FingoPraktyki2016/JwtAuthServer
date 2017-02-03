@@ -10,8 +10,5 @@ namespace LegnicaIT.JwtManager.Models
 
         [Required]
         public string Password { get; set; }
-
-        [Required]
-        public string AppId { get; set; }
     }
 }

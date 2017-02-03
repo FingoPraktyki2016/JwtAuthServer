@@ -1,4 +1,8 @@
-﻿using LegnicaIT.BusinessLogic.Actions.UserApp.Implementation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using LegnicaIT.BusinessLogic.Actions.UserApp.Implementation;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Moq;
@@ -16,19 +20,22 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             {
                 Id = 1
             };
-            var userAppFromDB = new DataAccess.Models.UserApps()
+            var userAppFromDb = new List<DataAccess.Models.UserApps>()
             {
-                Id = 1,
+                new DataAccess.Models.UserApps()
+                {
+                    Id = 1,
+                    App = new DataAccess.Models.App() { Id = 123 }
+                }
             };
 
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
-            mockedUserAppRepository.Setup(r => r.GetById(1)).Returns(userAppFromDB);
-
-            var action = new DeleteUserApp(mockedUserAppRepository.Object);
+            mockedUserAppRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
+               .Returns(userAppFromDb.AsQueryable());
 
             // action
-            // FIXME Grzegorz Radziejewski
-            var actionResult = action.Invoke(userAppToDelete.Id, userAppFromDB.Id);
+            var action = new DeleteUserApp(mockedUserAppRepository.Object);
+            var actionResult = action.Invoke(userAppToDelete.Id, 123);
 
             // assert
             Assert.True(actionResult);
@@ -44,14 +51,12 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             {
                 Id = 1
             };
-
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
-            mockedUserAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.UserApps) null);
-
-            var action = new DeleteUserApp(mockedUserAppRepository.Object);
-
-            // action
+            // FIXME: GetById is not proper method to mock for this action
+            //mockedUserAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.UserApps)null);
+            
             // FIXME Grzegorz Radziejewski
+            var action = new DeleteUserApp(mockedUserAppRepository.Object);
             var actionResult = action.Invoke(userAppToDelete.Id, 5);
 
             // assert
