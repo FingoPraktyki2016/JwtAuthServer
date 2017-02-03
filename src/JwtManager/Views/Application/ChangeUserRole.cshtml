@@ -1,0 +1,36 @@
+﻿@using LegnicaIT.JwtManager.Models
+@using LegnicaIT.BusinessLogic.Enums;
+@model AppUserViewModel
+
+@{
+    ViewData["Title"] = "Change user role";
+
+}
+
+ @using (Html.BeginForm(FormMethod.Get, true, new { @class = "form-horizontal" }))
+ {
+    <h2>Change user role</h2>
+    <p>Select role:</p>
+    <form>
+        <label class="radio-inline">
+            <input id="roleSuperadmin" type="radio" name="optradio" checked=@if(Model.Role == UserRole.User) { Write("checked"); }>User
+        </label>
+
+        <label class="radio-inline">
+            <input id="roleSuperadmin" type="radio" name="optradio" checked=@if(Model.Role == UserRole.Manager) { Write("checked"); }>Manager
+        </label>
+
+        <label class="radio-inline">
+            <input id="roleSuperadmin" type="radio" name="optradio" checked = @if(Model.Role == UserRole.SuperAdmin) { Write("checked"); }>Superadmin
+        </label>
+    </form>
+    <br />
+    <br />
+
+    <form>
+        @using (Html.BeginForm("DeleteUser", "Application", new { userId = 1, appId = 1, FormMethod.Post }))
+        {
+            <button type="submit" class="btn btn-primary">Accept</button>
+        }
+    </form>
+            }
