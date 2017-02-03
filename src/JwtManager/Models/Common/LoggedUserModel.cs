@@ -45,7 +45,7 @@ namespace LegnicaIT.JwtManager.Models
 
         private string GetClaim(JwtSecurityToken token, string claimType)
         {
-            return token.Claims.Where(c => c.Type == claimType).Select(c => c.Value).SingleOrDefault();
+            return token.Claims.Where(c => c.Type == claimType).Select(c => c.Value).FirstOrDefault();
         }
     }
 }

@@ -176,13 +176,18 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("ListUsers");
         }
 
-        public ActionResult ChangeUserRole(int appId, int userId)
+         public IActionResult ChangeUserRole(int appId =1, int userId=1) //for tests
         {
-            var userRole = getUserRole.Invoke(appId, userId);
+           var userRole = getUserRole.Invoke(appId, userId);
 
-            ViewData["userRole"] = userRole;
+            var model = new AppUserViewModel()
+            {
+                AppId=appId,
+                UserId = userId,
+                Role = userRole
+            };
 
-            return View();
+            return View(model);
         }
 
         /*
