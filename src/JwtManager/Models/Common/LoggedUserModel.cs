@@ -14,6 +14,12 @@ namespace LegnicaIT.JwtManager.Models
         public int AppId;
         public UserRole Role;
 
+        // Default constructor is used by JsonConverter when deserializing object to this type.
+        public LoggedUserModel()
+        {
+            
+        }
+
         public LoggedUserModel(string userDetailsString, string tokenString)
         {
             AssignUserDetailsValues(userDetailsString);

@@ -48,7 +48,6 @@ namespace LegnicaIT.JwtManager.Authorization
                         UserRole userRole = (UserRole)Enum.Parse(typeof(UserRole), rolesResult.Value.ToString());
 
                         controller.LoggedUser.Role = userRole;
-                        controller.TempData["LoggedUser"] = controller.LoggedUser;
                         // make sure all required roles are assigned to user
                         isValid = requiredPermissions.RequiredPermission.All(rp => userRole.HasRole(rp));
                     }

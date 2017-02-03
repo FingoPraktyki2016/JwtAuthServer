@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -36,6 +37,7 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             LoggedUser = new LoggedUserModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
+            TempData["LoggedUser"] = JsonConvert.SerializeObject(LoggedUser);
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
