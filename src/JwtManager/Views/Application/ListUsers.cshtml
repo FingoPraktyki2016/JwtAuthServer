@@ -23,7 +23,7 @@
         {
             <tr>
                 <td>@user.Id</td>
-                <td>@user.Name</td>
+                <td>@Html.ActionLink(user.Name, "Details", "User", new { id = user.Id})</td>
                 <td>@user.Email</td>
                 <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new {appId = ViewData["appId"], userId = user.Id})</td>
 
