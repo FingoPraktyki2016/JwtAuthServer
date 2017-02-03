@@ -52,9 +52,9 @@ namespace LegnicaIT.JwtManager
             var logLevel = (LogLevel)Enum.Parse(typeof(LogLevel), debugValue);
 
             //I'm gonna leave it as string array becase we might want to add some log modules later
-            string[] logOnlyThese = { "WebHost" }; // or reverse string[] dontlong = {"ObjectResultExecutor", "JsonResultExecutor"};
+            string[] logOnlyThese = { }; // or reverse string[] dontlong = {"ObjectResultExecutor", "JsonResultExecutor"};
 
-            loggerFactory.AddDebug((category, _logLevel) => (logOnlyThese.Any(category.Contains) && _logLevel >= logLevel));
+            loggerFactory.AddDebug((category, _logLevel) => (!logOnlyThese.Any(category.Contains) && _logLevel >= logLevel));
 
             if (env.IsDevelopment())
             {

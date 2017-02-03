@@ -6,23 +6,30 @@
 }
 
 <h2>Your applications</h2>
-    <table class="table table-striped table-responsive" >
-        <thead class="thead-inverse">
+
+<table class="table table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>App Id</th>
+            <th>App Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var app in (List<AppViewModel>)ViewData["apps"])
+        {
             <tr>
-                <th>App Id</th>
-                <th>App Name</th>
+                <td>@app.Id</td>
+                <td>@Html.ActionLink(app.Name, "Details", "Application", new { id = app.Id })</td>
+                <td width="150px">
+                    @Html.ActionLink("Edit", "Edit", "Application", new { id = app.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
+
+                    @using (Html.BeginForm("Delete", "Application", new { id = app.Id }))
+                    {
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    }
+                </td>
             </tr>
-        </thead>
-        <tbody>
-@foreach (var app in (List<AppViewModel>)ViewData["apps"])
-{
-    <tr>
-        <td>@app.Id</td>
-        <td>@Html.ActionLink(app.Name, "Details", "Application", new { id = app.Id })  </td>
-        <td width="50px">
-            <button type="button" class="btn btn-primary">Edit</button>
-        </td>
-    </tr>
-}    
-        </tbody>
-    </table>
+        }    
+    </tbody>
+</table>

@@ -1,5 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
+using System.Linq;
 
 namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 {
@@ -12,15 +13,14 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
             this.userAppRepository = userAppRepository;
         }
 
-        public bool Invoke(int userAppId)
+        public bool Invoke(int userId, int appId)
         {
-            var appToDelete = userAppRepository.GetById(userAppId);
+            var appToDelete = userAppRepository.FindBy(x=>x.User.Id  == userId && x.App.Id == appId ).FirstOrDefault();
 
             if (appToDelete == null)
             {
                 return false;
             }
-
             userAppRepository.Delete(appToDelete);
             userAppRepository.Save();
 
