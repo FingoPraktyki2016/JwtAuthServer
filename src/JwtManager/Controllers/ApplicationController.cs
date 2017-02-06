@@ -55,6 +55,8 @@ namespace LegnicaIT.JwtManager.Controllers
             this.addNewApp = addNewApp;
             this.editApp = editApp;
             this.deleteApp = deleteApp;
+
+            Breadcrumb.Add("Application", "Index", "Application");
         }
 
         public ActionResult Index()
@@ -102,6 +104,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult AddUser(int appId)
         {
+            Breadcrumb.Add("Add user", "AddUser", "Application");
             ViewData["appId"] = appId;
 
             //TODO Adduser View with action AddUser
@@ -126,6 +129,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult ListUsers(int appId = 4) //TODO for tests
         {
+            Breadcrumb.Add("Users list", "ListUsers", "Application");
+
             var usersList = getAppUsers.Invoke(appId);
 
             List<UserDetailsFromAppViewModel> listOfUsers = new List<UserDetailsFromAppViewModel>();
@@ -178,6 +183,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public IActionResult ChangeUserRole(int appId = 1, int userId = 1) //for tests
         {
+            Breadcrumb.Add("Change user role", "ChangeUserRole", "Application");
+
             var userRole = getUserRole.Invoke(appId, userId);
 
             var model = new AppUserViewModel()
@@ -197,6 +204,8 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.User)]
         public ActionResult Details(int id)
         {
+            Breadcrumb.Add("Application details", "Details", "Application");
+
             var app = getApp.Invoke(id);
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
 
@@ -208,6 +217,8 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.SuperAdmin)]
         public ActionResult Add()
         {
+            Breadcrumb.Add("Add application", "Add", "Application");
+
             var model = new AppViewModel();
 
             return View(new FormModel<AppViewModel>(model, true));
@@ -240,6 +251,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult Edit(int id)
         {
+            Breadcrumb.Add("Edit application", "Edit", "Application");
+
             var app = getApp.Invoke(id);
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
 

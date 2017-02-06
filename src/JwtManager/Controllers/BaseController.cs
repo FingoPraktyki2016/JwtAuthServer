@@ -18,6 +18,7 @@ namespace LegnicaIT.JwtManager.Controllers
         public ManagerSettings Settings { get; }
         public Logger logger { get; set; }
         public AlertHelper Alert = new AlertHelper();
+        protected readonly BreadcrumbHelper Breadcrumb = new BreadcrumbHelper();
 
         private readonly IGetUserApps _getUserApps;
 
@@ -52,7 +53,17 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            TempData.Put("alertMessages", Alert.GetAlerts());
+            if (Alert.GetAlerts().Count > 0)
+            {
+                // FIXME: Display doesn't work
+                TempData.Put("alertMessages", Alert.GetAlerts());
+            }
+
+            if (Breadcrumb.GetBreadcrumbItems().Count > 0)
+            {
+                ViewData.Add("breadcrumbItems", Breadcrumb.GetBreadcrumbItems());
+            }
+
             if (!context.ModelState.IsValid)
             {
                 foreach (var modelStateKey in ModelState.Keys)

@@ -34,10 +34,14 @@ namespace LegnicaIT.JwtManager.Controllers
             this.editUser = editUser;
             this.editUserPassword = editUserPassword;
             this.checkUserPermission = checkUserPermission;
+
+            Breadcrumb.Add("User", "Index", "User");
         }
 
         public ActionResult Details(int id)
         {
+            Breadcrumb.Add("Details", "Details", "User");
+
             if (id == LoggedUser.UserModel.Id)
             {
                 return RedirectToAction("Me");
@@ -60,6 +64,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult Me()
         {
+            Breadcrumb.Add("Your account", "Me", "User");
+
             var model = LoggedUser.UserModel;
 
             var viewModel = new EditUserDetailsViewModel()
@@ -73,6 +79,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult Edit(int id)
         {
+            Breadcrumb.Add("Edit user", "Edit", "User");
+
             var loggedUser = LoggedUser.UserModel;
             if (loggedUser.Id == id)
             {
@@ -117,6 +125,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult ChangePassword()
         {
+            Breadcrumb.Add("Change password", "ChangePassword", "User");
+
             return View();
         }
 
