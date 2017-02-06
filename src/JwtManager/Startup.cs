@@ -9,6 +9,9 @@ using System;
 using System.Linq;
 using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.DataAccess.Context;
+using LegnicaIT.JwtManager.Services.Implementation;
+using LegnicaIT.JwtManager.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -37,6 +40,8 @@ namespace LegnicaIT.JwtManager
             services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
 
             RegisterDependecy.Register(services);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient(typeof(ISessionService<>), typeof(SessionService<>));
 
             services.AddDistributedMemoryCache();
             services.AddSession();

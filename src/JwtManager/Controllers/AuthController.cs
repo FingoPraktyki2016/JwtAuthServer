@@ -6,6 +6,7 @@ using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,9 @@ namespace LegnicaIT.JwtManager.Controllers
         public AuthController(IOptions<ManagerSettings> managerSettings,
             IGetUserDetails getUserDetails,
             IGetUserApps getUserApps,
-            IOptions<LoggerConfig> loggerSettings)
-            : base(managerSettings, loggerSettings, getUserApps)
+            IOptions<LoggerConfig> loggerSettings,
+            ISessionService<LoggedUserModel> loggedUserSessionService)
+            : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
             this.getUserDetails = getUserDetails;
             Breadcrumb.Add("Authorization", "Index", "Auth");
