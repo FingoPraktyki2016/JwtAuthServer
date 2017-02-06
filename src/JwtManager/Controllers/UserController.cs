@@ -49,11 +49,12 @@ namespace LegnicaIT.JwtManager.Controllers
 
             if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
             {
+                Alert.Danger("You're not allowed to see this page");
                 return View("Error");
             }
 
             var model = getUserById.Invoke(id);
-            var viewModel = new EditUserDetailsViewModel()
+            var viewModel = new EditUserDetailsViewModel
             {
                 Name = model.Name,
                 Email = model.Email
@@ -95,11 +96,12 @@ namespace LegnicaIT.JwtManager.Controllers
 
             if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
             {
+                Alert.Danger("You're not allowed to see this page");
                 return View("Error");
             }
 
             var model = getUserById.Invoke(id);
-            var viewModelWrapper = new EditUserDetailsViewModel()
+            var viewModelWrapper = new EditUserDetailsViewModel
             {
                 Name = model.Name,
                 Email = model.Email
@@ -114,11 +116,14 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
+                Alert.Warning();
                 var viewModel = new FormModel<EditUserDetailsViewModel>(model, true);
                 return View(viewModel);
             }
-            var userModel = new UserModel() { Id = model.Id, Name = model.Name };
+            var userModel = new UserModel { Id = model.Id, Name = model.Name };
             editUser.Invoke(userModel);
+
+            Alert.Success();
 
             return RedirectToAction("Details", model.Id);
         }
@@ -136,13 +141,16 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (!ModelState.IsValid)
             {
+                Alert.Warning();
                 var viewModel = new FormModel<EditPasswordViewModel>(model, true);
                 return View(viewModel);
             }
 
             editUserPassword.Invoke(LoggedUser.UserModel.Id, model.NewPassword);
-            //Redirect to view "Password changed?"
-            return View();
+
+            Alert.Success("Your password has been changed");
+
+            return RedirectToAction("Me");
         }
     }
 }

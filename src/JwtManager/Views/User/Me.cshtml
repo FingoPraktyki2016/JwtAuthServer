@@ -1,3 +1,5 @@
 ﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.User.EditUserDetailsViewModel>
 
 @Html.Partial("User/UserForm", Model)
+
+@Html.ActionLink("Change password", "ChangePassword", "User", null, new { @class = "btn btn-primary", role = "button" })

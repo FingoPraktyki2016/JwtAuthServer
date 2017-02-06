@@ -55,7 +55,6 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (Alert.GetAlerts().Count > 0)
             {
-                // FIXME: Display doesn't work
                 TempData.Put("alertMessages", Alert.GetAlerts());
             }
 

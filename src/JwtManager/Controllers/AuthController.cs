@@ -55,6 +55,8 @@ namespace LegnicaIT.JwtManager.Controllers
                 ModelState.AddModelError("Email", "Invalid email or password");
                 logger.Information("Model is not valid");
 
+                Alert.Warning();
+
                 return View(model);
             }
 
@@ -75,6 +77,8 @@ namespace LegnicaIT.JwtManager.Controllers
             HttpContext.Session.SetString("UserDetails", JsonConvert.SerializeObject(userDetails));
 
             ViewData["Message"] = model.Email;
+
+            Alert.Success("Logged in");
 
             return RedirectToAction("Index", "Home");
         }
@@ -123,6 +127,8 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             HttpContext.Session.Clear();
+
+            Alert.Success("Logged out");
 
             return RedirectToAction("Login");
         }
