@@ -1,23 +1,18 @@
 ﻿@using LegnicaIT.BusinessLogic.Models
 @using LegnicaIT.JwtManager.Models
-@using Newtonsoft.Json
-@if (TempData.ContainsKey("LoggedUser"))
+@using LegnicaIT.JwtManager.Services.Interfaces
+
+@inject ISessionService<LoggedUserModel> LoggedUserSessionService
+@if (LoggedUserSessionService.ContainsItem())
 {
     List<AppModel> ListOfApps = new List<AppModel>();
-    var serializedUser = TempData["LoggedUser"].ToString();
-    LoggedUserModel LoggedUser = JsonConvert.DeserializeObject<LoggedUserModel>(serializedUser); ;
+    var LoggedUser = LoggedUserSessionService.GetItem();
 
-    if (LoggedUser != null)
-    {
-        ListOfApps = (List<AppModel>)ViewData["apps"];
-    }
+    ListOfApps = (List<AppModel>)ViewData["apps"];
 
-    <div class="navbar-right">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                Dropdown Example
-                <span class="caret"></span>
-            </button>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Switch App<span class="caret"></span></a>
             <ul class="dropdown-menu">
                 @{
                     if (LoggedUser != null && ListOfApps.Any())
@@ -25,18 +20,28 @@
                         foreach (var app in ListOfApps)
                         {
                             <li>
-                                @using (Html.BeginForm("SwitchApp", "Auth", new { appId = @app.Id }, FormMethod.Post))
+                                @if (LoggedUser.AppId != app.Id)
                                 {
-                                    <button type="submit" class="btn btn-danger">@app.Name</button>
+                                    using (Html.BeginForm("SwitchApp", "Auth", new { appId = @app.Id }, FormMethod.Post))
+                                    {
+                                        <button type="submit" class="btn btn-lg btn-block">@app.Name</button>
+                                    }
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("Details", "Application", new { id = @app.Id }, FormMethod.Post))
+                                    {
+                                        <button type="submit" class="btn btn-lg btn-block btn-danger">@app.Name</button>
+                                    }
                                 }
                             </li>
                         }
                     }
-
                 }
             </ul>
-        </div>
-    </div>
+        </li>
+    </ul>
+
                     using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", id = "logoutForm" }))
                     {
 

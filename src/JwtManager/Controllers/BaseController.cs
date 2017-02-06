@@ -4,6 +4,7 @@ using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Helpers;
 using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -21,15 +22,18 @@ namespace LegnicaIT.JwtManager.Controllers
         protected readonly BreadcrumbHelper Breadcrumb = new BreadcrumbHelper();
 
         private readonly IGetUserApps _getUserApps;
+        private readonly ISessionService<LoggedUserModel> loggedUserSessionService;
 
         public BaseController(
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
-            IGetUserApps getUserApps)
+            IGetUserApps getUserApps,
+            ISessionService<LoggedUserModel> loggedUserSessionService)
         {
             Settings = managerSettings.Value;
             logger = new Logger(GetType(), loggerSettings);
             _getUserApps = getUserApps;
+            this.loggedUserSessionService = loggedUserSessionService;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -48,14 +52,14 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 ViewData.Add("apps", _getUserApps.Invoke(LoggedUser.UserModel.Id));
             }
-            TempData["LoggedUser"] = JsonConvert.SerializeObject(LoggedUser);
+
+            loggedUserSessionService.AddItem(LoggedUser);
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             if (Alert.GetAlerts().Count > 0)
             {
-                // FIXME: Display doesn't work
                 TempData.Put("alertMessages", Alert.GetAlerts());
             }
 

@@ -40,7 +40,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             Assert.Null(user.LockedOn);
             Assert.Equal(DateTime.MinValue, user.CreatedOn);
             Assert.Equal(DateTime.MinValue, user.ModifiedOn);
-            Assert.Equal(null, user.DeletedOn);
+            Assert.Null(user.DeletedOn);
         }
 
         [Fact]

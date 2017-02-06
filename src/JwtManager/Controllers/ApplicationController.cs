@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.JwtManager.Services.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -27,6 +28,8 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IEditApp editApp;
         private readonly IAddNewUserApp addUserApp;
         private readonly IDeleteApp deleteApp;
+        private readonly ICheckUserPermission checkUserPermission;
+        private readonly ICheckUserPermissionToApp checkUserPermissionToApp;
 
         public ApplicationController(
             IGetAppUsers getAppUsers,
@@ -41,8 +44,11 @@ namespace LegnicaIT.JwtManager.Controllers
             IGetApp getApp,
             IAddNewApp addNewApp,
             IEditApp editApp,
-            IDeleteApp deleteApp)
-            : base(managerSettings, loggerSettings, getUserApps)
+            IDeleteApp deleteApp,
+            ICheckUserPermission checkUserPermission,
+            ICheckUserPermissionToApp checkUserPermissionToApp,
+            ISessionService<LoggedUserModel> loggedUserSessionService)
+            : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
             this.getAppUsers = getAppUsers;
             this.getUserRole = getUserRole;
@@ -55,6 +61,8 @@ namespace LegnicaIT.JwtManager.Controllers
             this.addNewApp = addNewApp;
             this.editApp = editApp;
             this.deleteApp = deleteApp;
+            this.checkUserPermission = checkUserPermission;
+            this.checkUserPermissionToApp = checkUserPermissionToApp;
 
             Breadcrumb.Add("Application", "Index", "Application");
         }
@@ -131,8 +139,6 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult ListUsers(int appId = 4) //TODO for tests
         {
-            Breadcrumb.Add("Users list", "ListUsers", "Application");
-
             var usersList = getAppUsers.Invoke(appId);
 
             List<UserDetailsFromAppViewModel> listOfUsers = new List<UserDetailsFromAppViewModel>();
@@ -196,14 +202,26 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.User)]
         public ActionResult Details(int id)
         {
-            Breadcrumb.Add("Application details", "Details", "Application");
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
+            {
+                Breadcrumb.Add("Application details", "Details", "Application");
 
             var app = getApp.Invoke(id);
+
+            if (app == null)
+            {
+                return View("Error");
+            }
+
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
 
-            ViewData.Add("listUser", ListUsers(id));
+                ViewData.Add("listUser", ListUsers(id));
 
-            return View(new FormModel<AppViewModel>(model));
+                return View(new FormModel<AppViewModel>(model));
+            }
+
+            Alert.Danger("You don't have permission!");
+            return RedirectToAction("Index");
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
@@ -243,51 +261,68 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult Edit(int id)
         {
-            Breadcrumb.Add("Edit application", "Edit", "Application");
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
+            {
+                Breadcrumb.Add("Edit application", "Edit", "Application");
 
-            var app = getApp.Invoke(id);
-            var model = new AppViewModel { Id = app.Id, Name = app.Name };
+                var app = getApp.Invoke(id);
+                var model = new AppViewModel {Id = app.Id, Name = app.Name};
 
-            return View(new FormModel<AppViewModel>(model, true));
+                return View(new FormModel<AppViewModel>(model, true));
+            }
+
+            Alert.Danger("You don't have permission!");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AppViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id))
             {
-                Alert.Warning();
-                return View(new FormModel<AppViewModel>(model, true));
+                if (!ModelState.IsValid)
+                {
+                    Alert.Warning();
+                    return View(new FormModel<AppViewModel>(model, true));
+                }
+
+                var newModel = new AppModel {Id = model.Id, Name = model.Name};
+
+                if (editApp.Invoke(newModel))
+                {
+                    Alert.Success();
+                }
+                else
+                {
+                    Alert.Danger("Something went wrong");
+                }
+
+                return RedirectToAction("Details", new { id = newModel.Id });
             }
 
-            var newModel = new AppModel { Id = model.Id, Name = model.Name };
-
-            if (editApp.Invoke(newModel))
-            {
-                Alert.Success();
-            }
-            else
-            {
-                Alert.Danger("Something went wrong");
-            }
-
-            return RedirectToAction("Details", new { id = newModel.Id });
+            Alert.Danger("You don't have permission!");
+            return RedirectToAction("Index");
         }
 
-        // FIXME:
-        //[HttpDelete]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            if (deleteApp.Invoke(id))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
             {
-                Alert.Success();
+                if (deleteApp.Invoke(id))
+                {
+                    Alert.Success();
+                }
+                else
+                {
+                    Alert.Danger("Something went wrong");
+                }
             }
             else
             {
-                Alert.Danger("Something went wrong");
+                Alert.Danger("You don't have permission!");
             }
 
             return RedirectToAction("Index");

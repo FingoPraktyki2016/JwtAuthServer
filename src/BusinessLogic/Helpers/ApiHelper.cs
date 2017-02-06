@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 using LegnicaIT.BusinessLogic.Models.Common;
 using System.Collections.Generic;
+using LegnicaIT.BusinessLogic.Actions.User.Implementation;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {
@@ -46,9 +47,9 @@ namespace LegnicaIT.BusinessLogic.Helpers
             return CallPost("api/auth/verify", param, token);
         }
 
-        public ApiResponseModel GetUserRoles(string token)
+        public ApiResponseModel GetUserRole(string token)
         {
-            return CallPost("api/user/getroles", null, token);
+            return CallPost("api/user/getrole", null, token);
         }
 
         public ApiResponseModel SwitchApp(string token, string appId)

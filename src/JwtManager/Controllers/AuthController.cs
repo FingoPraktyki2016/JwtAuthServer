@@ -6,6 +6,7 @@ using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +22,11 @@ namespace LegnicaIT.JwtManager.Controllers
         public AuthController(IOptions<ManagerSettings> managerSettings,
             IGetUserDetails getUserDetails,
             IGetUserApps getUserApps,
-            IOptions<LoggerConfig> loggerSettings)
-            : base(managerSettings, loggerSettings, getUserApps)
+            IOptions<LoggerConfig> loggerSettings,
+            ISessionService<LoggedUserModel> loggedUserSessionService)
+            : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
             this.getUserDetails = getUserDetails;
-            Breadcrumb.Add("Authorization", "Index", "Auth");
-        }
-
-        [AuthorizeFilter(UserRole.Manager)]
-        public ActionResult Index()
-        {
-            var result = new ResultModel<string>("User have Manager permission");
-
-            return Json(result);
         }
 
         [AllowAnonymous]
@@ -55,6 +48,8 @@ namespace LegnicaIT.JwtManager.Controllers
                 ModelState.AddModelError("Email", "Invalid email or password");
                 logger.Information("Model is not valid");
 
+                Alert.Warning();
+
                 return View(model);
             }
 
@@ -75,6 +70,8 @@ namespace LegnicaIT.JwtManager.Controllers
             HttpContext.Session.SetString("UserDetails", JsonConvert.SerializeObject(userDetails));
 
             ViewData["Message"] = model.Email;
+
+            Alert.Success("Logged in");
 
             return RedirectToAction("Index", "Home");
         }
@@ -123,6 +120,8 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             HttpContext.Session.Clear();
+
+            Alert.Success("Logged out");
 
             return RedirectToAction("Login");
         }
