@@ -36,13 +36,11 @@ namespace LegnicaIT.JwtManager.Controllers
             this.editUser = editUser;
             this.editUserPassword = editUserPassword;
             this.checkUserPermission = checkUserPermission;
-
-            Breadcrumb.Add("User", "Index", "User");
         }
 
         public ActionResult Details(int id)
         {
-            Breadcrumb.Add("Details", "Details", "User");
+            Breadcrumb.Add("User details", "Details", "User");
 
             if (id == LoggedUser.UserModel.Id)
             {
@@ -132,7 +130,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult ChangePassword()
         {
-            Breadcrumb.Add("Change password", "ChangePassword", "User");
+            Breadcrumb.Add("Change your password", "ChangePassword", "User");
 
             return View();
         }

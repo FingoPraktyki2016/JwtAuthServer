@@ -27,15 +27,6 @@ namespace LegnicaIT.JwtManager.Controllers
             : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
             this.getUserDetails = getUserDetails;
-            Breadcrumb.Add("Authorization", "Index", "Auth");
-        }
-
-        [AuthorizeFilter(UserRole.Manager)]
-        public ActionResult Index()
-        {
-            var result = new ResultModel<string>("User have Manager permission");
-
-            return Json(result);
         }
 
         [AllowAnonymous]
