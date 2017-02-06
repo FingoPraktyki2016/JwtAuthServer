@@ -42,7 +42,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IAddNewApp addNewApp,
             IEditApp editApp,
             IDeleteApp deleteApp)
-            : base(managerSettings, loggerSettings)
+            : base(managerSettings, loggerSettings, getUserApps)
         {
             this.getAppUsers = getAppUsers;
             this.getUserRole = getUserRole;
@@ -55,6 +55,8 @@ namespace LegnicaIT.JwtManager.Controllers
             this.addNewApp = addNewApp;
             this.editApp = editApp;
             this.deleteApp = deleteApp;
+
+            Breadcrumb.Add("Application", "Index", "Application");
         }
 
         [AuthorizeFilter(UserRole.None)]
@@ -104,6 +106,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult AddUser(int appId)
         {
+            Breadcrumb.Add("Add user", "AddUser", "Application");
             ViewData["appId"] = appId;
 
             //TODO Adduser View with action AddUser
@@ -123,11 +126,13 @@ namespace LegnicaIT.JwtManager.Controllers
                 Alert.Danger("Something went wrong");
             }
 
-            return RedirectToAction("Details", new { id = appId});
+            return RedirectToAction("Details", new { id = appId });
         }
 
         public ActionResult ListUsers(int appId = 4) //TODO for tests
         {
+            Breadcrumb.Add("Users list", "ListUsers", "Application");
+
             var usersList = getAppUsers.Invoke(appId);
 
             List<UserDetailsFromAppViewModel> listOfUsers = new List<UserDetailsFromAppViewModel>();
@@ -178,13 +183,15 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("ListUsers");
         }
 
-         public IActionResult ChangeUserRole(int appId =1, int userId=1) //for tests
+        public IActionResult ChangeUserRole(int appId = 1, int userId = 1) //for tests
         {
-           var userRole = getUserRole.Invoke(appId, userId);
+            Breadcrumb.Add("Change user role", "ChangeUserRole", "Application");
+
+            var userRole = getUserRole.Invoke(appId, userId);
 
             var model = new AppUserViewModel()
             {
-                AppId=appId,
+                AppId = appId,
                 UserId = userId,
                 Role = userRole
             };
@@ -199,6 +206,8 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.User)]
         public ActionResult Details(int id)
         {
+            Breadcrumb.Add("Application details", "Details", "Application");
+
             var app = getApp.Invoke(id);
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
 
@@ -210,6 +219,8 @@ namespace LegnicaIT.JwtManager.Controllers
         [AuthorizeFilter(UserRole.SuperAdmin)]
         public ActionResult Add()
         {
+            Breadcrumb.Add("Add application", "Add", "Application");
+
             var model = new AppViewModel();
 
             return View(new FormModel<AppViewModel>(model, true));
@@ -242,6 +253,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public ActionResult Edit(int id)
         {
+            Breadcrumb.Add("Edit application", "Edit", "Application");
+
             var app = getApp.Invoke(id);
             var model = new AppViewModel { Id = app.Id, Name = app.Name };
 

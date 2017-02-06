@@ -1,4 +1,5 @@
-﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
+﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Helpers;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -16,13 +18,18 @@ namespace LegnicaIT.JwtManager.Controllers
         public ManagerSettings Settings { get; }
         public Logger logger { get; set; }
         public AlertHelper Alert = new AlertHelper();
+        protected readonly BreadcrumbHelper Breadcrumb = new BreadcrumbHelper();
+
+        private readonly IGetUserApps _getUserApps;
 
         public BaseController(
             IOptions<ManagerSettings> managerSettings,
-            IOptions<LoggerConfig> loggerSettings)
+            IOptions<LoggerConfig> loggerSettings,
+            IGetUserApps getUserApps)
         {
             Settings = managerSettings.Value;
             logger = new Logger(GetType(), loggerSettings);
+            _getUserApps = getUserApps;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -36,12 +43,27 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             LoggedUser = new LoggedUserModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
-            ViewData["LoggedUser"] = LoggedUser;
+
+            if (LoggedUser != null)
+            {
+                ViewData.Add("apps", _getUserApps.Invoke(LoggedUser.UserModel.Id));
+            }
+            TempData["LoggedUser"] = JsonConvert.SerializeObject(LoggedUser);
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            TempData.Put("alertMessages", Alert.GetAlerts());
+            if (Alert.GetAlerts().Count > 0)
+            {
+                // FIXME: Display doesn't work
+                TempData.Put("alertMessages", Alert.GetAlerts());
+            }
+
+            if (Breadcrumb.GetBreadcrumbItems().Count > 0)
+            {
+                ViewData.Add("breadcrumbItems", Breadcrumb.GetBreadcrumbItems());
+            }
+
             if (!context.ModelState.IsValid)
             {
                 foreach (var modelStateKey in ModelState.Keys)

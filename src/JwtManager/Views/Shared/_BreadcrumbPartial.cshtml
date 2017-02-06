@@ -1,0 +1,25 @@
+﻿@using LegnicaIT.JwtManager.Models
+
+@{
+    var breadcrumbItems = (List<BreadcrumbModel>) ViewData["breadcrumbItems"];
+
+    if (breadcrumbItems.Any())
+    {
+        <ol class="breadcrumb">
+            @foreach (var item in breadcrumbItems)
+            {
+                if (item == breadcrumbItems.Last())
+                {
+                    <li class="active">@item.Title</li>
+                }
+                else
+                {
+                    <li>
+                        @Html.ActionLink(item.Title, item.Action, item.Controller)
+                    </li>
+                }
+            }
+        </ol>
+    }
+}
+            
