@@ -59,6 +59,7 @@ namespace LegnicaIT.JwtManager.Controllers
             Breadcrumb.Add("Application", "Index", "Application");
         }
 
+        [AuthorizeFilter(UserRole.None)]
         public ActionResult Index()
         {
             var userApps = getUserApps.Invoke(LoggedUser.UserModel.Id);
@@ -83,6 +84,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeFilter(UserRole.None)]
         public ActionResult AddUser(AppUserViewModel appuser)
         {
             if (!ModelState.IsValid)
