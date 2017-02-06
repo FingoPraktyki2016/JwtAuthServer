@@ -61,7 +61,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             return Json(result);
         }
 
-        [HttpPost("getroles")]
+        [HttpPost("getrole")]
         [Authorize]
         public JsonResult GetRoles()
         {

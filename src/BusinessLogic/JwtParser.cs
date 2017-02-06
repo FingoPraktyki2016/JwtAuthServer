@@ -6,8 +6,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using LegnicaIT.BusinessLogic.Enums;
-using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Token;
 
 namespace LegnicaIT.BusinessLogic
@@ -104,14 +102,13 @@ namespace LegnicaIT.BusinessLogic
                 result.ExpiryDate = jwt.ValidTo;
                 result.Email = GetClaim(jwt, "email");
                 result.AppId = Convert.ToInt32(GetClaim(jwt, "appId"));
-                result.Role = GetClaim(jwt, "role");
                 result.IsValid = true;
             }
 
             return result;
         }
 
-        public AcquireTokenModel AcquireToken(string formEmail, int formAppId, UserRole userRole)
+        public AcquireTokenModel AcquireToken(string formEmail, int formAppId)
         {
             var handler = new JwtSecurityTokenHandler();
             var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
@@ -126,19 +123,6 @@ namespace LegnicaIT.BusinessLogic
                     new Claim("iss", GetIssuerName()),
                     new Claim("appId", formAppId.ToString()),
                 });
-
-                foreach (var ur in Enum.GetValues(typeof(UserRole)))
-                {
-                    if ((UserRole) ur == UserRole.None)
-                    {
-                        continue;
-                    }
-
-                    if (userRole.HasRole((UserRole) ur))
-                    {
-                        identity.AddClaim(new Claim(ClaimTypes.Role, ur.ToString()));
-                    }
-                }
             }
             catch (Exception)
             {

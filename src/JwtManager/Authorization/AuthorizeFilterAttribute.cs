@@ -40,7 +40,7 @@ namespace LegnicaIT.JwtManager.Authorization
                 if (sessionToken != null)
                 {
                     var apiHelper = new ApiHelper(settings.ApiReference);
-                    string rolesString = apiHelper.GetUserRoles(sessionToken).ResponseMessage;
+                    string rolesString = apiHelper.GetUserRole(sessionToken).ResponseMessage;
                     var rolesResult = JsonConvert.DeserializeObject<ResultModel<object>>(rolesString);
 
                     if (rolesResult.Status.Code == ResultCode.Ok)
