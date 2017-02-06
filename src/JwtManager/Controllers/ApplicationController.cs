@@ -159,31 +159,21 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RevokeUserRole(AppUserViewModel appuser)
+        public IActionResult ChangeUserRole(int appId, int userId, UserRole oldRole, UserRole role)
         {
-            if (!ModelState.IsValid)
+            if (role > oldRole)
             {
-                Alert.Warning();
+                grantRole.Invoke(appId, userId, role);
+            }
+            else if (role < oldRole)
+            {
+                revokeRole.Invoke(appId, userId, role);
             }
 
-            revokeRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
             return RedirectToAction("ListUsers");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult GrantUserRole(AppUserViewModel appuser)
-        {
-            if (!ModelState.IsValid)
-            {
-                Alert.Warning();
-            }
-
-            grantRole.Invoke(appuser.AppId, appuser.UserId, appuser.Role);
-            return RedirectToAction("ListUsers");
-        }
-
-        public IActionResult ChangeUserRole(int appId = 1, int userId = 1) //for tests
+        public IActionResult ChangeUserRole(int appId , int userId )
         {
             Breadcrumb.Add("Change user role", "ChangeUserRole", "Application");
 
