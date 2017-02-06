@@ -1,5 +1,5 @@
 ﻿@using LegnicaIT.JwtManager.Models
-@model AppViewModel
+@model List<AppViewModel>
 
 @{
     ViewData["Title"] = "Apps";
@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var app in (List<AppViewModel>)ViewData["apps"])
+        @foreach (var app in (List<AppViewModel>)Model)
         {
             <tr>
                 <td>@app.Id</td>
