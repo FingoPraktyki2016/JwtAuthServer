@@ -12,6 +12,8 @@ namespace LegnicaIT.BusinessLogic.Models
 
         public string Name { get; set; }
 
+        public bool IsSuperAdmin { get; set; }
+
         public DateTime? LockedOn { get; set; }
 
         public override bool IsValid()

@@ -8,21 +8,23 @@ namespace LegnicaIT.DataAccess.Models
     {
         [Required]
         [Column(TypeName = "NVARCHAR(256)")]
-        public String Email { set; get; }
+        public String Email { get; set; }
 
         [Required]
         [Column(TypeName = "NVARCHAR(256)")]
-        public String PasswordHash { set; get; }
+        public String PasswordHash { get; set; }
 
         [Required]
         [Column(TypeName = "NVARCHAR(128)")]
-        public string PasswordSalt { set; get; }
+        public string PasswordSalt { get; set; }
 
-        public DateTime? EmailConfirmedOn { set; get; }
+        public DateTime? EmailConfirmedOn { get; set; }
 
         [Column(TypeName = "NVARCHAR(100)")]
-        public String Name { set; get; }
+        public String Name { get; set; }
 
-        public DateTime? LockedOn { set; get; }
+        public bool IsSuperAdmin { get; set; }
+
+        public DateTime? LockedOn { get; set; }
     }
 }

@@ -6,12 +6,12 @@ namespace LegnicaIT.DataAccess.Models
     public class UserApps : BaseEntity
     {
         [Required]
-        public User User { set; get; }
+        public User User { get; set; }
 
         [Required]
-        public App App { set; get; }
+        public App App { get; set; }
 
         [Required]
-        public UserRole Role { set; get; }
+        public UserRole Role { get; set; }
     }
 }

@@ -7,12 +7,12 @@ namespace LegnicaIT.DataAccess.Models
     {
         [Key]
         [Required]
-        public int Id { set; get; }
+        public int Id { get; set; }
 
-        public DateTime CreatedOn { set; get; }
+        public DateTime CreatedOn { get; set; }
 
-        public DateTime ModifiedOn { set; get; }
+        public DateTime ModifiedOn { get; set; }
 
-        public DateTime? DeletedOn { set; get; }
+        public DateTime? DeletedOn { get; set; }
     }
 }
