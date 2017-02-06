@@ -1,12 +1,10 @@
-﻿using System;
+﻿using LegnicaIT.BusinessLogic.Actions.UserApp.Implementation;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using LegnicaIT.BusinessLogic.Actions.UserApp.Implementation;
-using LegnicaIT.BusinessLogic.Models;
-using LegnicaIT.DataAccess.Repositories.Interfaces;
-using Moq;
 using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
@@ -34,7 +32,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
 
             // assert
             Assert.NotNull(userAppFromDb);
-            Assert.Equal(true, allow);
+            Assert.True(allow);
         }
 
         [Fact]
@@ -48,7 +46,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var allow = action.Invoke(1, 1);
 
             // assert
-            Assert.Equal(false, allow);
+            Assert.False(allow);
         }
     }
 }
