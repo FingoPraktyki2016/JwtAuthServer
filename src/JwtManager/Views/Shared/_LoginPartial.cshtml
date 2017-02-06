@@ -10,12 +10,9 @@
 
     ListOfApps = (List<AppModel>)ViewData["apps"];
 
-    <div class="navbar-right">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                Dropdown Example
-                <span class="caret"></span>
-            </button>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Switch App<span class="caret"></span></a>
             <ul class="dropdown-menu">
                 @{
                     if (LoggedUser != null && ListOfApps.Any())
@@ -25,16 +22,16 @@
                             <li>
                                 @using (Html.BeginForm("SwitchApp", "Auth", new { appId = @app.Id }, FormMethod.Post))
                                 {
-                                    <button type="submit" class="btn btn-danger">@app.Name</button>
+                                    <button type="submit" class="btn btn-lg btn-block">@app.Name</button>
                                 }
                             </li>
                         }
                     }
-
                 }
             </ul>
-        </div>
-    </div>
+        </li>
+    </ul>
+
                     using (Html.BeginForm("Logout", "Auth", null, FormMethod.Post, true, new { @class = "navbar-right", id = "logoutForm" }))
                     {
 
