@@ -7,13 +7,22 @@
     <div class="form-group">
         @if (!Model.IsEdit)
         {
-            @Html.LabelFor(m => m.Model.Email, new { @class = "control-label col-sm-2" })
-            @Html.LabelForModel(Model.Model.Email)
+            <strong>Email</strong>
+            @Model.Model.Email
         }
     </div>
-
-    @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })
+    
     <div class="form-group">
-        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Name))
+        @if (Model.IsEdit)
+        {
+            @Html.LabelFor(m => m.Model.Name)
+            @Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Model.Name, "", new { @class = "text-danger" })
+        }
+        else
+        {
+            <strong>Name:</strong>
+            @Model.Model.Name
+        }
     </div>
 </div>
