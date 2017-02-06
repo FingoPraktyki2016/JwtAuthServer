@@ -216,8 +216,14 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 Breadcrumb.Add("Application details", "Details", "Application");
 
-                var app = getApp.Invoke(id);
-                var model = new AppViewModel {Id = app.Id, Name = app.Name};
+            var app = getApp.Invoke(id);
+
+            if (app == null)
+            {
+                return View("Error");
+            }
+
+            var model = new AppViewModel { Id = app.Id, Name = app.Name };
 
                 ViewData.Add("listUser", ListUsers(id));
 

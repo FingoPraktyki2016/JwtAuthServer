@@ -1,5 +1,16 @@
-﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.User.EditUserDetailsViewModel>
+﻿@using LegnicaIT.JwtManager.Models
+@using LegnicaIT.JwtManager.Services.Interfaces
+@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.User.EditUserDetailsViewModel>
+@inject ISessionService<LoggedUserModel> LoggedUserSessionService
+@{
+    var LoggedUser = LoggedUserSessionService.GetItem();
+}
 
 @Html.Partial("User/UserForm", Model)
 
 @Html.ActionLink("Change password", "ChangePassword", "User", null, new { @class = "btn btn-primary", role = "button" })
+
+@using (Html.BeginForm("Edit", "User", new { id = @LoggedUser.UserModel.Id }, FormMethod.Get))
+{
+    <button type="submit" class="btn btn-primary">Edit</button>
+}

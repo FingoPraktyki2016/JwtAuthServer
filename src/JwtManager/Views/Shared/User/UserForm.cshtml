@@ -5,8 +5,11 @@
 <div class="form-group">
     @(Model.IsEdit ? Html.HiddenFor(m => m.Model.Id) : null)
     <div class="form-group">
-        @Html.LabelFor(m => m.Model.Email, new { @class = "control-label col-sm-2" })
-        @(Model.IsEdit ? Html.TextBoxFor(m => m.Model.Email, new { @class = "form-control" }) : Html.LabelForModel(Model.Model.Email))
+        @if (!Model.IsEdit)
+        {
+            @Html.LabelFor(m => m.Model.Email, new { @class = "control-label col-sm-2" })
+            @Html.LabelForModel(Model.Model.Email)
+        }
     </div>
 
     @Html.LabelFor(m => m.Model.Name, new { @class = "control-label col-sm-2" })

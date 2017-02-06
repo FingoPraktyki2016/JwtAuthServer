@@ -30,7 +30,7 @@ namespace LegnicaIT.JwtManager.Controllers
             ICheckUserPermission checkUserPermission,
             IGetUserApps getUserApps,
             ISessionService<LoggedUserModel> loggedUserSessionService)
-            : base(managerSettings, loggerSettings, getUserApps,loggedUserSessionService)
+            : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
             this.getUserById = getUserById;
             this.editUser = editUser;
@@ -87,6 +87,7 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 var viewModel = new EditUserDetailsViewModel()
                 {
+                    Id = id,
                     Name = loggedUser.Name,
                     Email = loggedUser.Email
                 };
@@ -125,7 +126,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
             Alert.Success();
 
-            return RedirectToAction("Details", model.Id);
+            //TODO: Refresh token
+            return RedirectToAction("Details", new { id = model.Id });
         }
 
         public ActionResult ChangePassword()
