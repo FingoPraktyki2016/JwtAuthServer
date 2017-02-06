@@ -2,6 +2,8 @@
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
+using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -12,8 +14,9 @@ namespace LegnicaIT.JwtManager.Controllers
         public HomeController(
             IOptions<ManagerSettings> managerSettings,
             IOptions<LoggerConfig> loggerSettings,
-            IGetUserApps getUserApps)
-            : base(managerSettings, loggerSettings, getUserApps)
+            IGetUserApps getUserApps,
+            ISessionService<LoggedUserModel> loggedUserSessionService)
+            : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
         }
 

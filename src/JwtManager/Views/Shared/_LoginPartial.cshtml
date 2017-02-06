@@ -1,16 +1,14 @@
 ﻿@using LegnicaIT.BusinessLogic.Models
 @using LegnicaIT.JwtManager.Models
-@using Newtonsoft.Json
-@if (TempData.ContainsKey("LoggedUser"))
+@using LegnicaIT.JwtManager.Services.Interfaces
+
+@inject ISessionService<LoggedUserModel> LoggedUserSessionService
+@if (LoggedUserSessionService.ContainsItem())
 {
     List<AppModel> ListOfApps = new List<AppModel>();
-    var serializedUser = TempData["LoggedUser"].ToString();
-    LoggedUserModel LoggedUser = JsonConvert.DeserializeObject<LoggedUserModel>(serializedUser); ;
+    var LoggedUser = LoggedUserSessionService.GetItem();
 
-    if (LoggedUser != null)
-    {
-        ListOfApps = (List<AppModel>)ViewData["apps"];
-    }
+    ListOfApps = (List<AppModel>)ViewData["apps"];
 
     <div class="navbar-right">
         <div class="dropdown">

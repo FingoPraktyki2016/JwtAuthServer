@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.JwtManager.Services.Interfaces;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -41,8 +42,9 @@ namespace LegnicaIT.JwtManager.Controllers
             IGetApp getApp,
             IAddNewApp addNewApp,
             IEditApp editApp,
-            IDeleteApp deleteApp)
-            : base(managerSettings, loggerSettings, getUserApps)
+            IDeleteApp deleteApp,
+            ISessionService<LoggedUserModel> loggedUserSessionService)
+            : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
             this.getAppUsers = getAppUsers;
             this.getUserRole = getUserRole;

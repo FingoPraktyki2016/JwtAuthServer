@@ -7,6 +7,7 @@ using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
 using LegnicaIT.JwtManager.Models.User;
+using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -27,8 +28,9 @@ namespace LegnicaIT.JwtManager.Controllers
             IEditUser editUser,
             IEditUserPassword editUserPassword,
             ICheckUserPermission checkUserPermission,
-            IGetUserApps getUserApps)
-            : base(managerSettings, loggerSettings, getUserApps)
+            IGetUserApps getUserApps,
+            ISessionService<LoggedUserModel> loggedUserSessionService)
+            : base(managerSettings, loggerSettings, getUserApps,loggedUserSessionService)
         {
             this.getUserById = getUserById;
             this.editUser = editUser;
