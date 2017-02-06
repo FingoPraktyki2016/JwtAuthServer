@@ -1,5 +1,5 @@
 ﻿@using LegnicaIT.JwtManager.Models
-@model UserDetailsFromAppViewModel
+@model List <UserDetailsFromAppViewModel>
 
 @{
     ViewData["Title"] = "App Users";
@@ -19,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in (List<UserDetailsFromAppViewModel>) ViewData["users"])
+        @foreach (var user in (List<UserDetailsFromAppViewModel>)Model)
         {
             <tr>
                 <td>@user.Id</td>

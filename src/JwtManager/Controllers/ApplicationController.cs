@@ -71,11 +71,11 @@ namespace LegnicaIT.JwtManager.Controllers
         public ActionResult Index()
         {
             var userApps = getUserApps.Invoke(LoggedUser.UserModel.Id);
-            List<AppViewModel> listOfApps = new List<AppViewModel>();
+            List<LegnicaIT.JwtManager.Models.AppViewModel> listOfApps = new List<LegnicaIT.JwtManager.Models.AppViewModel>();
 
             foreach (var appFromDb in userApps)
             {
-                var model = new AppViewModel
+                var model = new LegnicaIT.JwtManager.Models.AppViewModel
                 {
                     Id = appFromDb.Id,
                     Name = appFromDb.Name
@@ -84,10 +84,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 listOfApps.Add(model);
             }
 
-            //TODO Pass data to views by view models (explicite: return View("Index", model)), not by ViewData[]
-            ViewData["apps"] = listOfApps;
-
-            return View("Index");
+            return View(listOfApps);
         }
 
         [HttpPost]
@@ -109,7 +106,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
             addUserApp.Invoke(newAppuser);
 
-            return RedirectToAction("ListUsers");
+            return RedirectToAction("Details", new { id = appuser.AppId });
         }
 
         public ActionResult AddUser(int appId)
@@ -137,15 +134,15 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = appId });
         }
 
-        public ActionResult ListUsers(int appId = 4) //TODO for tests
+        public ActionResult ListUsers(int appId) //TODO FIX IT
         {
             var usersList = getAppUsers.Invoke(appId);
 
-            List<UserDetailsFromAppViewModel> listOfUsers = new List<UserDetailsFromAppViewModel>();
+            List<LegnicaIT.JwtManager.Models.UserDetailsFromAppViewModel> listOfUsers = new List<LegnicaIT.JwtManager.Models.UserDetailsFromAppViewModel>();
 
             foreach (var user in usersList)
             {
-                var model = new UserDetailsFromAppViewModel
+                var model = new LegnicaIT.JwtManager.Models.UserDetailsFromAppViewModel
                 {
                     Id = user.Id,
                     Name = user.Name,
@@ -156,11 +153,14 @@ namespace LegnicaIT.JwtManager.Controllers
                 listOfUsers.Add(model);
             }
 
-            //TODO Pass data to views by view models(explicite: return View("Index", model)), not by ViewData[]
             ViewData["appId"] = appId;
-            ViewData["users"] = listOfUsers;
 
-            return View();
+            if(listOfUsers.Count <= 0)
+            {
+                return View();
+            }
+
+            return View(listOfUsers);
         }
 
         [HttpPost]
@@ -176,7 +176,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 revokeRole.Invoke(appId, userId, role);
             }
 
-            return RedirectToAction("ListUsers");
+            return RedirectToAction("Details", new { id = appId });
         }
 
         public IActionResult ChangeUserRole(int appId , int userId )
