@@ -36,6 +36,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 PasswordSalt = salt,
                 PasswordHash = passwordHash,
                 Name = user.Name,
+                IsSuperAdmin = user.IsSuperAdmin
             };
 
             userRepository.Add(newUser);
