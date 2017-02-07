@@ -206,7 +206,7 @@ namespace LegnicaIT.JwtManager.Controllers
                     return View("Error");
                 }
 
-                var appModel = new AppViewModel {Id = app.Id, Name = app.Name};
+                var appModel = new AppViewModel { Id = app.Id, Name = app.Name };
 
                 var listUsers = ListUsers(id);
                 var combinedModel = new CombinedAppUserDetailsViewModel(appModel) { Users = listUsers };
@@ -303,7 +303,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost("delete")]
-        public IActionResult Delete(int id)
+        public JsonResult Delete(int id)
         {
             if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
             {
@@ -314,14 +314,16 @@ namespace LegnicaIT.JwtManager.Controllers
                 else
                 {
                     Alert.Danger("Something went wrong");
+                    Json(false);
                 }
             }
             else
             {
                 Alert.Danger("You don't have permission!");
+                Json(false);
             }
 
-            return RedirectToAction("Index");
+            return Json(true);
         }
     }
 }

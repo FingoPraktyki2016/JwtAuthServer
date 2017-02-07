@@ -8,6 +8,8 @@
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+
+        <script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -33,26 +35,29 @@
                     <li>
                         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
+                    <li>
+                        <a asp-area="" asp-controller="Application" asp-action="Index">Application list</a>
+                    </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </div>
-<div class="container body-content">
-    @if (ViewData.ContainsKey("breadcrumbItems"))
-    {
-        @Html.Partial("_BreadcrumbPartial")
-    }
+    <div class="container body-content">
+        @if (ViewData.ContainsKey("breadcrumbItems"))
+        {
+            @Html.Partial("_BreadcrumbPartial")
+        }
 
-    @if (TempData.ContainsKey("alertMessages"))
-    {
-        @Html.Partial("_AlertsPartial")
-    }
+        @if (TempData.ContainsKey("alertMessages"))
+        {
+            @Html.Partial("_AlertsPartial")
+        }
 
-    @RenderBody()
-</div>
+        @RenderBody()
+    </div>
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
