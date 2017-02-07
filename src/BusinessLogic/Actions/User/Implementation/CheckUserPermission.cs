@@ -14,12 +14,12 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public bool Invoke(int requestorId, int appId, int questionedUserId)
         {
-            var requestorUserAppRole = getAppUserRole.Invoke(appId, requestorId);
-
             if (requestorId == questionedUserId)
             {
                 return true;
             }
+
+            var requestorUserAppRole = getAppUserRole.Invoke(appId, requestorId);
 
             if (requestorUserAppRole == UserRole.SuperAdmin)
             {
