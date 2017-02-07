@@ -134,7 +134,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = appId });
         }
 
-        public ActionResult ListUsers(int appId) //TODO FIX IT
+        public ActionResult ListUsers(int appId)
         {
             var usersList = getAppUsers.Invoke(appId);
 
