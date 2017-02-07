@@ -87,7 +87,7 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             if (appId == LoggedUser.AppId || appId == 0)
             {
-                return View("Error");
+                return RedirectToAction("Me", "User", new { id = appId });
             }
 
             var token = HttpContext.Session.GetString("token");
@@ -108,7 +108,7 @@ namespace LegnicaIT.JwtManager.Controllers
             }
 
             HttpContext.Session.SetString("token", result.Value.ToString());
-            return RedirectToAction("Me", "User", new { id = appId });
+            return RedirectToAction("Details", "Application", new { id = appId });
         }
 
         [ValidateAntiForgeryToken]

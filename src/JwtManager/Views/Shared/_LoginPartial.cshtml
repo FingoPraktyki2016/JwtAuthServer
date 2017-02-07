@@ -1,7 +1,6 @@
 ﻿@using LegnicaIT.BusinessLogic.Models
 @using LegnicaIT.JwtManager.Models
 @using LegnicaIT.JwtManager.Services.Interfaces
-
 @inject ISessionService<LoggedUserModel> LoggedUserSessionService
 @if (LoggedUserSessionService.ContainsItem())
 {
@@ -29,10 +28,9 @@
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Details", "Application", new { id = app.Id }, FormMethod.Post))
-                                    {
-                                        <button type="submit" class="btn btn-lg btn-block btn-danger">@app.Name</button>
-                                    }
+                                    <form>
+                                        @Html.ActionLink(app.Name, "Details", "Application", new { id = app.Id }, new { @class = "btn btn-lg btn-block btn-info" })
+                                    </form>
                                 }
                             </li>
                         }
