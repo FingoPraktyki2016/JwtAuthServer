@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [Route("[controller]")]
     [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
@@ -38,6 +39,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.checkUserPermission = checkUserPermission;
         }
 
+        [HttpGet("details")]
         public ActionResult Details(int id)
         {
             Breadcrumb.Add("User details", "Details", "User");
@@ -63,6 +65,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
+        [HttpGet("me")]
         public ActionResult Me()
         {
             Breadcrumb.Add("Your account", "Me", "User");
@@ -78,6 +81,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
+        [HttpGet("edit")]
         public ActionResult Edit(int id)
         {
             Breadcrumb.Add("Edit user", "Edit", "User");
@@ -111,7 +115,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(userviewModel);
         }
 
-        [HttpPost]
+        [HttpPost("edit")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditUserDetailsViewModel model)
         {
@@ -130,6 +134,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = model.Id });
         }
 
+        [HttpGet("changepassword")]
         public ActionResult ChangePassword()
         {
             Breadcrumb.Add("Change your password", "ChangePassword", "User");
@@ -137,7 +142,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("changepassword")]
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(EditPasswordViewModel model)
         {
