@@ -71,11 +71,11 @@ namespace LegnicaIT.JwtManager.Controllers
         public ActionResult Index()
         {
             var userApps = getUserApps.Invoke(LoggedUser.UserModel.Id);
-            List<LegnicaIT.JwtManager.Models.AppViewModel> listOfApps = new List<LegnicaIT.JwtManager.Models.AppViewModel>();
+            List<AppViewModel> listOfApps = new List<AppViewModel>();
 
             foreach (var appFromDb in userApps)
             {
-                var model = new LegnicaIT.JwtManager.Models.AppViewModel
+                var model = new AppViewModel
                 {
                     Id = appFromDb.Id,
                     Name = appFromDb.Name
@@ -134,15 +134,15 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = appId });
         }
 
-        public ActionResult ListUsers(int appId) //TODO FIX IT
+        public List<UserDetailsFromAppViewModel> ListUsers(int appId)
         {
             var usersList = getAppUsers.Invoke(appId);
 
-            List<LegnicaIT.JwtManager.Models.UserDetailsFromAppViewModel> listOfUsers = new List<LegnicaIT.JwtManager.Models.UserDetailsFromAppViewModel>();
+            List<UserDetailsFromAppViewModel> listOfUsers = new List<UserDetailsFromAppViewModel>();
 
             foreach (var user in usersList)
             {
-                var model = new LegnicaIT.JwtManager.Models.UserDetailsFromAppViewModel
+                var model = new UserDetailsFromAppViewModel
                 {
                     Id = user.Id,
                     Name = user.Name,
@@ -155,12 +155,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
             ViewData["appId"] = appId;
 
-            if(listOfUsers.Count <= 0)
-            {
-                return View();
-            }
-
-            return View(listOfUsers);
+            return listOfUsers;
         }
 
         [HttpPost]
@@ -206,18 +201,19 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 Breadcrumb.Add("Application details", "Details", "Application");
 
-            var app = getApp.Invoke(id);
+                var app = getApp.Invoke(id);
 
-            if (app == null)
-            {
-                return View("Error");
-            }
+                if (app == null)
+                {
+                    return View("Error");
+                }
 
-            var model = new AppViewModel { Id = app.Id, Name = app.Name };
+                var appModel = new AppViewModel {Id = app.Id, Name = app.Name};
 
-                ViewData.Add("listUser", ListUsers(id));
+                var listUsers = ListUsers(id);
+                var combinedModel = new CombinedAppUserDetailsViewModel(appModel) { Users = listUsers };
 
-                return View(new FormModel<AppViewModel>(model));
+                return View(combinedModel);
             }
 
             Alert.Danger("You don't have permission!");
