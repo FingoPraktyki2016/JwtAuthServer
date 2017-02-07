@@ -10,6 +10,7 @@ using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 {
+    // TODO: Tests for SuperAdmin
     public class GrantRoleTests
     {
         [Fact]
@@ -29,8 +30,9 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 .Returns(getAllResults.AsQueryable());
             mockedUserAppsRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()))
                 .Callback<DataAccess.Models.UserApps>(userApps => dataUserAppSaved = userApps);
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            var action = new GrantRole(mockedUserAppsRepository.Object);
+            var action = new GrantRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.Manager);
@@ -41,6 +43,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             Assert.Equal(UserRole.Manager, dataUserAppSaved.Role);
             mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()), Times.Once);
             mockedUserAppsRepository.Verify(r => r.Save(), Times.Once);
+            mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }
 
         [Fact]
@@ -58,8 +61,9 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
             mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
                 .Returns(getAllResults.AsQueryable());
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            var action = new GrantRole(mockedUserAppsRepository.Object);
+            var action = new GrantRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.Manager);
@@ -69,6 +73,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             Assert.Equal(UserRole.Manager, dataUserAppSaved.Role);
             mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
+            mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }
 
         [Fact]
@@ -86,8 +91,9 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
             mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
                 .Returns(getAllResults.AsQueryable());
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            var action = new GrantRole(mockedUserAppsRepository.Object);
+            var action = new GrantRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.User);
@@ -97,6 +103,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             Assert.Equal(UserRole.Manager, dataUserAppSaved.Role);
             mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
+            mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }
 
         [Fact]
@@ -104,8 +111,9 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         {
             // Prepare
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            var action = new GrantRole(mockedUserAppsRepository.Object);
+            var action = new GrantRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.Manager);
@@ -114,6 +122,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             Assert.False(actionResult);
             mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
+            mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }
     }
 }

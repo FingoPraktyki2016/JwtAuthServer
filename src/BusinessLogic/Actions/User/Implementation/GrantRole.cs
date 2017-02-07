@@ -9,14 +9,32 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
     public class GrantRole : IGrantRole
     {
         private readonly IUserAppRepository userAppRepository;
+        private readonly IUserRepository userRepository;
 
-        public GrantRole(IUserAppRepository userAppRepository)
+        public GrantRole(IUserAppRepository userAppRepository, IUserRepository userRepository)
         {
             this.userAppRepository = userAppRepository;
+            this.userRepository = userRepository;
         }
 
         public bool Invoke(int appId, int user, UserRole newRole)
         {
+            if (newRole == UserRole.SuperAdmin)
+            {
+                var userFromDB = userRepository.GetById(user);
+
+                if (userFromDB.IsSuperAdmin)
+                {
+                    return false;
+                }
+
+                userFromDB.IsSuperAdmin = true;
+                userRepository.Edit(userFromDB);
+                userRepository.Save();
+
+                return true;
+            }
+
             var userApp = userAppRepository.FindBy(m => m.User.Id == user && m.App.Id == appId).FirstOrDefault();
 
             if (userApp == null)
