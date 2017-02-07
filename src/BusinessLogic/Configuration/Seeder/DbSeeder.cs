@@ -31,12 +31,18 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
         {
             foreach (var user in users)
             {
-                var model = new UserModel()
+                var model = new UserModel
                 {
                     Email = $"{user}@test.com",
                     Password = "test",
-                    Name = user,
+                    Name = user
                 };
+
+                if (user == "superadmin")
+                {
+                    model.IsSuperAdmin = true;
+                }
+
                 addNewUser.Invoke(model);
             }
         }
@@ -45,7 +51,7 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
         {
             for (int i = context.Apps.Count(); i < 5; i++)
             {
-                var model = new AppModel()
+                var model = new AppModel
                 {
                     Name = $"App{i + 1}"
                 };
@@ -58,7 +64,7 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
         {
             foreach (var user in users)
             {
-                var model = new UserAppModel()
+                var model = new UserAppModel
                 {
                     AppId = context.Apps.OrderBy(r => Guid.NewGuid()).Take(1).FirstOrDefault().Id,
                     UserId = context.Users.FirstOrDefault(r => r.Name.Contains(user)).Id
@@ -66,12 +72,6 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
 
                 switch (user)
                 {
-                    case "superadmin":
-                        model.Role = UserRole.SuperAdmin;
-                        addNewUserApps.Invoke(model);
-
-                        break;
-
                     case "manager":
                         model.Role = UserRole.Manager;
                         addNewUserApps.Invoke(model);

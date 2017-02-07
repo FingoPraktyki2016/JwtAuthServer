@@ -4,6 +4,7 @@ using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using System;
 
 namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 {
@@ -22,10 +23,12 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
         {
             var listUserApps = userAppRepository.GetAll();
             var listUser = userRepository.GetAll();
+            var listOfUsers = new List<UserDetailsFromAppModel>();
 
-            var listOfUsers = (from userApps in listUserApps
-                        join user in listUser on userApps.User.Id equals user.Id
-                        where userApps.App.Id == appId select new UserDetailsFromAppModel()
+            try {
+                var list2 = (from userApps in listUserApps
+                          join user in listUser on userApps.User.Id equals user.Id
+                          where userApps.App.Id == appId select new UserDetailsFromAppModel()
                         {
                             Id = user.Id,
                             Name = user.Name,
@@ -33,6 +36,13 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
                             Role = (UserRole) userApps.Role,
 
                         }).ToList();
+
+                 listOfUsers = list2;
+            }
+            catch(Exception )
+            {
+
+            }
 
             return listOfUsers;
         }
