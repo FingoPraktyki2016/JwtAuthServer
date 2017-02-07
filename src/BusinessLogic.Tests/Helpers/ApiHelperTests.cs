@@ -154,5 +154,36 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
             Assert.Equal("pass", executedApiParams["Password"]);
             Assert.Equal("appId", executedApiParams["AppId"]);
         }
+
+        [Fact]
+        public void SwitchApp_CallParameters_AreCorrect()
+        {
+            // prepare
+            var apiResponse = new ApiResponseModel()
+            {
+                ResponseMessage = "api-acquiretoken-result",
+                StatusCode = HttpStatusCode.OK
+            };
+
+            string executedApiRoute = null;
+            var executedApiParams = new Dictionary<string, string>();
+            var mockedApiClient = new Mock<IApiClient>();
+            mockedApiClient.Setup(c => c.MakeCallPost(It.IsAny<string>()))
+                .Callback<string>(route => executedApiRoute = route)
+                .Returns(apiResponse);
+            mockedApiClient.Setup(c => c.AddParameter(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((k, v) => executedApiParams.Add(k, v));
+            var client = new ApiHelper("jwt", mockedApiClient.Object);
+
+            // action
+            var executedApiResult = client.SwitchApp("token", "1");
+
+            // verify
+            Assert.Equal("api-acquiretoken-result", executedApiResult.ResponseMessage);
+            Assert.Equal(HttpStatusCode.OK, executedApiResult.StatusCode);
+            Assert.Equal(1, executedApiParams.Count);
+            Assert.Equal("1", executedApiParams["appId"]);
+            Assert.Equal("api/auth/switchapp", executedApiRoute);
+        }
     }
 }
