@@ -15,9 +15,9 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 
         public bool Invoke(int userId, int appId)
         {
-            var appToDelete = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId);
+            var appToQuestion = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId);
 
-            if (appToDelete.Any())
+            if (appToQuestion.Any())
             {
                 return true;
             }

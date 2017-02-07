@@ -3,13 +3,16 @@ using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models;
+using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
 using LegnicaIT.JwtManager.Models.User;
 using LegnicaIT.JwtManager.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -21,6 +24,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IEditUser editUser;
         private readonly IEditUserPassword editUserPassword;
         private readonly ICheckUserPermission checkUserPermission;
+        private readonly IGetUserDetails getUserDetails;
 
         public UserController(
             IOptions<ManagerSettings> managerSettings,
@@ -30,6 +34,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IEditUserPassword editUserPassword,
             ICheckUserPermission checkUserPermission,
             IGetUserApps getUserApps,
+            IGetUserDetails getUserDetails,
             ISessionService<LoggedUserModel> loggedUserSessionService)
             : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
@@ -37,6 +42,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.editUser = editUser;
             this.editUserPassword = editUserPassword;
             this.checkUserPermission = checkUserPermission;
+            this.getUserDetails = getUserDetails;
         }
 
         [HttpGet("details")]
@@ -127,10 +133,12 @@ namespace LegnicaIT.JwtManager.Controllers
             }
             var userModel = new UserModel { Id = model.Id, Name = model.Name };
             editUser.Invoke(userModel);
+            if (model.Id == LoggedUser.UserModel.Id)
+            {
+                var userDetails = getUserDetails.Invoke(LoggedUser.UserModel.Email);
+                HttpContext.Session.SetString("UserDetails", JsonConvert.SerializeObject(userDetails));
+            }
 
-            Alert.Success();
-
-            //TODO: Refresh token
             return RedirectToAction("Details", new { id = model.Id });
         }
 
