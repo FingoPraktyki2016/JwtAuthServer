@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace LegnicaIT.JwtAuthServer
 {
@@ -47,6 +48,8 @@ namespace LegnicaIT.JwtAuthServer
             app.UseMvc();
 
             migrationHelper.Migrate();
+
+            app.UseCors("AnyOrigin");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container
@@ -54,6 +57,18 @@ namespace LegnicaIT.JwtAuthServer
         {
             // Add framework services.
             services.AddMvc();
+
+            var corsBuilder = new CorsPolicyBuilder();
+
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin();
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AnyOrigin", corsBuilder.Build());
+            });
 
             services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
 
