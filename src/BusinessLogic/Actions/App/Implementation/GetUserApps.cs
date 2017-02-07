@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,21 +25,26 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 
             var listUserApps = userAppRepository.GetAll();
             var listApps = appRepository.GetAll();
-
-            var list = (from userApps in listUserApps
-                        join app in listApps on userApps.App.Id equals app.Id
-                        where userApps.User.Id == userId
-                        select app).ToList();
-
-            //TODO: Automap
-            foreach (var appFromDb in list)
+            
+            try
             {
-                var model = new AppModel()
+                var list = (from userApps in listUserApps
+                            join app in listApps on userApps.App.Id equals app.Id
+                            where userApps.User.Id == userId
+                            select app).ToList();
+
+                foreach (var appFromDb in list)
                 {
-                    Id = appFromDb.Id,
-                    Name = appFromDb.Name
-                };
-                listOfApps.Add(model);
+                    var model = new AppModel()
+                    {
+                        Id = appFromDb.Id,
+                        Name = appFromDb.Name
+                    };
+                    listOfApps.Add(model);
+                }
+            }
+            catch(Exception) {
+                    
             }
 
             return listOfApps;

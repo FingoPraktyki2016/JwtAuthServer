@@ -47,19 +47,21 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         public void Invoke_ForNullUserApps_DeleteNorSaveAreCalled()
         {
             // prepare
-            var userAppToDelete = new AppModel()
+            var userAppToDelete = new UserAppModel()
             {
                 Id = 1
             };
+
+            var userAppFromDb = new List<DataAccess.Models.UserApps>();
+
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
-            // FIXME: GetById is not proper method to mock for this action
-            //mockedUserAppRepository.Setup(r => r.GetById(1)).Returns((DataAccess.Models.UserApps)null);
-            
-            // FIXME Grzegorz Radziejewski
+
+            mockedUserAppRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
+               .Returns(userAppFromDb.AsQueryable());
+
             var action = new DeleteUserApp(mockedUserAppRepository.Object);
             var actionResult = action.Invoke(userAppToDelete.Id, 5);
 
-            // assert
             Assert.False(actionResult);
             mockedUserAppRepository.Verify(r => r.Delete(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppRepository.Verify(r => r.Save(), Times.Never);
