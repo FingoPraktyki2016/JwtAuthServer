@@ -2,7 +2,6 @@
 using Moq;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Models.Token;
 using Xunit;
 

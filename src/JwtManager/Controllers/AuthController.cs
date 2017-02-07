@@ -30,7 +30,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [AllowAnonymous]
         [HttpGet("login")]
-        public ActionResult Login(string returnUrl)
+        public IActionResult Login(string returnUrl)
         {
             Breadcrumb.Add("Login", "Login", "Auth");
 
@@ -42,7 +42,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [HttpPost("login")]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public IActionResult Login(LoginModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost("switchapp")]
-        public ActionResult SwitchApp(int appId)
+        public IActionResult SwitchApp(int appId)
         {
             if (appId == LoggedUser.AppId || appId == 0)
             {
@@ -113,7 +113,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost("logout")]
-        public ActionResult Logout()
+        public IActionResult Logout()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
             {

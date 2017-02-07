@@ -15,7 +15,7 @@ namespace LegnicaIT.JwtManager.Services.Implementation
         public SessionService(IHttpContextAccessor httpContextAccessor)
         {
             this.httpContextAccessor = httpContextAccessor;
-            this.sessionKey = typeof(T).Name;
+            sessionKey = typeof(T).Name;
         }
 
         public bool ContainsItem()

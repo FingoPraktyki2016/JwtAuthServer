@@ -22,14 +22,14 @@
                             <li>
                                 @if (LoggedUser.AppId != app.Id)
                                 {
-                                    using (Html.BeginForm("SwitchApp", "Auth", new { appId = @app.Id }, FormMethod.Post))
+                                    using (Html.BeginForm("SwitchApp", "Auth", new { appId = app.Id }, FormMethod.Post))
                                     {
                                         <button type="submit" class="btn btn-lg btn-block">@app.Name</button>
                                     }
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Details", "Application", new { id = @app.Id }, FormMethod.Post))
+                                    using (Html.BeginForm("Details", "Application", new { id = app.Id }, FormMethod.Post))
                                     {
                                         <button type="submit" class="btn btn-lg btn-block btn-danger">@app.Name</button>
                                     }

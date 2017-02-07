@@ -32,9 +32,9 @@ namespace LegnicaIT.JwtManager.Models
 
             if (userModel != null)
             {
-                this.UserModel.Email = userModel.Email;
-                this.UserModel.Name = userModel.Name;
-                this.UserModel.Id = userModel.Id;
+                UserModel.Email = userModel.Email;
+                UserModel.Name = userModel.Name;
+                UserModel.Id = userModel.Id;
             }
         }
 

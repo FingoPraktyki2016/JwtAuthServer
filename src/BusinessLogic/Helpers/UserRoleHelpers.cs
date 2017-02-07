@@ -9,7 +9,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
         {
             try
             {
-                return (((int)(object)type & (int)(object)value) == (int)(object)value);
+                return ((int)(object)type & (int)(object)value) == (int)(object)value;
             }
             catch
             {
@@ -21,7 +21,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
         {
             try
             {
-                return (UserRole)(object)(((int)(object)type | (int)(object)value));
+                return (UserRole)(object)((int)(object)type | (int)(object)value);
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
         {
             try
             {
-                return (UserRole)(object)(((int)(object)type & ~(int)(object)value));
+                return (UserRole)(object)((int)(object)type & ~(int)(object)value);
             }
             catch (Exception ex)
             {

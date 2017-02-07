@@ -22,7 +22,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AuthorizeFilter]
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
