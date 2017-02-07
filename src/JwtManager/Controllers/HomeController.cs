@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [Route("[controller]")]
     public class HomeController : BaseController
     {
         public HomeController(

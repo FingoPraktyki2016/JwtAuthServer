@@ -1,8 +1,8 @@
-﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.AppViewModel>
+﻿@model LegnicaIT.JwtManager.Models.CombinedAppUserDetailsViewModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Partial("Application/ApplicationForm", Model)
-@Html.Partial("ListUsers", ViewData["listUsers"])
+@Html.Partial("Application/ApplicationForm", Model.App)
+@Html.Partial("ListUsers", Model.Users)

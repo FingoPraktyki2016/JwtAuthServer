@@ -7,9 +7,9 @@ namespace LegnicaIT.BusinessLogic.Helpers
 {
     public class Hasher : IHasher
     {
-        private static int keySize = 192; //256 chars
-        private static int saltSize = 96; //128 chars
-        private static int iterations = 10000;
+        private const int keySize = 192; //256 chars
+        private const int saltSize = 96; //128 chars
+        private const int iterations = 10000;
 
         public string CreateHash(string password, string salt)
         {

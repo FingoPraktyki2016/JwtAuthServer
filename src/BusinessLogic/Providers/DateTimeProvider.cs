@@ -7,7 +7,7 @@ namespace LegnicaIT.BusinessLogic.Providers
     {
         public DateTime GetNow()
         {
-            return DateTime.Now;
+            return DateTime.UtcNow;
         }
     }
 }

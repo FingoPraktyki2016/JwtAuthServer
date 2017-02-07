@@ -1,9 +1,7 @@
 using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
-using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Common;
-using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
 using LegnicaIT.JwtManager.Services.Interfaces;
@@ -15,6 +13,7 @@ using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [Route("[controller]")]
     public class AuthController : BaseController
     {
         private readonly IGetUserDetails getUserDetails;
@@ -30,18 +29,20 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Login()
+        [HttpGet("login")]
+        public IActionResult Login(string returnUrl)
         {
             Breadcrumb.Add("Login", "Login", "Auth");
 
+            ViewBag.ReturnUrl = returnUrl;
             var LoginModel = new LoginModel();
             return View(LoginModel);
         }
 
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult Login(LoginModel model)
+        [HttpPost("login")]
+        public IActionResult Login(LoginModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -73,16 +74,20 @@ namespace LegnicaIT.JwtManager.Controllers
 
             Alert.Success("Logged in");
 
-            return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return Redirect(returnUrl);
         }
 
         [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult SwitchApp(int appId)
+        [HttpPost("switchapp")]
+        public IActionResult SwitchApp(int appId)
         {
             if (appId == LoggedUser.AppId || appId == 0)
             {
-                return View("Error");
+                return RedirectToAction("Me", "User", new { id = appId });
             }
 
             var token = HttpContext.Session.GetString("token");
@@ -107,8 +112,8 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult Logout()
+        [HttpPost("logout")]
+        public IActionResult Logout()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
             {

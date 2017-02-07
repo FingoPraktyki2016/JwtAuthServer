@@ -55,7 +55,7 @@ namespace LegnicaIT.JwtManager.Authorization
 
                 if (!isValid)
                 {
-                    context.Result = new RedirectToActionResult("Login", "Auth", null);
+                    context.Result = new RedirectToActionResult("Login", "Auth", new { returnUrl = controller.HttpContext.Request.Path });
                     return;
                 }
 

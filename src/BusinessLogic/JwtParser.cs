@@ -21,7 +21,7 @@ namespace LegnicaIT.BusinessLogic
         public JwtParser()
         {
             encodedSecretKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(GetSecretKey()));
-            this.dateTimeProvider = new DateTimeProvider();
+            dateTimeProvider = new DateTimeProvider();
         }
 
         /// <summary>

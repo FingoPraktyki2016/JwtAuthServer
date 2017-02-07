@@ -1,7 +1,6 @@
 ﻿using LegnicaIT.BusinessLogic.Helpers.Interfaces;
 using LegnicaIT.BusinessLogic.Models.Common;
 using System.Collections.Generic;
-using LegnicaIT.BusinessLogic.Actions.User.Implementation;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {

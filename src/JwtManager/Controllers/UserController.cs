@@ -3,16 +3,20 @@ using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models;
+using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
 using LegnicaIT.JwtManager.Models.User;
 using LegnicaIT.JwtManager.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [Route("[controller]")]
     [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
@@ -20,6 +24,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IEditUser editUser;
         private readonly IEditUserPassword editUserPassword;
         private readonly ICheckUserPermission checkUserPermission;
+        private readonly IGetUserDetails getUserDetails;
 
         public UserController(
             IOptions<ManagerSettings> managerSettings,
@@ -29,6 +34,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IEditUserPassword editUserPassword,
             ICheckUserPermission checkUserPermission,
             IGetUserApps getUserApps,
+            IGetUserDetails getUserDetails,
             ISessionService<LoggedUserModel> loggedUserSessionService)
             : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
@@ -36,9 +42,11 @@ namespace LegnicaIT.JwtManager.Controllers
             this.editUser = editUser;
             this.editUserPassword = editUserPassword;
             this.checkUserPermission = checkUserPermission;
+            this.getUserDetails = getUserDetails;
         }
 
-        public ActionResult Details(int id)
+        [HttpGet("details")]
+        public IActionResult Details(int id)
         {
             Breadcrumb.Add("User details", "Details", "User");
 
@@ -63,7 +71,8 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
-        public ActionResult Me()
+        [HttpGet("me")]
+        public IActionResult Me()
         {
             Breadcrumb.Add("Your account", "Me", "User");
 
@@ -78,7 +87,8 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
-        public ActionResult Edit(int id)
+        [HttpGet("edit")]
+        public IActionResult Edit(int id)
         {
             Breadcrumb.Add("Edit user", "Edit", "User");
 
@@ -111,9 +121,9 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(userviewModel);
         }
 
-        [HttpPost]
+        [HttpPost("edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditUserDetailsViewModel model)
+        public IActionResult Edit(EditUserDetailsViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -123,23 +133,26 @@ namespace LegnicaIT.JwtManager.Controllers
             }
             var userModel = new UserModel { Id = model.Id, Name = model.Name };
             editUser.Invoke(userModel);
+            if (model.Id == LoggedUser.UserModel.Id)
+            {
+                var userDetails = getUserDetails.Invoke(LoggedUser.UserModel.Email);
+                HttpContext.Session.SetString("UserDetails", JsonConvert.SerializeObject(userDetails));
+            }
 
-            Alert.Success();
-
-            //TODO: Refresh token
             return RedirectToAction("Details", new { id = model.Id });
         }
 
-        public ActionResult ChangePassword()
+        [HttpGet("changepassword")]
+        public IActionResult ChangePassword()
         {
             Breadcrumb.Add("Change your password", "ChangePassword", "User");
 
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("changepassword")]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePassword(EditPasswordViewModel model)
+        public IActionResult ChangePassword(EditPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
