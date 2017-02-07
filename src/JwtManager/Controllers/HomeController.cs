@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [Route("[controller]")]
     public class HomeController : BaseController
     {
         public HomeController(
@@ -21,7 +22,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AuthorizeFilter]
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }

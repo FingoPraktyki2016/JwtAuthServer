@@ -1,12 +1,14 @@
 ﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtAuthServer.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {
+    [EnableCors("AnyOrigin")]
     public class BaseController : Controller
     {
         protected UserAppModel LoggedUser { get; set; }
@@ -21,7 +23,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         {
             base.OnActionExecuting(context);
             // we will have User authenticated by app.UseJwtBearerAuthentication(...)
-            var user = ((ControllerBase) context.Controller).User;
+            var user = ((ControllerBase)context.Controller).User;
 
             if (user != null && user.Identity.IsAuthenticated)
             {

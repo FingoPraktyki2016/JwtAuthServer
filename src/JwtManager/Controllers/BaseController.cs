@@ -1,4 +1,5 @@
-﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
+﻿using System.Linq;
+using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.JwtManager.Configuration;
@@ -58,12 +59,12 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            if (Alert.GetAlerts().Count > 0)
+            if (Alert.GetAlerts().Any())
             {
                 TempData.Put("alertMessages", Alert.GetAlerts());
             }
 
-            if (Breadcrumb.GetBreadcrumbItems().Count > 0)
+            if (Breadcrumb.GetBreadcrumbItems().Any())
             {
                 ViewData.Add("breadcrumbItems", Breadcrumb.GetBreadcrumbItems());
             }

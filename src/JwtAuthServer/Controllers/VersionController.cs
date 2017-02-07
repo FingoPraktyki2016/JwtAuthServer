@@ -4,6 +4,7 @@ using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using LegnicaIT.BusinessLogic.Helpers;
+using Microsoft.AspNetCore.Cors;
 
 namespace LegnicaIT.JwtAuthServer.Controllers
 {

@@ -8,9 +8,6 @@
 
 @Html.Partial("User/UserForm", Model)
 
-@Html.ActionLink("Change password", "ChangePassword", "User", null, new { @class = "btn btn-primary", role = "button" })
+@Html.ActionLink("Change password", "ChangePassword", "User", null, new { @class = "btn btn-primary" })
 
-@using (Html.BeginForm("Edit", "User", new { id = @LoggedUser.UserModel.Id }, FormMethod.Get))
-{
-    <button type="submit" class="btn btn-primary">Edit</button>
-}
+@Html.ActionLink("Edit", "Edit", "User", new { id = @LoggedUser.UserModel.Id }, new { @class = "btn btn-primary" })

@@ -1,19 +1,20 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
-using LegnicaIT.BusinessLogic.Helpers;
-using LegnicaIT.JwtManager.Configuration;
-using Microsoft.Extensions.Options;
-using LegnicaIT.JwtManager.Authorization;
-using LegnicaIT.BusinessLogic.Enums;
-using LegnicaIT.BusinessLogic.Models;
-using LegnicaIT.JwtManager.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using LegnicaIT.BusinessLogic.Enums;
+using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Models;
+using LegnicaIT.JwtManager.Authorization;
+using LegnicaIT.JwtManager.Configuration;
+using LegnicaIT.JwtManager.Models;
 using LegnicaIT.JwtManager.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
+    [Route("[controller]")]
     [AuthorizeFilter(UserRole.Manager)]
     public class ApplicationController : BaseController
     {
@@ -68,6 +69,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AuthorizeFilter(UserRole.None)]
+        [HttpGet]
         public ActionResult Index()
         {
             var userApps = getUserApps.Invoke(LoggedUser.UserModel.Id);
@@ -87,9 +89,19 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(listOfApps);
         }
 
-        [HttpPost]
+        [HttpGet("adduser")]
+        public ActionResult AddUser(int appId)
+        {
+            Breadcrumb.Add("Add user", "AddUser", "Application");
+            ViewData["appId"] = appId;
+
+            //TODO Adduser View with action AddUser
+            return View("AddUser");
+        }
+
         [ValidateAntiForgeryToken]
-        [AuthorizeFilter(UserRole.None)]
+        [AuthorizeFilter(UserRole.None)] // ???
+        [HttpPost("adduser")]
         public ActionResult AddUser(AppUserViewModel appuser)
         {
             if (!ModelState.IsValid)
@@ -109,17 +121,8 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = appuser.AppId });
         }
 
-        public ActionResult AddUser(int appId)
-        {
-            Breadcrumb.Add("Add user", "AddUser", "Application");
-            ViewData["appId"] = appId;
-
-            //TODO Adduser View with action AddUser
-            return View("AddUser");
-        }
-
-        [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost("deleteuser")]
         public ActionResult DeleteUser(int userId, int appId)
         {
             if (deleteUserApp.Invoke(userId, appId))
@@ -158,23 +161,8 @@ namespace LegnicaIT.JwtManager.Controllers
             return listOfUsers;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ChangeUserRole(int appId, int userId, UserRole oldRole, UserRole role)
-        {
-            if (role > oldRole)
-            {
-                grantRole.Invoke(appId, userId, role);
-            }
-            else if (role < oldRole)
-            {
-                revokeRole.Invoke(appId, userId, role);
-            }
-
-            return RedirectToAction("Details", new { id = appId });
-        }
-
-        public IActionResult ChangeUserRole(int appId , int userId )
+        [HttpGet("changeuserrole")]
+        public ActionResult ChangeUserRole(int appId, int userId)
         {
             Breadcrumb.Add("Change user role", "ChangeUserRole", "Application");
 
@@ -190,11 +178,24 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(model);
         }
 
-        /*
-         *  Show/add/edit applications
-         */
+        [ValidateAntiForgeryToken]
+        [HttpPost("changeuserrole")]
+        public IActionResult ChangeUserRole(int appId, int userId, UserRole oldRole, UserRole role)
+        {
+            if (role > oldRole)
+            {
+                grantRole.Invoke(appId, userId, role);
+            }
+            else if (role < oldRole)
+            {
+                revokeRole.Invoke(appId, userId, role);
+            }
+
+            return RedirectToAction("Details", new { id = appId });
+        }
 
         [AuthorizeFilter(UserRole.User)]
+        [HttpGet("details")]
         public ActionResult Details(int id)
         {
             if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
@@ -221,6 +222,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
+        [HttpGet("Add")]
         public ActionResult Add()
         {
             Breadcrumb.Add("Add application", "Add", "Application");
@@ -231,8 +233,8 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [AuthorizeFilter(UserRole.SuperAdmin)]
-        [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost("Add")]
         public ActionResult Add(AppViewModel model)
         {
             if (!ModelState.IsValid)
@@ -255,6 +257,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("edit")]
         public ActionResult Edit(int id)
         {
             if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
@@ -262,7 +265,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 Breadcrumb.Add("Edit application", "Edit", "Application");
 
                 var app = getApp.Invoke(id);
-                var model = new AppViewModel {Id = app.Id, Name = app.Name};
+                var model = new AppViewModel { Id = app.Id, Name = app.Name };
 
                 return View(new FormModel<AppViewModel>(model, true));
             }
@@ -271,8 +274,8 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost("edit")]
         public ActionResult Edit(AppViewModel model)
         {
             if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id))
@@ -283,7 +286,7 @@ namespace LegnicaIT.JwtManager.Controllers
                     return View(new FormModel<AppViewModel>(model, true));
                 }
 
-                var newModel = new AppModel {Id = model.Id, Name = model.Name};
+                var newModel = new AppModel { Id = model.Id, Name = model.Name };
 
                 if (editApp.Invoke(newModel))
                 {
@@ -301,8 +304,8 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost("delete")]
         public ActionResult Delete(int id)
         {
             if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
