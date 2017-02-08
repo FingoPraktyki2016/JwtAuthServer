@@ -44,9 +44,10 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginModel model, string returnUrl)
         {
+            Breadcrumb.Add("Login", "Login", "Auth");
+
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Email", "Invalid email or password");
                 logger.Information("Model is not valid");
 
                 Alert.Warning();
@@ -60,7 +61,11 @@ namespace LegnicaIT.JwtManager.Controllers
 
             if (result.Status.Code == ResultCode.Error)
             {
+                ModelState.AddModelError("Email", "Invalid email or password");
+
                 logger.Information("Token is not valid");
+
+                Alert.Warning();
 
                 return View(model);
             }
