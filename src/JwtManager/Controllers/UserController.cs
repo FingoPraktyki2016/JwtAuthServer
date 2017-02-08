@@ -91,28 +91,17 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             Breadcrumb.Add("Edit user", "Edit", "User");
 
-            var loggedUser = LoggedUser.UserModel;
-            if (loggedUser.Id == id)
-            {
-                var viewModel = new EditUserDetailsViewModel()
-                {
-                    Id = id,
-                    Name = loggedUser.Name,
-                    Email = loggedUser.Email
-                };
-                var userViewModel = new FormModel<EditUserDetailsViewModel>(viewModel, true);
-                return View(userViewModel);
-            }
-
             if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
             {
                 Alert.Danger("You're not allowed to see this page");
                 return View("Error");
             }
 
-            var model = getUserById.Invoke(id);
+            var model = (LoggedUser.UserModel.Id == id) ? LoggedUser.UserModel : getUserById.Invoke(id);
+
             var viewModelWrapper = new EditUserDetailsViewModel
             {
+                Id = model.Id,
                 Name = model.Name,
                 Email = model.Email
             };

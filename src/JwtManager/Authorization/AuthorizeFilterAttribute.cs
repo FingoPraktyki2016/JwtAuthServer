@@ -24,6 +24,8 @@ namespace LegnicaIT.JwtManager.Authorization
         {
             private readonly PermissionsAuthorizationRequirement requiredPermissions;
 
+            private const string SessionToken = "token";
+
             public RequiresPermissionAttributeImpl(PermissionsAuthorizationRequirement requiredPermissions)
             {
                 this.requiredPermissions = requiredPermissions;
@@ -35,7 +37,7 @@ namespace LegnicaIT.JwtManager.Authorization
                 var settings = controller.Settings;
                 bool isValid = false;
 
-                string sessionToken = context.HttpContext.Session.GetString("token");
+                string sessionToken = context.HttpContext.Session.GetString(SessionToken);
 
                 if (sessionToken != null)
                 {

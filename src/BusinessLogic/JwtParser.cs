@@ -15,6 +15,10 @@ namespace LegnicaIT.BusinessLogic
         private readonly SymmetricSecurityKey encodedSecretKey;
         private readonly IDateTimeProvider dateTimeProvider;
 
+        private const string ClaimEmail = "email";
+        private const string ClaimAppId = "appId";
+        private const string ClaimIssuer = "iss";
+
         /// <summary>
         /// JWT token parser
         /// </summary>
@@ -100,8 +104,8 @@ namespace LegnicaIT.BusinessLogic
             if (jwt != null)
             {
                 result.ExpiryDate = jwt.ValidTo;
-                result.Email = GetClaim(jwt, "email");
-                result.AppId = Convert.ToInt32(GetClaim(jwt, "appId"));
+                result.Email = GetClaim(jwt, ClaimEmail);
+                result.AppId = Convert.ToInt32(GetClaim(jwt, ClaimAppId));
                 result.IsValid = true;
             }
 
@@ -120,8 +124,8 @@ namespace LegnicaIT.BusinessLogic
                 identity = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Email, formEmail),
-                    new Claim("iss", GetIssuerName()),
-                    new Claim("appId", formAppId.ToString()),
+                    new Claim(ClaimIssuer, GetIssuerName()),
+                    new Claim(ClaimAppId, formAppId.ToString()),
                 });
             }
             catch (Exception)

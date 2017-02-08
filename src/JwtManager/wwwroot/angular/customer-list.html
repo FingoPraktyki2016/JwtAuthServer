@@ -1,0 +1,16 @@
+﻿<h3 ng-init="counter = 0">List</h3>
+
+<customers-list></customers-list>
+
+
+<div ng-controller="customerController">
+    <button ng-click="loadCustomer(2)">Load</button>
+    
+    <div ng-show="loaded">
+        <h2>Details for: {{customerDetails.name}}</h2>
+    </div>
+</div>
+
+<div>
+    <button ng-click="counter = counter + 1">{{counter}}</button>
+</div>
