@@ -43,12 +43,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 return false;
             }
 
-            if (requestorUserAppRole > questionedUserAppRole)
-            {
-                return true;
-            }
-
-            return false;
+            return requestorUserAppRole > questionedUserAppRole;
         }
     }
 }

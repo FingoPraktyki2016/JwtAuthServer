@@ -15,15 +15,17 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         public void Invoke_ValidData_ReturnsTrue()
         {
             // prepare
-            var userAppFromDb = new DataAccess.Models.UserApps()
+            var userAppFromDb = new DataAccess.Models.UserApps
             {
                 User = new DataAccess.Models.User { Id = 1 },
                 App = new DataAccess.Models.App { Id = 1 },
             };
+            var userFromDb = new DataAccess.Models.User();
 
             var findByResult = new List<DataAccess.Models.UserApps> { userAppFromDb };
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
             var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(userFromDb);
             mockedUserAppRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
               .Returns(findByResult.AsQueryable);
             var action = new CheckUserPermissionToApp(mockedUserAppRepository.Object, mockedUserRepository.Object);
@@ -32,7 +34,27 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var allow = action.Invoke(1, 1);
 
             // assert
-            Assert.NotNull(userAppFromDb);
+            Assert.True(allow);
+        }
+
+        [Fact]
+        public void Invoke_ForSuperAdmin_ReturnsTrue()
+        {
+            // prepare
+            var userFromDb = new DataAccess.Models.User
+            {
+                IsSuperAdmin = true
+            };
+
+            var mockedUserAppRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(userFromDb);
+            var action = new CheckUserPermissionToApp(mockedUserAppRepository.Object, mockedUserRepository.Object);
+
+            // action
+            var allow = action.Invoke(1, 1);
+
+            // assert
             Assert.True(allow);
         }
 
