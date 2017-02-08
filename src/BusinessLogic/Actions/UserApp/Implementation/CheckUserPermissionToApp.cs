@@ -7,22 +7,31 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
     public class CheckUserPermissionToApp : ICheckUserPermissionToApp
     {
         private readonly IUserAppRepository userAppRepository;
+        private readonly IUserRepository userRepository;
 
-        public CheckUserPermissionToApp(IUserAppRepository userAppRepository)
+        public CheckUserPermissionToApp(IUserAppRepository userAppRepository, IUserRepository userRepository)
         {
             this.userAppRepository = userAppRepository;
+            this.userRepository = userRepository;
         }
 
         public bool Invoke(int userId, int appId)
         {
-            var appToQuestion = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId);
+            var user = userRepository.GetById(userId);
 
-            if (appToQuestion.Any())
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (user.IsSuperAdmin)
             {
                 return true;
             }
 
-            return false;
+            var appToQuestion = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId);
+
+            return appToQuestion.Any();
         }
     }
 }

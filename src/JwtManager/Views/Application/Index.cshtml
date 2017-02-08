@@ -1,5 +1,4 @@
 ﻿@using LegnicaIT.JwtManager.Models
-@using Microsoft.AspNetCore.Http
 @model List<AppViewModel>
 
 @{
@@ -32,4 +31,4 @@
     </tbody>
 </table>
 
-@Html.Partial("DeleteModal")
+@Html.Partial("DeleteModal", new DeleteModalModel("Delete", "Application"))

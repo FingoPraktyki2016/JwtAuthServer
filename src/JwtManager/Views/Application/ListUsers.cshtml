@@ -1,5 +1,5 @@
 ﻿@using LegnicaIT.JwtManager.Models
-@model List <UserDetailsFromAppViewModel>
+@model List<UserDetailsFromAppViewModel>
 
 @{
     ViewData["Title"] = "App Users";
@@ -23,19 +23,18 @@
         {
             <tr>
                 <td>@user.Id</td>
-                <td>@Html.ActionLink(user.Name, "Details", "User", new {id = user.Id})</td>
+                <td>@Html.ActionLink(user.Name, "Details", "User", new { id = user.Id })</td>
                 <td>@user.Email</td>
-                <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new {appId = ViewData["appId"], userId = user.Id})</td>
+                <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new { appId = ViewData["appId"], userId = user.Id })</td>
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "User", new {id = user.Id}, new {@class = "btn btn-primary pull-left", role = "button"})
+                    @Html.ActionLink("Edit", "Edit", "User", new { id = user.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
 
-                    @using (Html.BeginForm("DeleteUser", "Application", new {userId = user.Id, appId = ViewData["appId"]}, FormMethod.Post))
-                    {
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    }
+                    <button name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@user.Id">Delete</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@Html.Partial("DeleteModal", new DeleteModalModel("DeleteUser", "Application"))

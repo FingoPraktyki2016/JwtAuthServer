@@ -13,10 +13,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
         public void Invoke_ValidDataReturnsCorrectModel()
         {
             // prepare
-            var userapp1 = new DataAccess.Models.UserApps()
+            var userapp1 = new DataAccess.Models.UserApps
             {
-                App = new DataAccess.Models.App() { Id = 2, Name = "app2" },
-                User = new DataAccess.Models.User() { Id = 2 }
+                App = new DataAccess.Models.App { Id = 2, Name = "app2" },
+                User = new DataAccess.Models.User { Id = 2 }
             };
 
             var app1 = new DataAccess.Models.App()
@@ -28,23 +28,24 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var findByResult = new List<DataAccess.Models.UserApps>() {userapp1 };
             var findByResultApp = new List<DataAccess.Models.App>() {app1, app2 };
 
-            var mocekdUserAppRepository = new Mock<IUserAppRepository>();
-            var mocekdAppRepository = new Mock<IAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var mockedUserAppRepository = new Mock<IUserAppRepository>();
+            var mockedAppRepository = new Mock<IAppRepository>();
 
-            mocekdUserAppRepository.Setup(r => r.GetAll())
+            mockedUserAppRepository.Setup(r => r.GetAll())
                 .Returns(findByResult.AsQueryable);
 
-            mocekdAppRepository.Setup(r => r.GetAll())
+            mockedAppRepository.Setup(r => r.GetAll())
                   .Returns(findByResultApp.AsQueryable);
 
-            var action = new GetUserApps(mocekdUserAppRepository.Object, mocekdAppRepository.Object);
+            var action = new GetUserApps(mockedUserAppRepository.Object, mockedAppRepository.Object, mockedUserRepository.Object);
 
             // action
             var list = action.Invoke(2);
 
             // check
-            Assert.Equal(2, list.Where(x=>x.Id == 2).FirstOrDefault().Id);
-            Assert.Equal("app2", list.Where(x => x.Name == "app2").FirstOrDefault().Name);
+            Assert.Equal(2, list.FirstOrDefault(x => x.Id == 2).Id);
+            Assert.Equal("app2", list.FirstOrDefault(x => x.Name == "app2").Name);
         }
 
         [Fact]
@@ -63,16 +64,17 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var findByResult = new List<DataAccess.Models.UserApps>() { userapp1 };
             var findByResultApp = new List<DataAccess.Models.App>() { app1};
 
-            var mocekdUserAppRepository = new Mock<IUserAppRepository>();
-            var mocekdAppRepository = new Mock<IAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var mockedUserAppRepository = new Mock<IUserAppRepository>();
+            var mockedAppRepository = new Mock<IAppRepository>();
 
-            mocekdUserAppRepository.Setup(r => r.GetAll())
+            mockedUserAppRepository.Setup(r => r.GetAll())
                 .Returns(findByResult.AsQueryable);
 
-            mocekdAppRepository.Setup(r => r.GetAll())
+            mockedAppRepository.Setup(r => r.GetAll())
                   .Returns(findByResultApp.AsQueryable);
 
-            var action = new GetUserApps(mocekdUserAppRepository.Object, mocekdAppRepository.Object);
+            var action = new GetUserApps(mockedUserAppRepository.Object, mockedAppRepository.Object, mockedUserRepository.Object);
 
             // action
             var list = action.Invoke(999);
@@ -89,19 +91,20 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
 
             var app1 = new DataAccess.Models.App();
 
-            var findByResult = new List<DataAccess.Models.UserApps>() { userapp1 };
-            var findByResultApp = new List<DataAccess.Models.App>() { app1 };
+            var findByResult = new List<DataAccess.Models.UserApps> { userapp1 };
+            var findByResultApp = new List<DataAccess.Models.App> { app1 };
 
-            var mocekdUserAppRepository = new Mock<IUserAppRepository>();
-            var mocekdAppRepository = new Mock<IAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var mockedUserAppRepository = new Mock<IUserAppRepository>();
+            var mockedAppRepository = new Mock<IAppRepository>();
 
-            mocekdUserAppRepository.Setup(r => r.GetAll())
+            mockedUserAppRepository.Setup(r => r.GetAll())
                 .Returns(findByResult.AsQueryable);
 
-            mocekdAppRepository.Setup(r => r.GetAll())
+            mockedAppRepository.Setup(r => r.GetAll())
                   .Returns(findByResultApp.AsQueryable);
 
-            var action = new GetUserApps(mocekdUserAppRepository.Object, mocekdAppRepository.Object);
+            var action = new GetUserApps(mockedUserAppRepository.Object, mockedAppRepository.Object, mockedUserRepository.Object);
 
             // action
             var list = action.Invoke(999);

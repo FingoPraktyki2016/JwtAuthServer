@@ -1,6 +1,7 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.User.Implementation;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
+using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Moq;
 using Xunit;
 
@@ -16,15 +17,16 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var requestor = UserRole.Manager;
             var questioned = UserRole.User;
 
-            var mockedUserRepository = new Mock<IGetAppUserRole>();
+            var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            mockedUserRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
+            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
               .Returns(requestor);
 
-            mockedUserRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
+            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
            .Returns(questioned);
 
-            var action = new CheckUserPermission(mockedUserRepository.Object);
+            var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1, 2);
@@ -40,15 +42,16 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var requestor = UserRole.User;
             var questioned = UserRole.User;
 
-            var mockedUserRepository = new Mock<IGetAppUserRole>();
+            var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            mockedUserRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
+            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
               .Returns(requestor);
 
-            mockedUserRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
+            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
            .Returns(questioned);
 
-            var action = new CheckUserPermission(mockedUserRepository.Object);
+            var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1, 2);
@@ -64,15 +67,16 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var requestor = UserRole.User;
             var questioned = UserRole.Manager;
 
-            var mockedUserRepository = new Mock<IGetAppUserRole>();
+            var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            mockedUserRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
+            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
               .Returns(requestor);
 
-            mockedUserRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
+            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
               .Returns(questioned);
 
-            var action = new CheckUserPermission(mockedUserRepository.Object);
+            var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1, 2);
@@ -87,12 +91,13 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             // prepare
             var requestor = UserRole.SuperAdmin;
 
-            var mockedUserRepository = new Mock<IGetAppUserRole>();
+            var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            mockedUserRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
+            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
               .Returns(requestor);
 
-            var action = new CheckUserPermission(mockedUserRepository.Object);
+            var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1, 5);
@@ -105,8 +110,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_UserIsRequestorAndQuestioned_ReturnsTrue()
         {
             // prepare
-            var mockedUserRepository = new Mock<IGetAppUserRole>();
-            var action = new CheckUserPermission(mockedUserRepository.Object);
+            var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+
+            var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1, 1);
@@ -119,8 +126,9 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_EmptyRepository_ReturnsFalse()
         {
             // prepare
-            var mockedUserRepository = new Mock<IGetAppUserRole>();
-            var action = new CheckUserPermission(mockedUserRepository.Object);
+            var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1, 3);

@@ -30,6 +30,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly IAddNewUserApp addUserApp;
         private readonly IDeleteApp deleteApp;
         private readonly ICheckUserPermissionToApp checkUserPermissionToApp;
+        private readonly ICheckUserPermission checkUserPermission;
 
         public ApplicationController(
             IGetAppUsers getAppUsers,
@@ -46,6 +47,7 @@ namespace LegnicaIT.JwtManager.Controllers
             IEditApp editApp,
             IDeleteApp deleteApp,
             ICheckUserPermissionToApp checkUserPermissionToApp,
+            ICheckUserPermission checkUserPermission,
             ISessionService<LoggedUserModel> loggedUserSessionService)
             : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
@@ -61,6 +63,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.editApp = editApp;
             this.deleteApp = deleteApp;
             this.checkUserPermissionToApp = checkUserPermissionToApp;
+            this.checkUserPermission = checkUserPermission;
 
             Breadcrumb.Add("Application", "Index", "Application");
         }
@@ -120,18 +123,24 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost("deleteuser")]
-        public IActionResult DeleteUser(int userId, int appId)
+        public ActionResult DeleteUser(int id)
         {
-            if (deleteUserApp.Invoke(userId, appId))
+            if (checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
+            {
+                Alert.Danger("You don't have permission");
+                return RedirectToAction("Details", new { id = LoggedUser.AppId });
+            }
+
+            if (deleteUserApp.Invoke(id, LoggedUser.AppId))
             {
                 Alert.Success();
+                return RedirectToAction("Details", new { id = LoggedUser.AppId });
             }
             else
             {
                 Alert.Danger("Something went wrong");
             }
-
-            return RedirectToAction("Details", new { id = appId });
+            return RedirectToAction("Details", new { id = LoggedUser.AppId });
         }
 
         public List<UserDetailsFromAppViewModel> ListUsers(int appId)
@@ -303,7 +312,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost("delete")]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
             {
@@ -314,16 +323,16 @@ namespace LegnicaIT.JwtManager.Controllers
                 else
                 {
                     Alert.Danger("Something went wrong");
-                    Json(false);
+                    return RedirectToAction("Index");
                 }
             }
             else
             {
                 Alert.Danger("You don't have permission!");
-                Json(false);
+                return RedirectToAction("Index");
             }
 
-            return Json(true);
+            return RedirectToAction("Index");
         }
     }
 }
