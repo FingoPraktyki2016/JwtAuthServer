@@ -21,6 +21,9 @@ namespace LegnicaIT.JwtManager.Controllers
         public AlertHelper Alert = new AlertHelper();
         protected readonly BreadcrumbHelper Breadcrumb = new BreadcrumbHelper();
 
+        private const string SessionUserDetails = "UserDetails";
+        private const string SessionToken = "token";
+
         private readonly IGetUserApps _getUserApps;
         private readonly ISessionService<LoggedUserModel> loggedUserSessionService;
 
@@ -40,13 +43,13 @@ namespace LegnicaIT.JwtManager.Controllers
         {
             base.OnActionExecuting(context);
 
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserDetails")) ||
-                string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserDetails)) ||
+                string.IsNullOrEmpty(HttpContext.Session.GetString(SessionToken)))
             {
                 return;
             }
 
-            LoggedUser = new LoggedUserModel(HttpContext.Session.GetString("UserDetails"), HttpContext.Session.GetString("token"));
+            LoggedUser = new LoggedUserModel(HttpContext.Session.GetString(SessionUserDetails), HttpContext.Session.GetString(SessionToken));
 
             if (LoggedUser != null)
             {

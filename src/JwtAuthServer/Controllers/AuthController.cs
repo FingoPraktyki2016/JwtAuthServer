@@ -71,7 +71,8 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             var parser = new JwtParser();
 
             var userId = getUserId.Invoke(model.Email);
-            var appId = getUserApps.Invoke(userId).Any() ? getUserApps.Invoke(userId).FirstOrDefault().Id : 0;
+            var listUserApps = getUserApps.Invoke(userId);
+            var appId = listUserApps.Any() ? listUserApps.FirstOrDefault().Id : 0;
 
             var acquireResult = parser.AcquireToken(model.Email, appId);
             var result = new ResultModel<string>(acquireResult.Token);

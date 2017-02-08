@@ -34,8 +34,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
         public void Invoke_ForInvalidId_ReturnsNulledModel()
         {
             // prepare
-            var dataApp = new DataAccess.Models.App();
-            var findByResult = new List<DataAccess.Models.App> { dataApp };
+            var findByResult = new List<DataAccess.Models.App> { };
             var mockedAppRepository = new Mock<IAppRepository>();
             mockedAppRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.App, bool>>>()))
                 .Returns(findByResult.AsQueryable);
@@ -45,8 +44,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var app = action.Invoke(999);
 
             // check
-            Assert.Equal(0, app.Id);
-            Assert.Null(app.Name);
+            Assert.Null(app);
         }
     }
 }

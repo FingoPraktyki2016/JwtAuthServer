@@ -7,9 +7,9 @@ namespace LegnicaIT.BusinessLogic.Helpers
 {
     public class Hasher : IHasher
     {
-        private const int keySize = 192; //256 chars
-        private const int saltSize = 96; //128 chars
-        private const int iterations = 10000;
+        private const int KeySize = 192; //256 chars
+        private const int SaltSize = 96; //128 chars
+        private const int Iterations = 10000;
 
         public string CreateHash(string password, string salt)
         {
@@ -18,8 +18,8 @@ namespace LegnicaIT.BusinessLogic.Helpers
                 if (password.Length > 0 && password.Length > 0)
                 {
                     var byteArraySalt = Convert.FromBase64String(salt);
-                    var deriveBytes = new Rfc2898DeriveBytes(password, byteArraySalt, iterations);
-                    var key = deriveBytes.GetBytes(keySize);
+                    var deriveBytes = new Rfc2898DeriveBytes(password, byteArraySalt, Iterations);
+                    var key = deriveBytes.GetBytes(KeySize);
 
                     return Convert.ToBase64String(key);
                 }
@@ -35,7 +35,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
         public string GenerateRandomSalt()
         {
             var rng = RandomNumberGenerator.Create();
-            var buffor = new byte[saltSize];
+            var buffor = new byte[SaltSize];
             rng.GetBytes(buffor);
 
             return Convert.ToBase64String(buffor);
