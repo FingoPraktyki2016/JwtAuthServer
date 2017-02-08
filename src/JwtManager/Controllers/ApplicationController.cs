@@ -95,7 +95,6 @@ namespace LegnicaIT.JwtManager.Controllers
             Breadcrumb.Add("Add user", "AddUser", "Application");
             ViewData["appId"] = appId;
 
-            //TODO Adduser View with action AddUser
             return View("AddUser");
         }
 

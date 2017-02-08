@@ -1,10 +1,8 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using LegnicaIT.DataAccess.Models;
 
 namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
 {
