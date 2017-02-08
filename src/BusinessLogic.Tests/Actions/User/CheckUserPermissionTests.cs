@@ -13,18 +13,21 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_HigherRole_ReturnsTrue()
         {
             // prepare
-
             var requestor = UserRole.Manager;
             var questioned = UserRole.User;
+            var userFromDb = new DataAccess.Models.User();
 
             var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
             var mockedUserRepository = new Mock<IUserRepository>();
 
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(userFromDb);
+
             mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
-              .Returns(requestor);
+                .Returns(requestor);
 
             mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
-           .Returns(questioned);
+                .Returns(questioned);
 
             var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
@@ -41,15 +44,19 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             // prepare
             var requestor = UserRole.User;
             var questioned = UserRole.User;
+            var userFromDb = new DataAccess.Models.User();
 
             var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
             var mockedUserRepository = new Mock<IUserRepository>();
 
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(userFromDb);
+
             mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
-              .Returns(requestor);
+                .Returns(requestor);
 
             mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
-           .Returns(questioned);
+                .Returns(questioned);
 
             var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
@@ -66,15 +73,19 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             // prepare
             var requestor = UserRole.User;
             var questioned = UserRole.Manager;
+            var userFromDb = new DataAccess.Models.User();
 
             var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
             var mockedUserRepository = new Mock<IUserRepository>();
 
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(userFromDb);
+
             mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
-              .Returns(requestor);
+                .Returns(requestor);
 
             mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 2))
-              .Returns(questioned);
+                .Returns(questioned);
 
             var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 
@@ -89,13 +100,15 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_RequestorIsSuperAdmin_ReturnsTrue()
         {
             // prepare
-            var requestor = UserRole.SuperAdmin;
+            var userFromDb = new DataAccess.Models.User
+            {
+                IsSuperAdmin = true
+            };
 
             var mockedGetAppUserRoleRepository = new Mock<IGetAppUserRole>();
             var mockedUserRepository = new Mock<IUserRepository>();
 
-            mockedGetAppUserRoleRepository.Setup(r => r.Invoke(It.IsAny<int>(), 1))
-              .Returns(requestor);
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(userFromDb);
 
             var action = new CheckUserPermission(mockedGetAppUserRoleRepository.Object, mockedUserRepository.Object);
 

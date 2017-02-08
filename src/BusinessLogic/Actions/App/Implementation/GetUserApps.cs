@@ -39,10 +39,16 @@ namespace LegnicaIT.BusinessLogic.Actions.App.Implementation
             {
                 var listUserApps = userAppRepository.GetAll();
 
+                if (!listUserApps.Any())
+                {
+                    // Return empty list
+                    return listOfApps;
+                }
+
                 list = (from userApps in listUserApps
-                            join app in listApps on userApps.App.Id equals app.Id
-                            where userApps.User.Id == userId
-                            select app).ToList();
+                        join app in listApps on userApps.App.Id equals app.Id
+                        where userApps.User.Id == userId
+                        select app).ToList();
             }
             
             listOfApps.AddRange(list.Select(appFromDb => new AppModel()
