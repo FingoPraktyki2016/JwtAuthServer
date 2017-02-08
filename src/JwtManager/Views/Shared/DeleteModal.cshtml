@@ -1,4 +1,6 @@
-﻿<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+﻿@model LegnicaIT.JwtManager.Models.DeleteModalModel
+
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,7 +12,10 @@
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" type="button" class="btn btn-default">Cancel</button>
-                <button id="btnContinueDelete" type="button" class="btn btn-primary">Delete</button>
+                @using (Html.BeginForm(Model.Action, Model.Controller, new { id = 0 }, FormMethod.Post, true, new { name = "modalDeleteConfirm", @class = "pull-right" }))
+                {
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                }
             </div>
         </div>
     </div>
@@ -19,22 +24,19 @@
 <script>
     var item_to_delete;
     $("[name='deleteItem']").click(function () {
-        item_to_delete = $(this).data("id");
+        item_to_delete = $(this).data('id');
     });
 
-    $('#btnContinueDelete').click(function () {
-        var url = '/@ViewContext.RouteData.Values["controller"].ToString()/delete/';
-        var token = $('[name=__RequestVerificationToken]').val();
-        $.ajax({
-            url: url,
-            data: { __RequestVerificationToken: token, id: item_to_delete },
-            type: 'POST',
-            success: function (response) {
-                if (response === true) {
-                    location.reload();
-                }
-            },
-            error: function () { location.reload(); }
-        });
+    $("[name='modalDeleteConfirm']").click(function (e) {
+        e.preventDefault();
+        var form = $(this).parents('form:first');
+        var url = form.context.action;
+        //get variable name
+        //I've overdone it a little, commented part allows dynamic variables e.g. instead of id you could use appId or data-id etc. I'm gonna leave for future generations.
+        //var variable = url.split("?")[1].split("=")[0];
+        //var newurl = url.split("?")[0] + "?" + variable + "=" + item_to_delete;
+        var newurl = url.replace("id=0", "id=" + item_to_delete);
+        form.context.action = newurl;
+        this.submit();
     });
 </script>
