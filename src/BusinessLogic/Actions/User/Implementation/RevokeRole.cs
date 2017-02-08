@@ -8,14 +8,23 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
     public class RevokeRole : IRevokeRole
     {
         private readonly IUserAppRepository userAppRepository;
+        private readonly IUserRepository userRepository;
 
-        public RevokeRole(IUserAppRepository userAppRepository)
+        public RevokeRole(IUserAppRepository userAppRepository, IUserRepository userRepository)
         {
             this.userAppRepository = userAppRepository;
+            this.userRepository = userRepository;
         }
 
         public bool Invoke(int appId, int user, UserRole newRole)
         {
+            var userFromDB = userRepository.GetById(user);
+
+            if (userFromDB == null || userFromDB.IsSuperAdmin)
+            {
+                return false;
+            }
+
             var userApp = userAppRepository.FindBy(m => m.User.Id == user && m.App.Id == appId).FirstOrDefault();
 
             if (userApp == null)

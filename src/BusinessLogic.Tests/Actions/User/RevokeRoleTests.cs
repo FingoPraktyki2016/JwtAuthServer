@@ -22,15 +22,22 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 App = new DataAccess.Models.App { Id = 1 },
                 Role = UserRole.Manager
             };
+            var dataUser = new DataAccess.Models.User
+            {
+                IsSuperAdmin = false
+            };
             var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps> { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(dataUser);
             mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
                 .Returns(getAllResults.AsQueryable());
             mockedUserAppsRepository.Setup(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()))
                 .Callback<DataAccess.Models.UserApps>(userApps => dataUserAppSaved = userApps);
 
-            var action = new RevokeRole(mockedUserAppsRepository.Object);
+            var action = new RevokeRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.User);
@@ -53,13 +60,20 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 App = new DataAccess.Models.App { Id = 1 },
                 Role = UserRole.Manager
             };
+            var dataUser = new DataAccess.Models.User
+            {
+                IsSuperAdmin = false
+            };
             var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps> { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(dataUser);
             mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
                 .Returns(getAllResults.AsQueryable());
 
-            var action = new RevokeRole(mockedUserAppsRepository.Object);
+            var action = new RevokeRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.Manager);
@@ -81,13 +95,20 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 App = new DataAccess.Models.App { Id = 1 },
                 Role = UserRole.Manager
             };
+            var dataUser = new DataAccess.Models.User
+            {
+                IsSuperAdmin = false
+            };
             var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps> { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(dataUser);
             mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
                 .Returns(getAllResults.AsQueryable());
 
-            var action = new RevokeRole(mockedUserAppsRepository.Object);
+            var action = new RevokeRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.SuperAdmin);
@@ -100,12 +121,61 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         }
 
         [Fact]
+        public void Invoke_LowerRoleThanSuperAdmin_NotSavedInDatabase()
+        {
+            // Prepare
+            var dataUser = new DataAccess.Models.User
+            {
+                IsSuperAdmin = true
+            };
+            var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(dataUser);
+
+            var action = new RevokeRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
+
+            // Action
+            var actionResult = action.Invoke(1, 1, Enums.UserRole.Manager);
+
+            // Check
+            Assert.False(actionResult);
+            mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
+            mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
+        }
+
+        [Fact]
+        public void Invoke_FromSuperAdminToSuperAdmin_NotSavedInDatabase()
+        {
+            // Prepare
+            var dataUser = new DataAccess.Models.User
+            {
+                IsSuperAdmin = true
+            };
+            var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(dataUser);
+
+            var action = new RevokeRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
+
+            // Action
+            var actionResult = action.Invoke(1, 1, Enums.UserRole.SuperAdmin);
+
+            // Check
+            Assert.False(actionResult);
+            mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
+            mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
+        }
+
+        [Fact]
         public void Invoke_IncorrectUserData_NotSavedInDatabase()
         {
             // Prepare
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
 
-            var action = new RevokeRole(mockedUserAppsRepository.Object);
+            var action = new RevokeRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
             var actionResult = action.Invoke(1, 1, Enums.UserRole.User);

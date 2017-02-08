@@ -10,7 +10,6 @@ using Xunit;
 
 namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 {
-    // TODO: Tests for SuperAdmin
     public class GrantRoleTests
     {
         [Fact]
