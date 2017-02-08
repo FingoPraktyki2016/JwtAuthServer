@@ -52,6 +52,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
                 Alert.Warning();
 
+                ViewBag.ReturnUrl = returnUrl;
                 return View(model);
             }
 
@@ -66,6 +67,7 @@ namespace LegnicaIT.JwtManager.Controllers
                 logger.Information("Token is not valid");
 
                 Alert.Warning();
+                ViewBag.ReturnUrl = returnUrl;
 
                 return View(model);
             }
