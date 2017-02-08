@@ -17,15 +17,16 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             // prepare
             var userAppFromDb = new DataAccess.Models.UserApps()
             {
-                User = new DataAccess.Models.User() { Id = 1 },
-                App = new DataAccess.Models.App() { Id = 1 },
+                User = new DataAccess.Models.User { Id = 1 },
+                App = new DataAccess.Models.App { Id = 1 },
             };
 
-            var findByResult = new List<DataAccess.Models.UserApps>() { userAppFromDb };
+            var findByResult = new List<DataAccess.Models.UserApps> { userAppFromDb };
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
             mockedUserAppRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
               .Returns(findByResult.AsQueryable);
-            var action = new CheckUserPermissionToApp(mockedUserAppRepository.Object);
+            var action = new CheckUserPermissionToApp(mockedUserAppRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1);
@@ -40,7 +41,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         {
             // prepare
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
-            var action = new CheckUserPermissionToApp(mockedUserAppRepository.Object);
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var action = new CheckUserPermissionToApp(mockedUserAppRepository.Object, mockedUserRepository.Object);
 
             // action
             var allow = action.Invoke(1, 1);
