@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
-    [Route("[controller]")]
+    [Route("user")]
     [AuthorizeFilter(UserRole.User)]
     public class UserController : BaseController
     {
@@ -44,7 +44,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.getUserDetails = getUserDetails;
         }
 
-        [HttpGet("details")]
+        [HttpGet("details/{id}")]
         public IActionResult Details(int id)
         {
             Breadcrumb.Add("User details", "Details", "User");
@@ -86,7 +86,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(new FormModel<EditUserDetailsViewModel>(viewModel));
         }
 
-        [HttpGet("edit")]
+        [HttpGet("edit/{id}")]
         public IActionResult Edit(int id)
         {
             Breadcrumb.Add("Edit user", "Edit", "User");
@@ -109,7 +109,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return View(userviewModel);
         }
 
-        [HttpPost("edit")]
+        [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(EditUserDetailsViewModel model)
         {

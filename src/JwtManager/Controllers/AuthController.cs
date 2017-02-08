@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
-    [Route("[controller]")]
+    [Route("auth")]
     public class AuthController : BaseController
     {
         private readonly IGetUserDetails getUserDetails;
@@ -92,7 +92,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [AuthorizeFilter(UserRole.User)]
         [ValidateAntiForgeryToken]
-        [HttpPost("switchapp")]
+        [HttpPost("switchapp/{appId}")]
         public IActionResult SwitchApp(int appId)
         {
             if (appId == LoggedUser.AppId || appId == 0)
