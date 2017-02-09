@@ -12,21 +12,40 @@
     @Html.Hidden("oldRole", Model.Role)
     @Html.Hidden("appId", Model.AppId)
     @Html.Hidden("userId", Model.UserId)
-    <h2>Change user role</h2>
-    <p>Select role:</p>
-        <label class="radio-inline">
-            @Html.RadioButtonFor(m => m.Role, UserRole.User) User 
-        </label>
+    <h2 align="center">Change user role</h2>
 
-        <label class="radio-inline">
-            @Html.RadioButtonFor(m => m.Role, UserRole.Manager) Manager 
-        </label>
-        <label class="radio-inline">
-            @Html.RadioButtonFor(m => m.Role, UserRole.SuperAdmin) SuperAdmin 
-        </label>
-        <td>
-            <input type="submit" value="Accept" class="btn btn-primary" />
-        </td>  
-    <br />
-    <br />
-}
+    <div id="container" align="center">
+
+        <table style="border-collapse:separate; border-spacing:10px ; margin-right:125px">
+
+            <tr>
+                <td>Select role:</td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="radio-inline" >@Html.RadioButtonFor(m => m.Role, UserRole.User) User</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="radio-inline">@Html.RadioButtonFor(m => m.Role, UserRole.Manager) Manager</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label class="radio-inline">@Html.RadioButtonFor(m => m.Role, UserRole.SuperAdmin) SuperAdmin</label>
+                </td>
+            </tr>
+
+        </table>
+
+        <br />
+
+        <input type="submit" value="Accept" class="btn btn-primary btn-lg jwt-btn-big" />
+
+        </div>
+
+        }

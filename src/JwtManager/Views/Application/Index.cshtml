@@ -1,10 +1,13 @@
-﻿@using LegnicaIT.JwtManager.Models
+﻿@using LegnicaIT.BusinessLogic.Enums
+@using LegnicaIT.JwtManager.Models
 @model List<AppViewModel>
 
 @{
     ViewData["Title"] = "Apps";
+    var Role = (UserRole)ViewData["Role"];
 }
-<h2>Your applications</h2>
+<h2 align="center">Your applications</h2>
+<br/>
 
 @Html.AntiForgeryToken()
 
@@ -13,7 +16,10 @@
         <tr>
             <th>App Id</th>
             <th>App Name</th>
-            <th>Actions</th>
+            @if (Role > UserRole.User)
+            {
+                <th>Action</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -22,10 +28,13 @@
             <tr>
                 <td>@app.Id</td>
                 <td>@Html.ActionLink(app.Name, "Details", "Application", new { id = app.Id })</td>
+                @if (Role > UserRole.User)
+                { 
                 <td width="150px">
                     @Html.ActionLink("Edit", "Edit", "Application", new { id = app.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
-                    <button name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@app.Id">Delete</button>
+                    <button style="margin-left:15px" name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@app.Id">Delete</button>
                 </td>
+                }
             </tr>
         }
     </tbody>
