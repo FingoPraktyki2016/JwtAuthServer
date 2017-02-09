@@ -100,16 +100,17 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             mockedAddNewUserApp.Verify(r => r.Invoke(It.IsAny<UserAppModel>()), Times.Never);
         }
 
-        // ok, but check manager -> superadmin and user->manager
-        [Fact]
-        public void Invoke_HigherRole_NotSavedInDatabase()
+        [Theory]
+        [InlineData(UserRole.User, Enums.UserRole.Manager)]
+        [InlineData(UserRole.Manager, Enums.UserRole.SuperAdmin)]
+        public void Invoke_HigherRole_NotSavedInDatabase(UserRole oldRole, Enums.UserRole newRole)
         {
             // Prepare
             var dataUserApp = new UserApps
             {
                 User = new DataAccess.Models.User { Id = 1 },
                 App = new DataAccess.Models.App { Id = 1 },
-                Role = UserRole.Manager
+                Role = oldRole
             };
             var dataUser = new DataAccess.Models.User
             {
@@ -129,7 +130,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
                 mockedAddNewUserApp.Object);
 
             // Action
-            var actionResult = action.Invoke(1, 1, Enums.UserRole.SuperAdmin);
+            var actionResult = action.Invoke(1, 1, newRole);
 
             // Check
             Assert.False(actionResult);

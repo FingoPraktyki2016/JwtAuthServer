@@ -145,21 +145,22 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             mockedUserRepository.Verify(r => r.Save(), Times.Never);
         }
 
-        [Fact]
-        public void Invoke_LowerRole_NotSavedInDatabase()
+        [Theory]
+        [InlineData(UserRole.Manager, Enums.UserRole.User)]
+        [InlineData(UserRole.SuperAdmin, Enums.UserRole.Manager)]
+        public void Invoke_LowerRole_NotSavedInDatabase(UserRole oldRole, Enums.UserRole newRole)
         {
             // Prepare
             var dataUserApp = new DataAccess.Models.UserApps
             {
                 User = new DataAccess.Models.User { Id = 1 },
                 App = new DataAccess.Models.App { Id = 1 },
-                Role = UserRole.Manager
+                Role = oldRole
             };
             var dataUser = new DataAccess.Models.User
             {
                 IsSuperAdmin = false
             };
-            var dataUserAppSaved = dataUserApp;
             var getAllResults = new List<DataAccess.Models.UserApps> { dataUserApp };
             var mockedUserAppsRepository = new Mock<IUserAppRepository>();
             mockedUserAppsRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.UserApps, bool>>>()))
@@ -171,11 +172,10 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var action = new GrantRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
 
             // Action
-            var actionResult = action.Invoke(1, 1, Enums.UserRole.User);
+            var actionResult = action.Invoke(1, 1, newRole);
 
             // Check
             Assert.False(actionResult);
-            Assert.Equal(UserRole.Manager, dataUserAppSaved.Role);
             mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.UserApps>()), Times.Never);
             mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
             mockedUserRepository.Verify(r => r.Save(), Times.Never);
