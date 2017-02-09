@@ -5,27 +5,46 @@
     ViewData["Title"] = "Login page";
 }
 @using (Html.BeginForm("Login", "Auth", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
-{    <h2>Log in</h2>
-    <div class="form-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-2" })
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email address", type = "email", required = "required" })
+{
+    <div id="container" align="center">
+
+        <h2>Log in</h2>
+        <br/>
+
+
+        <table style="border-collapse:separate; border-spacing:5px">
+            <tr>
+                <td align="right">@Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-2" })</td>
+                <td align="left" >@Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email address", type = "email", required = "required" })</td>
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Password, new { @class = "control-label col-sm-2" })
-            <div class="col-sm-10">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", required = "required" })
+            </tr>
+
+            <tr>
+                <td align="right">@Html.LabelFor(m => m.Password, new { @class = "control-label col-sm-2" })</td>
+                <td align="left">@Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", required = "required" })</td>
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
+            </tr>
+
+        </table>
+
+        <br/>
+        <div class="form-group" style="margin-right:116px">
             <div class="col-sm-10 col-sm-offset-2">
                 <button class="btn btn-lg btn-primary jwt-btn-big" type="submit" id="btnLogin">Log in</button>
             </div>
         </div>
+
     </div>
 
 }
+
+
+
+
+
+
+
+
+
+
+
