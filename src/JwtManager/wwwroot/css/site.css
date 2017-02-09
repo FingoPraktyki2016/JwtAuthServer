@@ -55,3 +55,7 @@ textarea {
     height: 50px;
     width: 150px
 }
+
+.formfield * {
+  vertical-align: middle;
+}

@@ -4,7 +4,8 @@
 @{
     ViewData["Title"] = "Apps";
 }
-<h2>Your applications</h2>
+<h2 align="center">Your applications</h2>
+<br/>
 
 @Html.AntiForgeryToken()
 
@@ -24,7 +25,7 @@
                 <td>@Html.ActionLink(app.Name, "Details", "Application", new { id = app.Id })</td>
                 <td width="150px">
                     @Html.ActionLink("Edit", "Edit", "Application", new { id = app.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
-                    <button name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@app.Id">Delete</button>
+                    <button style="margin-left:15px" name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@app.Id">Delete</button>
                 </td>
             </tr>
         }

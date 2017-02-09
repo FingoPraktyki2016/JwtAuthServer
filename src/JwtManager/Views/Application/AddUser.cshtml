@@ -7,36 +7,34 @@
 
 @using (Html.BeginForm(FormMethod.Post, true, new { @class = "form-horizontal" }))
 {
-    <h2>Add user to application</h2>
-    
-    <div class="form-group">
-        @Html.LabelFor(m => m.AppId, new { @class = "control-label col-sm-2" })
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.AppId, new { @class = "form-control", placeholder = "User ID", type = "number", required = "required" })
-            @Html.ValidationMessageFor(m => m.AppId, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <h2 align="center">Add user to application</h2>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserId, new { @class = "control-label col-sm-2" })
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", placeholder = "User ID", type = "number", required = "required" })
-            @Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <br/>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Role, new { @class = "control-label col-sm-2" })
-        <div class="col-sm-10">
-            @Html.PasswordFor(m => m.Role, new { @class = "form-control", required = "required", type = "number"})
-            @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <div id="container" align="center" >
+        <table style="border-collapse:separate; border-spacing:5px">
+            <tr>
+                <td align="right">@Html.LabelFor(m => m.AppId, new { @class = "control-label col-sm-2" })</td>
+                <td align="left">@Html.TextBoxFor(m => m.AppId, new { @class = "form-control ", type = "number", required = "required" }) </td>
+                @Html.ValidationMessageFor(m => m.AppId, "", new { @class = "text-danger" })
+            </tr>
 
-    <div class="form-group">
-        <div class="col-sm-10 col-sm-offset-2">
-            <button class="btn btn-lg btn-primary jwt-btn-big" type="submit" id="btnAdd">Add</button>
-        </div>
-    </div>
-}
+            <tr>
+                <td align="right">@Html.LabelFor(m => m.UserId, new { @class = "control-label col-sm-2" })</td>
+                <td align="left">@Html.TextBoxFor(m => m.UserId, new { @class = "form-control", type = "number", required = "required" })</td>
+                @Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger" })
+            </tr>
 
+            <tr>
+                <td align="right">@Html.LabelFor(m => m.Role, new { @class = "control-label col-sm-2" })</td>
+                <td align="left">@Html.PasswordFor(m => m.Role, new { @class = "form-control", required = "required", type = "number" })</td>
+                @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
+            </tr>
+         </table>
+
+        <br />
+
+     </div>
+
+    <div  align="center" style="margin-left:30px"> <button class="btn btn-lg btn-primary jwt-btn-big" type="submit" id="btnAdd">Add</button> </div>
+}    

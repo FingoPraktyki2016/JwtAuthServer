@@ -1,18 +1,20 @@
 ﻿@model LegnicaIT.JwtManager.Models.FormModel<LegnicaIT.JwtManager.Models.User.EditUserDetailsViewModel>
 
-<h2>User details</h2>
+<h2 align="center">User details</h2>
+<br/>
 
 <div class="form-group">
     @(Model.IsEdit ? Html.HiddenFor(m => m.Model.Id) : null)
-    <div class="form-group">
+   
+     <div class="form-group" align="center">
         @if (!Model.IsEdit)
         {
-            <strong>Email</strong>
+            <strong>Email: </strong>
             @Model.Model.Email
         }
     </div>
     
-    <div class="form-group">
+    <div class="form-group" align="center">
         @if (Model.IsEdit)
         {
             @Html.LabelFor(m => m.Model.Name)
