@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace LegnicaIT.JwtManager.Controllers
 {
     [Route("[controller]")]
-    [AuthorizeFilter(UserRole.Manager)]
+    [AuthorizeFilter(UserRole.User)]
     public class ApplicationController : BaseController
     {
         private readonly IGetAppUsers getAppUsers;
@@ -68,7 +68,7 @@ namespace LegnicaIT.JwtManager.Controllers
             Breadcrumb.Add("Application", "Index", "Application");
         }
 
-        [AuthorizeFilter(UserRole.None)]
+        [AuthorizeFilter(UserRole.User)]
         [HttpGet]
         public IActionResult Index()
         {
@@ -90,6 +90,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [HttpGet("adduser")]
+        [AuthorizeFilter(UserRole.Manager)]
         public IActionResult AddUser(int appId)
         {
             Breadcrumb.Add("Add user", "AddUser", "Application");
@@ -99,7 +100,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        [AuthorizeFilter(UserRole.None)] // ???
+        [AuthorizeFilter(UserRole.Manager)]
         [HttpPost("adduser")]
         public IActionResult AddUser(AppUserViewModel appuser)
         {
@@ -121,6 +122,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
+        [AuthorizeFilter(UserRole.Manager)]
         [HttpPost("deleteuser/{id}")]
         public ActionResult DeleteUser(int id)
         {
@@ -166,6 +168,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return listOfUsers;
         }
 
+        [AuthorizeFilter(UserRole.Manager)]
         [HttpGet("changeuserrole")]
         public IActionResult ChangeUserRole(int appId, int userId)
         {
@@ -184,6 +187,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
+        [AuthorizeFilter(UserRole.Manager)]
         [HttpPost("changeuserrole")]
         public IActionResult ChangeUserRole(int appId, int userId, UserRole oldRole, UserRole role)
         {
@@ -262,10 +266,11 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Index");
         }
 
+        [AuthorizeFilter(UserRole.Manager)]
         [HttpGet("edit")]
         public IActionResult Edit(int id)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.EditDelete))
             {
                 Breadcrumb.Add("Edit application", "Edit", "Application");
 
@@ -279,11 +284,12 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Index");
         }
 
+        [AuthorizeFilter(UserRole.Manager)]
         [ValidateAntiForgeryToken]
         [HttpPost("edit")]
         public IActionResult Edit(AppViewModel model)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id, ActionType.EditDelete))
             {
                 if (!ModelState.IsValid)
                 {
@@ -310,10 +316,11 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
+        [AuthorizeFilter(UserRole.Manager)]
         [HttpPost("delete/{id}")]
         public IActionResult Delete(int id)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.EditDelete))
             {
                 if (deleteApp.Invoke(id))
                 {
