@@ -1,7 +1,9 @@
 using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.BusinessLogic.Models.Common;
+using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
 using LegnicaIT.JwtManager.Services.Interfaces;
@@ -88,6 +90,7 @@ namespace LegnicaIT.JwtManager.Controllers
             return Redirect(returnUrl);
         }
 
+        [AuthorizeFilter(UserRole.User)]
         [ValidateAntiForgeryToken]
         [HttpPost("switchapp/{appId}")]
         public IActionResult SwitchApp(int appId)

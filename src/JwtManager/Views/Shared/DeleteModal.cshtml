@@ -31,11 +31,7 @@
         e.preventDefault();
         var form = $(this).parents('form:first');
         var url = form.context.action;
-        //get variable name
-        //I've overdone it a little, commented part allows dynamic variables e.g. instead of id you could use appId or data-id etc. I'm gonna leave for future generations.
-        //var variable = url.split("?")[1].split("=")[0];
-        //var newurl = url.split("?")[0] + "?" + variable + "=" + item_to_delete;
-        var newurl = url.replace("id=0", "id=" + item_to_delete);
+        var newurl = url.substring(0, url.lastIndexOf("/") + 1) + item_to_delete;
         form.context.action = newurl;
         this.submit();
     });

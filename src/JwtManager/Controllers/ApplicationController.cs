@@ -95,7 +95,6 @@ namespace LegnicaIT.JwtManager.Controllers
             Breadcrumb.Add("Add user", "AddUser", "Application");
             ViewData["appId"] = appId;
 
-            //TODO Adduser View with action AddUser
             return View("AddUser");
         }
 
@@ -122,7 +121,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        [HttpPost("deleteuser")]
+        [HttpPost("deleteuser/{id}")]
         public ActionResult DeleteUser(int id)
         {
             if (checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
@@ -311,7 +310,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        [HttpPost("delete")]
+        [HttpPost("delete/{id}")]
         public IActionResult Delete(int id)
         {
             if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id))
