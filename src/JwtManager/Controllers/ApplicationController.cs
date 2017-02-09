@@ -124,7 +124,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("deleteuser/{id}")]
         public ActionResult DeleteUser(int id)
         {
-            if (checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
             {
                 Alert.Danger("You don't have permission");
                 return RedirectToAction("Details", new { id = LoggedUser.AppId });
