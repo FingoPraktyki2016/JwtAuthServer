@@ -220,6 +220,32 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         }
 
         [Fact]
+        public void Invoke_User_NotHaveAnyApp_NotSavedInDatabase()
+        {
+            // Prepare
+            var dataUser = new DataAccess.Models.User
+            {
+                IsSuperAdmin = false
+            };
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(dataUser);
+
+            var action = new GrantRole(mockedUserAppsRepository.Object, mockedUserRepository.Object);
+
+            // Action
+            var actionResult = action.Invoke(1, 1, Enums.UserRole.Manager);
+
+            // Check
+            Assert.False(actionResult);
+            mockedUserRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Never);
+            mockedUserRepository.Verify(r => r.Save(), Times.Never);
+            mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
+        }
+
+        [Fact]
         public void Invoke_IncorrectUserData_NotSavedInDatabase()
         {
             // Prepare

@@ -37,7 +37,7 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
                 case ActionType.EditDelete:
                     if (appToQuestion != null)
                     {
-                        return (appToQuestion.Role == UserRole.Manager);
+                        return appToQuestion.Role == UserRole.Manager;
                     }
                     break;
 

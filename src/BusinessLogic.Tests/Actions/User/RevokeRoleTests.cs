@@ -178,6 +178,37 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         }
 
         [Fact]
+        public void Invoke_UserNotHaveAnyApp_NotSavedInDatabase()
+        {
+            // Prepare
+            var dataUser = new DataAccess.Models.User
+            {
+                IsSuperAdmin = false
+            };
+            var mockedUserAppsRepository = new Mock<IUserAppRepository>();
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var mockedAddNewUserApp = new Mock<IAddNewUserApp>();
+
+            mockedUserRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(dataUser);
+
+            var action = new RevokeRole(mockedUserAppsRepository.Object,
+                mockedUserRepository.Object,
+                mockedAddNewUserApp.Object);
+
+            // Action
+            var actionResult = action.Invoke(1, 1, Enums.UserRole.Manager);
+
+            // Check
+            Assert.False(actionResult);
+            mockedUserRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.User>()), Times.Never);
+            mockedUserRepository.Verify(r => r.Save(), Times.Never);
+            mockedAddNewUserApp.Verify(r => r.Invoke(It.IsAny<UserAppModel>()), Times.Never);
+            mockedUserAppsRepository.Verify(r => r.Edit(It.IsAny<UserApps>()), Times.Never);
+            mockedUserAppsRepository.Verify(r => r.Save(), Times.Never);
+        }
+
+        [Fact]
         public void Invoke_LowerRoleThanSuperAdminInApp_SavedInDatabase()
         {
             // Prepare
@@ -225,6 +256,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             Assert.False(savedUser.IsSuperAdmin);
             Assert.Equal(UserRole.Manager, dataUserAppSaved.Role);
         }
+
+
 
         [Fact]
         public void Invoke_FromSuperAdminToSuperAdmin_NotSavedInDatabase()

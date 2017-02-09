@@ -19,17 +19,17 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
 
         public bool Invoke(int appId, int user, UserRole newRole)
         {
-            var userFromDB = userRepository.GetById(user);
+            var userFromDb = userRepository.GetById(user);
 
-            if (userFromDB == null || userFromDB.IsSuperAdmin)
+            if (userFromDb == null || userFromDb.IsSuperAdmin)
             {
                 return false;
             }
 
             if (newRole == UserRole.SuperAdmin)
             {
-                userFromDB.IsSuperAdmin = true;
-                userRepository.Edit(userFromDB);
+                userFromDb.IsSuperAdmin = true;
+                userRepository.Edit(userFromDb);
                 userRepository.Save();
 
                 return true;

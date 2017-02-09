@@ -100,5 +100,28 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             mockedAppRepository.Verify(r => r.Save(), Times.Never);
             mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Never);
         }
+
+        [Fact]
+        public void Invoke_NoAppToEdit_SaveNorEditAreCalled()
+        {
+            // prepare
+            var appToEdit = new AppModel()
+            {
+                Id = 1,
+                Name = "trolololo"
+            };
+
+            var mockedAppRepository = new Mock<IAppRepository>();
+
+            var action = new EditApp(mockedAppRepository.Object);
+
+            // action
+            var actionResult = action.Invoke(appToEdit);
+
+            // assert
+            Assert.False(actionResult);
+            mockedAppRepository.Verify(r => r.Save(), Times.Never);
+            mockedAppRepository.Verify(r => r.Edit(It.IsAny<DataAccess.Models.App>()), Times.Never);
+        }
     }
 }

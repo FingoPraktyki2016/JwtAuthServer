@@ -45,5 +45,19 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             // check
             Assert.Equal(0, userId);
         }
+
+        [Fact]
+        public void Invoke_NullEmail_ReturnsZero()
+        {
+            // prepare
+            var mockedUserRepository = new Mock<IUserRepository>();
+            var action = new GetUserId(mockedUserRepository.Object);
+
+            // action
+            var userId = action.Invoke(null);
+
+            // check
+            Assert.Equal(0, userId);
+        }
     }
 }
