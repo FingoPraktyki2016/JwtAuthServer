@@ -29,11 +29,12 @@
                 <td>@app.Id</td>
                 <td>@Html.ActionLink(app.Name, "Details", "Application", new { id = app.Id })</td>
                 @if (Role > UserRole.User)
-                }
+                { 
                 <td width="150px">
                     @Html.ActionLink("Edit", "Edit", "Application", new { id = app.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
                     <button style="margin-left:15px" name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@app.Id">Delete</button>
                 </td>
+                }
             </tr>
         }
     </tbody>
