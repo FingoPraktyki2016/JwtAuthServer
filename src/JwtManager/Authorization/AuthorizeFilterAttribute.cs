@@ -49,15 +49,25 @@ namespace LegnicaIT.JwtManager.Authorization
                     {
                         UserRole userRole = (UserRole)Enum.Parse(typeof(UserRole), rolesResult.Value.ToString());
 
-                        controller.LoggedUser.Role = userRole;
                         // make sure all required roles are assigned to user
                         isValid = requiredPermissions.RequiredPermission.All(rp => userRole.HasRole(rp));
+                        controller.ViewData["Role"] = userRole;
                     }
                 }
 
                 if (!isValid)
                 {
-                    context.Result = new RedirectToActionResult("Login", "Auth", new { returnUrl = controller.HttpContext.Request.Path });
+                    if (controller.LoggedUser == null)
+                    {
+                        controller.Alert.Danger("You need to login to complete this action");
+                        context.Result = new RedirectToActionResult("Login", "Auth",
+                            new { returnUrl = controller.HttpContext.Request.Path });
+                    }
+                    else
+                    {
+                        controller.Alert.Danger("You don't have permission to complete this action");
+                        context.Result = new RedirectResult(controller.HttpContext.Request.Path);
+                    }
                     return;
                 }
 

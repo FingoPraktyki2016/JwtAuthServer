@@ -1,12 +1,17 @@
-﻿@using LegnicaIT.JwtManager.Models
+﻿@using LegnicaIT.BusinessLogic.Enums
+@using LegnicaIT.JwtManager.Models
 @model List<UserDetailsFromAppViewModel>
 
 @{
     ViewData["Title"] = "App Users";
+    var Role = (UserRole)ViewData["Role"];
 }
 
 <h2>Application users</h2>
-@Html.ActionLink("Add user", "AddUser", "Application", new { appId = ViewData["appId"] }, new { @class = "btn btn-success", role = "button" })
+@if (Role > UserRole.User)
+{
+    @Html.ActionLink("Add user", "AddUser", "Application", new { appId = ViewData["appId"] }, new { @class = "btn btn-success", role = "button" })
+}
 
 <table class="table table-striped table-responsive">
     <thead>
@@ -15,23 +20,28 @@
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Actions</th>
+            @if (Role > UserRole.User)
+            {
+                <th>Actions</th>
+            }
         </tr>
     </thead>
     <tbody>
         @foreach (var user in Model)
-        {
+            {
             <tr>
                 <td>@user.Id</td>
                 <td>@Html.ActionLink(user.Name, "Details", "User", new { id = user.Id })</td>
                 <td>@user.Email</td>
                 <td>@Html.ActionLink($"{user.Role}", "ChangeUserRole", "Application", new { appId = ViewData["appId"], userId = user.Id })</td>
+                @if (Role > user.Role)
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "User", new { id = user.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
 
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "User", new { id = user.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
-
-                    <button name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@user.Id">Delete</button>
-                </td>
+                        <button name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@user.Id">Delete</button>
+                    </td>
+                }
             </tr>
         }
     </tbody>
