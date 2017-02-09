@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using LegnicaIT.JwtManager.Models
+@using LegnicaIT.JwtManager.Services.Interfaces
+@inject ISessionService<LoggedUserModel> LoggedUserSessionService
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -31,14 +35,17 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">JwtManager</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Application" asp-action="Index">Application list</a>
-                    </li>
-                </ul>
+                @if (LoggedUserSessionService.ContainsItem())
+                {
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Application" asp-action="Index">Application list</a>
+                        </li>
+                    </ul>
+                }
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>

@@ -1,6 +1,8 @@
-﻿using System.Linq;
-using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+﻿using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
+using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
+using System.Linq;
+using UserRole = LegnicaIT.DataAccess.Enums.UserRole;
 
 namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 {
@@ -15,7 +17,7 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
             this.userRepository = userRepository;
         }
 
-        public bool Invoke(int userId, int appId)
+        public bool Invoke(int userId, int appId, ActionType type = ActionType.Display)
         {
             var user = userRepository.GetById(userId);
 
@@ -29,9 +31,20 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
                 return true;
             }
 
-            var appToQuestion = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId);
+            var appToQuestion = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId).FirstOrDefault();
+            switch (type)
+            {
+                case ActionType.EditDelete:
+                    if (appToQuestion != null)
+                    {
+                        return (appToQuestion.Role == UserRole.Manager);
+                    }
+                    break;
 
-            return appToQuestion.Any();
+                case ActionType.Display:
+                    return userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId).Any();
+            }
+            return false;
         }
     }
 }
