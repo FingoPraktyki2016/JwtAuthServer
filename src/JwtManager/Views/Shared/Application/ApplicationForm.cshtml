@@ -2,12 +2,10 @@
 
 <h2 align="center">Application details</h2>
 
-
-
-<div class="form-group">
+<div class="form-group" align="center">
     @(Model.IsEdit ? Html.HiddenFor(m => m.Model.Id) : null)
 
-    @if (Model.IsEdit)
+     @if (Model.IsEdit)
     {
         <br />
         @Html.LabelFor(m => m.Model.Name)
