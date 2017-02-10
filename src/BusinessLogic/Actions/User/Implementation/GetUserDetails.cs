@@ -33,6 +33,7 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 Id = dbUser.Id,
                 Email = dbUser.Email,
                 Name = dbUser.Name,
+                EmailConfirmedOn = dbUser.EmailConfirmedOn
             };
 
             return userModel;

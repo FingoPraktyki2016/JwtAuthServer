@@ -10,5 +10,8 @@ namespace LegnicaIT.JwtManager.Models.Auth
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string Name { get; set; }
     }
 }

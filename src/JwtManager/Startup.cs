@@ -1,4 +1,4 @@
-﻿using LegnicaIT.BusinessLogic.Helpers;
+﻿using LegnicaIT.BusinessLogic.Configuration;
 using LegnicaIT.JwtManager.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,6 +48,7 @@ namespace LegnicaIT.JwtManager
             services.AddOptions();
             services.Configure<ManagerSettings>(Configuration.GetSection("ManagerSettings"));
             services.Configure<LoggerConfig>(Configuration.GetSection("Logging:Loglevel"));
+            services.Configure<EmailServiceCredentials>(Configuration.GetSection("EmailServiceCredentials"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

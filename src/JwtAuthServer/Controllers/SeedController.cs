@@ -16,13 +16,19 @@ namespace LegnicaIT.JwtAuthServer.Controllers
         private readonly IAddNewUser addNewUser;
         private readonly IAddNewApp addNewApp;
         private readonly IAddNewUserApp addNewUserApps;
+        private readonly IConfirmUserEmail confirmUserEmail;
         private readonly IHostingEnvironment env;
 
-        public SeedController(IAddNewUser addNewUser, IAddNewApp addNewApp, IAddNewUserApp addNewUserApps, IHostingEnvironment env)
+        public SeedController(IAddNewUser addNewUser,
+            IAddNewApp addNewApp,
+            IAddNewUserApp addNewUserApps,
+            IConfirmUserEmail confirmUserEmail,
+            IHostingEnvironment env)
         {
             this.addNewUser = addNewUser;
             this.addNewApp = addNewApp;
             this.addNewUserApps = addNewUserApps;
+            this.confirmUserEmail = confirmUserEmail;
             this.env = env;
         }
 
@@ -38,7 +44,7 @@ namespace LegnicaIT.JwtAuthServer.Controllers
 
             using (var context = new JwtDbContext())
             {
-                new JwtDbContextSeeder(context).Seed(addNewUser, addNewApp, addNewUserApps);
+                new JwtDbContextSeeder(context).Seed(addNewUser, confirmUserEmail, addNewApp, addNewUserApps);
             }
 
             return Json("Database seeded");

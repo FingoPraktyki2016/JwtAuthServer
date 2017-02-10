@@ -1,4 +1,4 @@
-﻿namespace LegnicaIT.BusinessLogic.Helpers
+﻿namespace LegnicaIT.BusinessLogic.Configuration
 {
     public class LoggerConfig
     {

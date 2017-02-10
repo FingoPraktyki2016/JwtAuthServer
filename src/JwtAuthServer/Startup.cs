@@ -1,6 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.BusinessLogic.Configuration.Interfaces;
-using LegnicaIT.BusinessLogic.Helpers;
 using LegnicaIT.DataAccess.Context;
 using LegnicaIT.JwtAuthServer.Helpers;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using LegnicaIT.BusinessLogic.Configuration;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace LegnicaIT.JwtAuthServer
@@ -73,6 +73,7 @@ namespace LegnicaIT.JwtAuthServer
             services.AddEntityFramework().AddDbContext<JwtDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
 
             services.Configure<LoggerConfig>(Configuration.GetSection("Logging:Loglevel"));
+            services.Configure<EmailServiceCredentials>(Configuration.GetSection("EmailServiceCredentials"));
 
             RegisterDependecy.Register(services);
         }

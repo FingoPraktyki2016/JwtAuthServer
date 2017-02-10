@@ -2,10 +2,10 @@
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.DataAccess.Context;
 using System;
 using System.Linq;
-using LegnicaIT.BusinessLogic.Models;
 
 namespace LegnicaIT.BusinessLogic.Configuration.Seeder
 {
@@ -18,16 +18,16 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
             this.context = context;
         }
 
-        public void Seed(IAddNewUser addNewUser, IAddNewApp addNewApp, IAddNewUserApp addNewUserApps)
+        public void Seed(IAddNewUser addNewUser, IConfirmUserEmail confirmUserEmail, IAddNewApp addNewApp, IAddNewUserApp addNewUserApps)
         {
-            SeedUsers(addNewUser);
+            SeedUsers(addNewUser, confirmUserEmail);
             SeedApps(addNewApp);
             SeedUserApps(addNewUserApps);
         }
 
         private readonly string[] users = { "superadmin", "manager", "user" };
 
-        public void SeedUsers(IAddNewUser addNewUser)
+        public void SeedUsers(IAddNewUser addNewUser, IConfirmUserEmail confirmUserEmail)
         {
             foreach (var user in users)
             {
@@ -43,7 +43,8 @@ namespace LegnicaIT.BusinessLogic.Configuration.Seeder
                     model.IsSuperAdmin = true;
                 }
 
-                addNewUser.Invoke(model);
+                var userid = addNewUser.Invoke(model);
+                confirmUserEmail.Invoke(userid);
             }
         }
 

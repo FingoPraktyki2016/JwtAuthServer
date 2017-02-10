@@ -1,8 +1,7 @@
-﻿using System;
-using LegnicaIT.BusinessLogic.Helpers;
-using LegnicaIT.JwtAuthServer.Interfaces;
+﻿using LegnicaIT.JwtAuthServer.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace LegnicaIT.BusinessLogic.Configuration.Helpers
 {

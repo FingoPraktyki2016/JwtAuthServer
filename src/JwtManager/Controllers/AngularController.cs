@@ -1,5 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
-using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Configuration;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
 using LegnicaIT.JwtManager.Services.Interfaces;

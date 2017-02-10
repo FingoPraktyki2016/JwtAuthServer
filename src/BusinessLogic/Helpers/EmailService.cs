@@ -1,16 +1,20 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 using System.Threading.Tasks;
+using LegnicaIT.BusinessLogic.Configuration;
 using LegnicaIT.BusinessLogic.Helpers.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace LegnicaIT.BusinessLogic.Helpers
 {
     public class EmailService : IEmailService
     {
         private readonly SmtpClient client;
+        private readonly IOptions<EmailServiceCredentials> settings;
 
-        public EmailService()
+        public EmailService(IOptions<EmailServiceCredentials> settings)
         {
+            this.settings = settings;
             client = new SmtpClient()
             {
                 ServerCertificateValidationCallback = (s, c, h, e) => true,
@@ -28,7 +32,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             var ConfirmEmail = "Confirm Email";
             string buttonStyle = "background-color:#a692ff; border-radius:40px; color:#fff;padding:15px 32px; text-align:center; text-decoration:none; display: inline-block; font-size:100%; margin: 30px 0 0 0;";
 
-            emailMessage.From.Add(new MailboxAddress("JwtManager", "Email"));
+            emailMessage.From.Add(new MailboxAddress("JwtManager", settings.Value.Email));
             emailMessage.To.Add(new MailboxAddress("", emailAddress));
             emailMessage.Subject = subject;
 
@@ -42,7 +46,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
             client.Connect("smtp.gmail.com", 587, false);
             // Note: only needed if the SMTP server requires authentication
-            client.Authenticate("Email", "Password");
+            client.Authenticate(settings.Value.Email, settings.Value.Password);
             await client.SendAsync(emailMessage).ConfigureAwait(false);
             await client.DisconnectAsync(true).ConfigureAwait(false);
         }
