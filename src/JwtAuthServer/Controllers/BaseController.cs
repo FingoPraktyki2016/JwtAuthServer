@@ -1,5 +1,5 @@
 ﻿using LegnicaIT.BusinessLogic.Configuration.Helpers;
-using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Configuration;
 using LegnicaIT.JwtAuthServer.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;

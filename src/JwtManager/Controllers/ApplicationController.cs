@@ -2,7 +2,7 @@
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
-using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Configuration;
 using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;

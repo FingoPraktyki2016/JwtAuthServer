@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Configuration.Helpers;
-using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Configuration;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Helpers;
 using LegnicaIT.JwtManager.Models;
