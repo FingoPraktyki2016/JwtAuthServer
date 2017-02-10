@@ -147,7 +147,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var userModel = new UserModel() { Email = model.Email, Password = model.Password, Name = "Bob" };
+            var userModel = new UserModel() { Email = model.Email, Password = model.Password, Name = model.Name };
             var userAddAction = addNewUser.Invoke(userModel);
 
             if (userAddAction == 0)
@@ -156,10 +156,41 @@ namespace LegnicaIT.JwtManager.Controllers
                 return View();
             }
             var parser = new JwtParser();
-            var confirmationToken = parser.AcquireEmailConfirmationToken(model.Email, 1).Token;
+            var confirmationToken = parser.AcquireEmailConfirmationToken(model.Email, userAddAction).Token;
             var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { token = confirmationToken }, Request.Scheme);
 
             await emailService.SendEmailAsync(model.Email, "Confirm your account", callbackUrl);
+            return View();
+        }
+
+        [HttpGet("resendconfirmationemail")]
+        public IActionResult ResendConfirmationEmail()
+        {
+            return View();
+        }
+
+        [HttpPost("resendconfirmationemail")]
+        public async Task<IActionResult> ResendConfirmationEmail(ResendEmailConfirmationViewModel model)
+        {
+            var user = getUserDetails.Invoke(model.Email);
+            if (user == null)
+            {
+                Alert.Danger("Something went wrong");
+                return View();
+            }
+            if (user.EmailConfirmedOn != null)
+            {
+                Alert.Danger("Email already confirmed");
+                return View();
+            }
+
+            var parser = new JwtParser();
+            var confirmationToken = parser.AcquireEmailConfirmationToken(model.Email, user.Id).Token;
+            var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { token = confirmationToken }, Request.Scheme);
+
+            await emailService.SendEmailAsync(model.Email, "Confirm your account", callbackUrl);
+
+            Alert.Success("Email sent");
             return View();
         }
 
