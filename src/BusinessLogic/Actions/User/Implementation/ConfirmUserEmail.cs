@@ -13,19 +13,21 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
             this.userRepository = userRepository;
         }
 
-        public void Invoke(int userId)
+        public bool Invoke(int userId)
         {
             var userToEdit = userRepository.GetById(userId);
 
             if (userToEdit == null || userToEdit.EmailConfirmedOn != null)
             {
-                return;
+                return false;
             }
 
             userToEdit.EmailConfirmedOn = DateTime.UtcNow;
 
             userRepository.Edit(userToEdit);
             userRepository.Save();
+
+            return true;
         }
     }
 }

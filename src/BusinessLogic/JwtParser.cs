@@ -18,6 +18,7 @@ namespace LegnicaIT.BusinessLogic
         private const string ClaimEmail = "email";
         private const string ClaimAppId = "appId";
         private const string ClaimIssuer = "iss";
+        private const string ClaimUserId = "userId";
 
         /// <summary>
         /// JWT token parser
@@ -112,6 +113,45 @@ namespace LegnicaIT.BusinessLogic
             return result;
         }
 
+        public VerifyEmailTokenResultModel VerifyEmailToken(string token)
+        {
+            return VerifyEmailToken(token, false);
+        }
+
+        internal VerifyEmailTokenResultModel VerifyEmailToken(string token, bool skipLifetimeValidation)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            TokenValidationParameters parameters = GetParameters(skipLifetimeValidation);
+
+            var result = new VerifyEmailTokenResultModel()
+            {
+                IsValid = false
+            };
+
+            // Catch invalid token
+            try
+            {
+                SecurityToken validatedToken;
+                handler.ValidateToken(token, parameters, out validatedToken);
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+
+            var jwt = handler.ReadToken(token) as JwtSecurityToken;
+
+            if (jwt != null)
+            {
+                result.ExpiryDate = jwt.ValidTo;
+                result.Email = GetClaim(jwt, ClaimEmail);
+                result.UserId = Convert.ToInt32(GetClaim(jwt, ClaimUserId));
+                result.IsValid = true;
+            }
+
+            return result;
+        }
+
         public AcquireTokenModel AcquireToken(string formEmail, int formAppId)
         {
             var handler = new JwtSecurityTokenHandler();
@@ -126,6 +166,45 @@ namespace LegnicaIT.BusinessLogic
                     new Claim(ClaimTypes.Email, formEmail),
                     new Claim(ClaimIssuer, GetIssuerName()),
                     new Claim(ClaimAppId, formAppId.ToString()),
+                });
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = identity,
+                SigningCredentials = credentials,
+                Expires = dateTimeProvider.GetNow().AddDays(GetExpiredDays()),
+            };
+
+            var plainToken = handler.CreateToken(tokenDescriptor);
+
+            // Encoded token
+            var result = new AcquireTokenModel()
+            {
+                Token = handler.WriteToken(plainToken)
+            };
+
+            return result;
+        }
+
+        public AcquireTokenModel AcquireEmailConfirmationToken(string formEmail, int userId)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var credentials = new SigningCredentials(encodedSecretKey, SecurityAlgorithms.HmacSha256Signature);
+
+            ClaimsIdentity identity;
+
+            try
+            {
+                identity = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Email, formEmail),
+                    new Claim(ClaimIssuer, GetIssuerName()),
+                    new Claim(ClaimUserId, userId.ToString()),
                 });
             }
             catch (Exception)
