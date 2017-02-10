@@ -11,7 +11,8 @@
     "Microsoft.Extensions.Logging": "1.1.0",
     "System.IdentityModel.Tokens.Jwt": "5.1.2",
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
-    "AutoMapper": "5.2.0"
+    "AutoMapper": "5.2.0",
+    "MailKit": "1.10.2"
   },
 
   "frameworks": {

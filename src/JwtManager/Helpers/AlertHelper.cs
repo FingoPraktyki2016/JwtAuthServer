@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Models.Common;
 
 namespace LegnicaIT.JwtManager.Helpers
 {

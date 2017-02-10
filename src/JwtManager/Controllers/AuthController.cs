@@ -1,17 +1,22 @@
+using LegnicaIT.BusinessLogic;
 using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Helpers;
+using LegnicaIT.BusinessLogic.Helpers.Interfaces;
+using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.BusinessLogic.Models.Common;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Models.Auth;
 using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -19,21 +24,36 @@ namespace LegnicaIT.JwtManager.Controllers
     public class AuthController : BaseController
     {
         private readonly IGetUserDetails getUserDetails;
+        private readonly IAddNewUser addNewUser;
+        private readonly IEmailService emailService;
+        private readonly IConfirmUserEmail confirmUserEmail;
 
         public AuthController(IOptions<ManagerSettings> managerSettings,
             IGetUserDetails getUserDetails,
             IGetUserApps getUserApps,
+            IAddNewUser addNewUser,
+            IEmailService emailService,
+            IConfirmUserEmail confirmUserEmail,
+            ICheckUserExist checkUserExist,
             IOptions<LoggerConfig> loggerSettings,
             ISessionService<LoggedUserModel> loggedUserSessionService)
             : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
             this.getUserDetails = getUserDetails;
+            this.addNewUser = addNewUser;
+            this.emailService = emailService;
+            this.confirmUserEmail = confirmUserEmail;
         }
 
         [AllowAnonymous]
         [HttpGet("login")]
         public IActionResult Login(string returnUrl)
         {
+            if (LoggedUser != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             Breadcrumb.Add("Login", "Login", "Auth");
 
             ViewBag.ReturnUrl = returnUrl;
@@ -88,6 +108,58 @@ namespace LegnicaIT.JwtManager.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return Redirect(returnUrl);
+        }
+
+        [HttpGet("register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpGet("confirmemail")]
+        public IActionResult ConfirmEmail(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                Alert.Danger("Invalid token");
+                return View("Error");
+            }
+
+            var parser = new JwtParser();
+            var verifiyResult = parser.VerifyEmailToken(token);
+            if (!verifiyResult.IsValid)
+            {
+                Alert.Danger("InvalidToken");
+                return View("Error");
+            }
+
+            if (!confirmUserEmail.Invoke(verifiyResult.UserId))
+            {
+                Alert.Danger("User not found");
+                return View("Error");
+            }
+
+            Alert.Success("Email confirmed");
+            return RedirectToAction("Login", "Auth");
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            var userModel = new UserModel() { Email = model.Email, Password = model.Password, Name = "Bob" };
+            var userAddAction = addNewUser.Invoke(userModel);
+
+            if (userAddAction == 0)
+            {
+                Alert.Danger("User Already exists");
+                return View();
+            }
+            var parser = new JwtParser();
+            var confirmationToken = parser.AcquireEmailConfirmationToken(model.Email, 1).Token;
+            var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { token = confirmationToken }, Request.Scheme);
+
+            await emailService.SendEmailAsync(model.Email, "Confirm your account", callbackUrl);
+            return View();
         }
 
         [AuthorizeFilter(UserRole.User)]

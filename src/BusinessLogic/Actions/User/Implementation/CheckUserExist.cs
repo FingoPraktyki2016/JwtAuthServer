@@ -26,7 +26,10 @@ namespace LegnicaIT.BusinessLogic.Actions.User.Implementation
                 return false;
             }
 
-            var dbUser = userRepository.FindBy(x => x.Email == email).FirstOrDefault();
+            var dbUser = userRepository.FindBy(x => x.Email == email
+            // TODO: uncomment after changes in seeder
+            //     && x.EmailConfirmedOn != null
+            ).FirstOrDefault();
 
             if (dbUser == null)
             {

@@ -1,4 +1,4 @@
-﻿namespace LegnicaIT.JwtManager.Models
+﻿namespace LegnicaIT.JwtManager.Models.Common
 {
     public class AlertModel
     {
