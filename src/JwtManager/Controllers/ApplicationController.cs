@@ -7,6 +7,7 @@ using LegnicaIT.BusinessLogic.Models;
 using LegnicaIT.JwtManager.Authorization;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Models;
+using LegnicaIT.JwtManager.Models.User;
 using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,6 +19,7 @@ namespace LegnicaIT.JwtManager.Controllers
     [AuthorizeFilter(UserRole.User)]
     public class ApplicationController : BaseController
     {
+        private readonly IGetAllUsers getAllUsers;
         private readonly IGetAppUsers getAppUsers;
         private readonly IGetAppUserRole getUserRole;
         private readonly IRevokeRole revokeRole;
@@ -33,6 +35,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly ICheckUserPermission checkUserPermission;
 
         public ApplicationController(
+            IGetAllUsers getAllUsers,
             IGetAppUsers getAppUsers,
             IGetAppUserRole getUserRole,
             IRevokeRole revokeRole,
@@ -64,6 +67,7 @@ namespace LegnicaIT.JwtManager.Controllers
             this.deleteApp = deleteApp;
             this.checkUserPermissionToApp = checkUserPermissionToApp;
             this.checkUserPermission = checkUserPermission;
+            this.getAllUsers = getAllUsers;
 
             Breadcrumb.Add("Application", "Index", "Application");
         }
@@ -144,6 +148,29 @@ namespace LegnicaIT.JwtManager.Controllers
             return RedirectToAction("Details", new { id = LoggedUser.AppId });
         }
 
+        [ValidateAntiForgeryToken]
+        [AuthorizeFilter(UserRole.Manager)]
+        [HttpPost("deleteuser/{id}")]
+        public ActionResult UserDeleteAll(int id)
+        {
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
+            {
+                Alert.Danger("You don't have permission");
+                return RedirectToAction("Details", new { id = LoggedUser.AppId });
+            }
+
+            if (deleteUserApp.Invoke(id, LoggedUser.AppId))
+            {
+                Alert.Success();
+                return RedirectToAction("Details", new { id = LoggedUser.AppId });
+            }
+            else
+            {
+                Alert.Danger("Something went wrong");
+            }
+            return RedirectToAction("Details", new { id = LoggedUser.AppId });
+        }
+
         public List<UserDetailsFromAppViewModel> ListUsers(int appId)
         {
             var usersList = getAppUsers.Invoke(appId);
@@ -166,6 +193,29 @@ namespace LegnicaIT.JwtManager.Controllers
             ViewData["appId"] = appId;
 
             return listOfUsers;
+        }
+
+        [AuthorizeFilter(UserRole.SuperAdmin)]
+        [HttpGet("alluserslist")]
+        public IActionResult AllUsersList()
+        {
+            var usersList = getAllUsers.Invoke();
+
+            var userModelList = new List<UserSimpleModel>();
+
+            foreach (var user in usersList)
+            {
+                var model = new UserSimpleModel()
+                {
+                    Email = user.Email,
+                    Id = user.Id,
+                    Name = user.Name
+                };
+
+                userModelList.Add(model);
+            }
+
+            return View(userModelList);
         }
 
         [AuthorizeFilter(UserRole.Manager)]
