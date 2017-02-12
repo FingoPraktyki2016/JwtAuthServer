@@ -30,20 +30,26 @@ namespace LegnicaIT.BusinessLogic.Helpers
             var emailMessage = new MimeMessage();
 
             var ConfirmEmail = "Confirm Email";
+            // TODO: Use CSS in separate file
             string buttonStyle = "background-color:#a692ff; border-radius:40px; color:#fff;padding:15px 32px; text-align:center; text-decoration:none; display: inline-block; font-size:100%; margin: 30px 0 0 0;";
 
             emailMessage.From.Add(new MailboxAddress("JwtManager", settings.Value.Email));
             emailMessage.To.Add(new MailboxAddress("", emailAddress));
             emailMessage.Subject = subject;
 
-            var builder = new BodyBuilder();
-            builder.HtmlBody = @"
-            <body>
-                   <a class=""button"" style =""" + buttonStyle + @""" href=""" + message + @"""> " + ConfirmEmail + @"</a>
-            </body>";
+            // TODO: Move to separate cshtml file
+            var builder = new BodyBuilder
+            {
+                HtmlBody = @"
+                <body>
+                       <a class=""button"" style =""" + buttonStyle + @""" href=""" + message + @"""> " + ConfirmEmail +
+                               @"</a>
+                </body>"
+            };
 
             emailMessage.Body = builder.ToMessageBody();
 
+            // TODO: Move host and port to Settings
             client.Connect("smtp.gmail.com", 587, false);
             // Note: only needed if the SMTP server requires authentication
             client.Authenticate(settings.Value.Email, settings.Value.Password);

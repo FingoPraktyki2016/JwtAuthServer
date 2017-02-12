@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using LegnicaIT.BusinessLogic.Actions.User.Interfaces;
-using LegnicaIT.BusinessLogic.Actions.UserApp.Implementation;
 using LegnicaIT.BusinessLogic.Actions.UserApp.Interfaces;
 using LegnicaIT.BusinessLogic.Enums;
 using LegnicaIT.BusinessLogic.Models;

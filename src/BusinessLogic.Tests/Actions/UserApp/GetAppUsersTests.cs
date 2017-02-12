@@ -55,9 +55,9 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var list = action.Invoke(1);
             
             // check
-            Assert.Equal(1, list.Where(x => x.Id == 1).FirstOrDefault().Id);
-            Assert.Equal("User1", list.Where(x => x.Name == "User1").FirstOrDefault().Name);
-            Assert.Equal("User1@gmail.com", list.Where(x => x.Email == "User1@gmail.com").FirstOrDefault().Email);
+            Assert.Equal(1, list.FirstOrDefault(x => x.Id == 1).Id);
+            Assert.Equal("User1", list.FirstOrDefault(x => x.Name == "User1").Name);
+            Assert.Equal("User1@gmail.com", list.FirstOrDefault(x => x.Email == "User1@gmail.com").Email);
             //TODO Check UserRole (Comparing two roles doesn't work)
         }
 
