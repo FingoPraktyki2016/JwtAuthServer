@@ -4,10 +4,9 @@
 @inject ISessionService<LoggedUserModel> LoggedUserSessionService
 @if (LoggedUserSessionService.ContainsItem())
 {
-    List<AppModel> ListOfApps = new List<AppModel>();
     var LoggedUser = LoggedUserSessionService.GetItem();
 
-    ListOfApps = (List<AppModel>)ViewData["apps"];
+    var ListOfApps = (List<AppModel>)ViewData["apps"];
 
     <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">

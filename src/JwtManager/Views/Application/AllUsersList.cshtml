@@ -1,12 +1,15 @@
-﻿@using LegnicaIT.BusinessLogic.Enums
-@using LegnicaIT.BusinessLogic.Models
-@using LegnicaIT.JwtManager.Models
+﻿@using LegnicaIT.JwtManager.Models
+
 @model List<LegnicaIT.JwtManager.Models.User.UserSimpleModel>
+
 @{
     ViewData["Title"] = "All users lists";
 }
-<br />
+
+<br/>
+
 <h2 align="center">All users list</h2>
+
 <table class="table table-striped table-responsive">
     <thead>
         <tr>
@@ -21,15 +24,14 @@
             <tr>
                 <td>@user.Id</td>
                 <td>@Html.ActionLink(user.Name, "Details", "User", new { id = user.Id })</td>
-                <td>@user.Email</td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "User", new { id = user.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
-                    <button style="margin-left:30px" name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@user.Id">Delete</button>
-                </td>
+                <td>@user.Email</td>            
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "User", new { id = user.Id }, new { @class = "btn btn-primary pull-left", role = "button" })
+                        <button style="margin-left:30px" name="deleteItem" class="btn btn-danger" data-target="#basic" data-toggle="modal" data-id="@user.Id">Delete</button>
+                    </td>
             </tr>
         }
     </tbody>
 </table>
-
 
 @Html.Partial("DeleteModal", new DeleteModalModel("UserDeleteAll", "Application"))

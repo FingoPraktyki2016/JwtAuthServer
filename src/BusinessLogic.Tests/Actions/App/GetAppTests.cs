@@ -34,7 +34,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
         public void Invoke_ForInvalidId_ReturnsNulledModel()
         {
             // prepare
-            var findByResult = new List<DataAccess.Models.App> { };
+            var findByResult = new List<DataAccess.Models.App>();
             var mockedAppRepository = new Mock<IAppRepository>();
             mockedAppRepository.Setup(r => r.FindBy(It.IsAny<Expression<Func<DataAccess.Models.App, bool>>>()))
                 .Returns(findByResult.AsQueryable);

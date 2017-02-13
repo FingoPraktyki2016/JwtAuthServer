@@ -330,7 +330,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpGet("edit")]
         public IActionResult Edit(int id)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.EditDelete))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.Edit))
             {
                 Breadcrumb.Add("Edit application", "Edit", "Application");
 
@@ -349,7 +349,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("edit")]
         public IActionResult Edit(AppViewModel model)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id, ActionType.EditDelete))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id, ActionType.Edit))
             {
                 if (!ModelState.IsValid)
                 {
@@ -380,7 +380,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("delete/{id}")]
         public IActionResult Delete(int id)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.EditDelete))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.Delete))
             {
                 if (deleteApp.Invoke(id))
                 {

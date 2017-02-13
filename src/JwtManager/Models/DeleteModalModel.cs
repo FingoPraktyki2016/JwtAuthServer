@@ -11,8 +11,8 @@
 
         public DeleteModalModel(string action, string controller)
         {
-            this.Action = action;
-            this.Controller = controller;
+            Action = action;
+            Controller = controller;
         }
     }
 }

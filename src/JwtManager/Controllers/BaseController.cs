@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
-using LegnicaIT.BusinessLogic.Configuration.Helpers;
+﻿using LegnicaIT.BusinessLogic.Actions.App.Interfaces;
 using LegnicaIT.BusinessLogic.Configuration;
+using LegnicaIT.BusinessLogic.Configuration.Helpers;
 using LegnicaIT.JwtManager.Configuration;
 using LegnicaIT.JwtManager.Helpers;
 using LegnicaIT.JwtManager.Models;
@@ -9,7 +8,12 @@ using LegnicaIT.JwtManager.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Options;
+using System.IO;
+using System.Linq;
 
 namespace LegnicaIT.JwtManager.Controllers
 {
@@ -37,6 +41,22 @@ namespace LegnicaIT.JwtManager.Controllers
             logger = new Logger(GetType(), loggerSettings);
             _getUserApps = getUserApps;
             this.loggedUserSessionService = loggedUserSessionService;
+        }
+
+        public string RenderViewToString<T>(string viewName, string masterName, T model, bool customized = false, string controllerName = "")
+        {
+            using (StringWriter sw = new StringWriter())
+            {
+                var engine = HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+
+                ViewEngineResult viewResult =
+                    engine.FindView(ControllerContext, viewName, true);
+                ViewContext viewContext =
+                    new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw, new HtmlHelperOptions());
+                viewResult.View.RenderAsync(viewContext);
+
+                return sw.GetStringBuilder().ToString();
+            }
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)

@@ -1,1 +1,22 @@
-﻿<h2>Memy</h2>
+﻿@model string
+@{
+    Layout = "";
+}
+
+<style>
+    .my-button {
+        background-color: #a692ff;
+        border-radius: 40px;
+        color: #fff;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 100%;
+        margin: 30px 0 0 0;
+    }
+</style>
+
+<body>
+    <a class="my-button" href="@Model">Confirm email</a>
+</body>
