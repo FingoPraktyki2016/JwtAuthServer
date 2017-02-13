@@ -45,6 +45,8 @@ namespace LegnicaIT.JwtManager.Controllers
 
         public string RenderViewToString<T>(string viewName, string masterName, T model, bool customized = false, string controllerName = "")
         {
+            ViewData.Model = model;
+
             using (StringWriter sw = new StringWriter())
             {
                 var engine = HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
