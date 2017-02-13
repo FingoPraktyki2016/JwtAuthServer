@@ -31,13 +31,21 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
                 return true;
             }
 
-            var appToQuestion = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId).FirstOrDefault();
+            var userToQuestionRole = userAppRepository.FindBy(x => x.User.Id == userId && x.App.Id == appId).FirstOrDefault();
+
             switch (type)
             {
-                case ActionType.EditDelete:
-                    if (appToQuestion != null)
+                case ActionType.Edit:
+                    if (userToQuestionRole != null)
                     {
-                        return appToQuestion.Role == UserRole.Manager;
+                        return userToQuestionRole.Role == UserRole.Manager;
+                    }
+                    break;
+
+                case ActionType.Delete:
+                    if (userToQuestionRole != null)
+                    {
+                        return userToQuestionRole.Role == UserRole.Manager;
                     }
                     break;
 
