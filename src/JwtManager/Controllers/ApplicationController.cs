@@ -19,6 +19,7 @@ namespace LegnicaIT.JwtManager.Controllers
     [AuthorizeFilter(UserRole.User)]
     public class ApplicationController : BaseController
     {
+        private readonly IDeleteUser deleteUser;
         private readonly IGetAllUsers getAllUsers;
         private readonly IGetAppUsers getAppUsers;
         private readonly IGetAppUserRole getUserRole;
@@ -35,6 +36,7 @@ namespace LegnicaIT.JwtManager.Controllers
         private readonly ICheckUserPermission checkUserPermission;
 
         public ApplicationController(
+            IDeleteUser deleteUser,
             IGetAllUsers getAllUsers,
             IGetAppUsers getAppUsers,
             IGetAppUserRole getUserRole,
@@ -54,6 +56,7 @@ namespace LegnicaIT.JwtManager.Controllers
             ISessionService<LoggedUserModel> loggedUserSessionService)
             : base(managerSettings, loggerSettings, getUserApps, loggedUserSessionService)
         {
+            this.deleteUser = deleteUser;
             this.getAppUsers = getAppUsers;
             this.getUserRole = getUserRole;
             this.revokeRole = revokeRole;
@@ -150,25 +153,32 @@ namespace LegnicaIT.JwtManager.Controllers
 
         [ValidateAntiForgeryToken]
         [AuthorizeFilter(UserRole.Manager)]
-        [HttpPost("deleteuser/{id}")]
+        [HttpPost("userdeleteall/{id}")]
         public ActionResult UserDeleteAll(int id)
         {
-            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id))
+            if (!checkUserPermission.Invoke(LoggedUser.UserModel.Id, LoggedUser.AppId, id) )
             {
                 Alert.Danger("You don't have permission");
-                return RedirectToAction("Details", new { id = LoggedUser.AppId });
+                return RedirectToAction("AllUsersList");
             }
 
-            if (deleteUserApp.Invoke(id, LoggedUser.AppId))
+            if(id == LoggedUser.UserModel.Id)
+            {
+                Alert.Danger("You can't delete yourself");
+                return RedirectToAction("AllUsersList");
+            }
+
+            if (deleteUser.Invoke(id))
             {
                 Alert.Success();
-                return RedirectToAction("Details", new { id = LoggedUser.AppId });
+                return RedirectToAction("AllUsersList");
             }
+
             else
             {
                 Alert.Danger("Something went wrong");
             }
-            return RedirectToAction("Details", new { id = LoggedUser.AppId });
+                return RedirectToAction("AllUsersList");
         }
 
         public List<UserDetailsFromAppViewModel> ListUsers(int appId)
@@ -320,7 +330,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpGet("edit")]
         public IActionResult Edit(int id)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.EditDelete))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.Edit))
             {
                 Breadcrumb.Add("Edit application", "Edit", "Application");
 
@@ -339,7 +349,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("edit")]
         public IActionResult Edit(AppViewModel model)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id, ActionType.EditDelete))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, model.Id, ActionType.Edit))
             {
                 if (!ModelState.IsValid)
                 {
@@ -370,7 +380,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpPost("delete/{id}")]
         public IActionResult Delete(int id)
         {
-            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.EditDelete))
+            if (checkUserPermissionToApp.Invoke(LoggedUser.UserModel.Id, id, ActionType.Delete))
             {
                 if (deleteApp.Invoke(id))
                 {

@@ -48,6 +48,49 @@ namespace LegnicaIT.BusinessLogic.Tests
             Assert.Equal("1", appId);
         }
 
+        /// <summary>
+        /// Acquire EmailConfirmationToken
+        /// </summary>
+
+        [Fact]
+        public void AcquireEmailConfirmationToken_ForValidInput_ReturnsCorrectToken()
+        {
+            var parser = new JwtParser();
+
+            AcquireTokenModel tokenModel = parser.AcquireEmailConfirmationToken("rafal.gradziel@fingo.pl", 1);
+
+            Assert.NotNull(tokenModel.Token);
+        }
+
+        [Fact]
+        public void AcquireEmailConfirmationToken_ForInvalidInput_ReturnsNull()
+        {
+            var parser = new JwtParser();
+
+            AcquireTokenModel tokenModel = parser.AcquireEmailConfirmationToken(null, 0);
+
+            Assert.Null(tokenModel);
+        }
+
+        [Fact]
+        public void AcquireEmailConfirmationToken_VerifyForTokenParametersData()
+        {
+            var parser = new JwtParser();
+            AcquireTokenModel tokenModel = parser.AcquireEmailConfirmationToken("rafal.gradziel@fingo.pl", 1);
+
+            var handler = new JwtSecurityTokenHandler();
+            var param = parser.GetParameters();
+            JwtSecurityToken readToken = handler.ReadJwtToken(tokenModel.Token);
+
+            var iss = parser.GetClaim(readToken, "iss");
+            var email = parser.GetClaim(readToken, "email");
+            var userId = parser.GetClaim(readToken, "userId");
+
+            Assert.Equal(param.ValidIssuer, iss);
+            Assert.Equal("rafal.gradziel@fingo.pl", email);
+            Assert.Equal("1", userId);
+        }
+
         [Fact]
         public void Verify_ForExpiredToken_ReturnsError()
         {
