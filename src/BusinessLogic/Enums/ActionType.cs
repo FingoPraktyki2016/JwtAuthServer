@@ -2,7 +2,8 @@
 {
     public enum ActionType
     {
-        EditDelete,
+        Edit,
+        Delete,
         Display,
     }
 }

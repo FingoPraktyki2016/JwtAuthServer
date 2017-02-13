@@ -136,7 +136,7 @@ namespace LegnicaIT.JwtManager.Controllers
 
             if (!confirmUserEmail.Invoke(verifiyResult.UserId))
             {
-                Alert.Danger("User not found");
+                Alert.Danger("User not found or already confirmed");
                 return View("Error");
             }
 
@@ -159,8 +159,11 @@ namespace LegnicaIT.JwtManager.Controllers
             var confirmationToken = parser.AcquireEmailConfirmationToken(model.Email, userAddAction).Token;
             var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { token = confirmationToken }, Request.Scheme);
 
-            await emailService.SendEmailAsync(model.Email, "Confirm your account", callbackUrl);
-            return View();
+            var emailConfirmView = RenderViewToString("ConfirmEmail", "", callbackUrl);
+            await emailService.SendEmailAsync(model.Email, "Confirm your account", emailConfirmView);
+
+            Alert.Success("Confirmation email has been sent to your account");
+            return RedirectToAction("Login", "Auth");
         }
 
         [HttpGet("resendconfirmationemail")]
