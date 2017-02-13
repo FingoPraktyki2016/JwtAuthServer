@@ -29,12 +29,11 @@
         <div class="form-group" style="margin-right:116px">
             <div class="col-sm-10 col-sm-offset-2">
                 <button class="btn btn-lg btn-primary" type="submit" id="btnLogin">Log in</button>
-                @Html.ActionLink("Resend confirmation email", "ResendConfirmationEmail", "Auth", null, new { @class = "btn btn-lg btn-primary" })
+            </div>
+            <div class="col-sm-10 col-sm-offset-2">
+                <a href="@Url.Action("ResendConfirmationEmail", "Auth")">Resend confirmation email?</a>
             </div>
         </div>
-     
     </div>
 
 }
-
-

@@ -159,7 +159,11 @@ namespace LegnicaIT.JwtManager.Controllers
             var confirmationToken = parser.AcquireEmailConfirmationToken(model.Email, userAddAction).Token;
             var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { token = confirmationToken }, Request.Scheme);
 
-            await emailService.SendEmailAsync(model.Email, "Confirm your account", callbackUrl);
+            var emailConfirmView = RenderViewToString<string>("ConfirmEmail", "", callbackUrl);
+            await emailService.SendEmailAsync(model.Email, "Confirm your account", emailConfirmView);
+
+            Alert.Success("Confirmation email has been sent to your account");
+            //return RedirectToAction("Login", "Auth");
             return View();
         }
 
