@@ -14,6 +14,7 @@
                 <button data-dismiss="modal" type="button" class="btn btn-default">Cancel</button>
                 @using (Html.BeginForm(Model.Action, Model.Controller, new { id = 0 }, FormMethod.Post, true, new { name = "modalDeleteConfirm", @class = "pull-right" }))
                 {
+                    @Html.Hidden("id", 0);
                     <button type="submit" class="btn btn-danger">Delete</button>
                 }
             </div>
@@ -29,10 +30,9 @@
 
     $("[name='modalDeleteConfirm']").click(function (e) {
         e.preventDefault();
-        var form = $(this).parents('form:first');
-        var url = form.context.action;
-        var newurl = url.substring(0, url.lastIndexOf("/") + 1) + item_to_delete;
-        form.context.action = newurl;
+        var idValue = $(this).find('input[name=id]');
+        idValue.val(item_to_delete);
+
         this.submit();
     });
 </script>
