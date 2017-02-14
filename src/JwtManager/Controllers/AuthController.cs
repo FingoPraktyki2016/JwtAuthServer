@@ -145,7 +145,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public IActionResult Register(RegisterViewModel model)
         {
             var userModel = new UserModel() { Email = model.Email, Password = model.Password, Name = model.Name };
             var userAddAction = addNewUser.Invoke(userModel);
@@ -160,9 +160,9 @@ namespace LegnicaIT.JwtManager.Controllers
             var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { token = confirmationToken }, Request.Scheme);
 
             var emailConfirmView = RenderViewToString("ConfirmEmail", "", callbackUrl);
-            await emailService.SendEmailAsync(model.Email, "Confirm your account", emailConfirmView);
+            emailService.SendEmailAsync(model.Email, "Confirm your account", emailConfirmView).ConfigureAwait(false);
 
-            Alert.Success("Confirmation email has been sent to your account");
+            Alert.Success("Confirmation email has been sent to your email address");
             return RedirectToAction("Login", "Auth");
         }
 
@@ -173,7 +173,7 @@ namespace LegnicaIT.JwtManager.Controllers
         }
 
         [HttpPost("resendconfirmationemail")]
-        public async Task<IActionResult> ResendConfirmationEmail(ResendEmailConfirmationViewModel model)
+        public IActionResult ResendConfirmationEmail(ResendEmailConfirmationViewModel model)
         {
             var user = getUserDetails.Invoke(model.Email);
             if (user == null)
@@ -191,9 +191,9 @@ namespace LegnicaIT.JwtManager.Controllers
             var confirmationToken = parser.AcquireEmailConfirmationToken(model.Email, user.Id).Token;
             var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { token = confirmationToken }, Request.Scheme);
 
-            await emailService.SendEmailAsync(model.Email, "Confirm your account", callbackUrl);
+            emailService.SendEmailAsync(model.Email, "Confirm your account", callbackUrl).ConfigureAwait(false);
 
-            Alert.Success("Email sent");
+            Alert.Success("Check your inbox");
             return View();
         }
 
