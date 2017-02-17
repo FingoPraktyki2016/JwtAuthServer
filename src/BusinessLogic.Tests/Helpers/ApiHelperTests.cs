@@ -22,7 +22,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
 
             var mockedApiClient = new Mock<IApiClient>();
             mockedApiClient.Setup(c => c.MakeCallPost("route-post")).Returns(apiResponse);
-            var client = new ApiHelper("abc", mockedApiClient.Object);
+            var client = new ApiHelper(mockedApiClient.Object);
             var callParams = new Dictionary<string, string>() { { "key1", "value1" }, { "key2", "value2" } };
 
             // action
@@ -48,7 +48,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
 
             var mockedApiClient = new Mock<IApiClient>();
             mockedApiClient.Setup(c => c.MakeCallGet(It.IsAny<string>())).Returns(apiResponse);
-            var client = new ApiHelper("abc", mockedApiClient.Object);
+            var client = new ApiHelper(mockedApiClient.Object);
             var callParams = new Dictionary<string, string>() { { "key1", "value1" }, { "key2", "value2" } };
 
             // action
@@ -79,7 +79,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
             mockedApiClient.Setup(c => c.GetCallRouteWithParameters("route-get"))
                 .Returns(apiGetUrl);
 
-            var client = new ApiHelper("abc", mockedApiClient.Object);
+            var client = new ApiHelper(mockedApiClient.Object);
             var callParams = new Dictionary<string, string>() { { "key1", "value1" } };
 
             // action
@@ -109,7 +109,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
                 .Returns(apiResponse);
             mockedApiClient.Setup(c => c.AddParameter(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((k, v) => executedApiParams.Add(k, v));
-            var client = new ApiHelper("abc", mockedApiClient.Object);
+            var client = new ApiHelper(mockedApiClient.Object);
 
             // action
             var executedApiResult = client.Verify("token-12340-abcd");
@@ -140,7 +140,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
                 .Returns(apiResponse);
             mockedApiClient.Setup(c => c.AddParameter(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((k, v) => executedApiParams.Add(k, v));
-            var client = new ApiHelper("abc", mockedApiClient.Object);
+            var client = new ApiHelper(mockedApiClient.Object);
 
             // action
             var executedApiResult = client.AcquireToken("email", "pass", "appId");
@@ -173,7 +173,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
                 .Returns(apiResponse);
             mockedApiClient.Setup(c => c.AddParameter(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((k, v) => executedApiParams.Add(k, v));
-            var client = new ApiHelper("jwt", mockedApiClient.Object);
+            var client = new ApiHelper(mockedApiClient.Object);
 
             // action
             var executedApiResult = client.SwitchApp("token", "1");

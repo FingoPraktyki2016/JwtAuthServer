@@ -14,7 +14,7 @@
                 <button data-dismiss="modal" type="button" class="btn btn-default">Cancel</button>
                 @using (Html.BeginForm(Model.Action, Model.Controller, new { id = 0 }, FormMethod.Post, true, new { name = "modalDeleteConfirm", @class = "pull-right" }))
                 {
-                    @Html.Hidden("id", 0);
+                    @Html.Hidden("id", 0)
                     <button type="submit" class="btn btn-danger">Delete</button>
                 }
             </div>

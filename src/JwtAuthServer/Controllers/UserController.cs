@@ -14,12 +14,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
     public class UserController : BaseController
     {
         private readonly IAddNewUser addNewUser;
-        private readonly ICheckUserExist checkUserExist;
-        private readonly IGrantRole grantRole;
-        private readonly IEditUser editUser;
-        private readonly IEditUserPassword editUserPassword;
-        private readonly IDeleteUser deleteUser;
-        private readonly IRevokeRole revokeRole;
         private readonly IGetAppUserRole getAppUserRole;
         private readonly IGetUserId getUserId;
 
@@ -36,12 +30,6 @@ namespace LegnicaIT.JwtAuthServer.Controllers
             IOptions<LoggerConfig> loggerSettings) : base(loggerSettings)
         {
             this.addNewUser = addNewUser;
-            this.checkUserExist = checkUserExist;
-            this.grantRole = grantRole;
-            this.editUser = editUser;
-            this.editUserPassword = editUserPassword;
-            this.deleteUser = deleteUser;
-            this.revokeRole = revokeRole;
             this.getAppUserRole = getAppUserRole;
             this.getUserId = getUserId;
         }

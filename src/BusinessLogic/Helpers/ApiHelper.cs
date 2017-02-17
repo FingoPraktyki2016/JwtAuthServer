@@ -20,9 +20,8 @@ namespace LegnicaIT.BusinessLogic.Helpers
         /// <summary>
         /// API helper for tests
         /// </summary>
-        /// <param name="api">API url location</param>
         /// <param name="mockedClient">Mocked API client</param>
-        internal ApiHelper(string api, IApiClient mockedClient)
+        internal ApiHelper(IApiClient mockedClient)
         {
             client = mockedClient;
         }

@@ -6,7 +6,7 @@
                 $http.get(apiUrl)
                     .then(
                         callback,
-                        function (error) {
+                        function () {
                             $('#apiError').slideDown(500).delay(5000).slideUp(500);
                         });
             }

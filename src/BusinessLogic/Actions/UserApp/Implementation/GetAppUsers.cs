@@ -39,9 +39,9 @@ namespace LegnicaIT.BusinessLogic.Actions.UserApp.Implementation
 
                  listOfUsers = list2;
             }
-            catch(Exception )
+            catch (Exception)
             {
-
+                // ignored
             }
 
             return listOfUsers;

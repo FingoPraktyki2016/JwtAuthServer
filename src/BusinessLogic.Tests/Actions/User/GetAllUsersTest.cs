@@ -33,7 +33,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var list = action.Invoke();
 
             // check
-            Assert.Equal(1, list.Where(x => x.Id == 1).FirstOrDefault().Id);
+            Assert.Equal(1, list.FirstOrDefault(x => x.Id == 1).Id);
             Assert.Equal(1, list.Count);
         }
 
@@ -41,7 +41,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
         public void Invoke_EmptyDataReturnsEmptyList()
         {
             // prepare
-            var userList = new List<DataAccess.Models.User> { };
+            var userList = new List<DataAccess.Models.User>();
 
             var mockedUserRepository = new Mock<IUserRepository>();
 

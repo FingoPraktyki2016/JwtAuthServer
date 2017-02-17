@@ -39,7 +39,7 @@ namespace LegnicaIT.JwtManager.Services.Implementation
                 var result = JsonConvert.DeserializeObject<T>(sessionItem);
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return default(T);
             }

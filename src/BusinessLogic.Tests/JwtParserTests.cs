@@ -144,7 +144,6 @@ namespace LegnicaIT.BusinessLogic.Tests
             var parser = new JwtParser();
             string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyM0B0ZXN0LnBsIiwiaXNzIjoiTGVnbmljYUlUIiwiYXBwSWQiOiIxIiwicm9sZSI6IlVzZXIiLCJuYmYiOjE0ODQxNDAwMjgsImV4cCI6MTQ4NDE0MDA4OCwiaWF0IjoxNDg0MTQwMDI4fQ.fZXSj3jZIQ8u2aoAzv6fDW0_c7BBb5oVr2oVDytnTek";
 
-            // TODO: Check if we need to disable verify expireDate
             VerifyResultModel result = parser.Verify(token, true);
 
             var email = result.Email;

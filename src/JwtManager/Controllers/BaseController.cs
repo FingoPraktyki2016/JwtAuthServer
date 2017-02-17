@@ -51,11 +51,15 @@ namespace LegnicaIT.JwtManager.Controllers
             {
                 var engine = HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
 
-                ViewEngineResult viewResult =
-                    engine.FindView(ControllerContext, viewName, true);
-                ViewContext viewContext =
-                    new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw, new HtmlHelperOptions());
-                viewResult.View.RenderAsync(viewContext);
+                if (engine != null)
+                {
+                    ViewEngineResult viewResult =
+                        engine.FindView(ControllerContext, viewName, true);
+                    ViewContext viewContext =
+                        new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw, new HtmlHelperOptions());
+
+                    viewResult.View.RenderAsync(viewContext);
+                }
 
                 return sw.GetStringBuilder().ToString();
             }

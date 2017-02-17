@@ -14,31 +14,31 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         public void Invoke_ValidDataReturnsCorrectModel()
         {
             // prepare
-            var userapp1 = new DataAccess.Models.UserApps()
+            var userapp1 = new DataAccess.Models.UserApps
             {
                 Id= 1,
-                App = new DataAccess.Models.App() { Id = 1 },
-                User = new DataAccess.Models.User() { Id = 1 },
+                App = new DataAccess.Models.App { Id = 1 },
+                User = new DataAccess.Models.User { Id = 1 },
                 Role = UserRole.Manager
             };
 
-            var userapp2 = new DataAccess.Models.UserApps()
+            var userapp2 = new DataAccess.Models.UserApps
             {
                 Id = 2,
-                App = new DataAccess.Models.App() { Id = 2 },
-                User = new DataAccess.Models.User() { Id = 2 },
+                App = new DataAccess.Models.App { Id = 2 },
+                User = new DataAccess.Models.User { Id = 2 },
                 Role = UserRole.SuperAdmin
             };
 
-            var user = new DataAccess.Models.User()
+            var user = new DataAccess.Models.User
             {
                 Id = 1,
                 Name = "User1",
                 Email = "User1@gmail.com" 
             };
 
-            var findByResult = new List<DataAccess.Models.UserApps>() {userapp1, userapp2 };
-            var findByResultApp = new List<DataAccess.Models.User>() {user };
+            var findByResult = new List<DataAccess.Models.UserApps> { userapp1, userapp2 };
+            var findByResultApp = new List<DataAccess.Models.User> { user };
 
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
             var mockedUserRepository = new Mock<IUserRepository>();
@@ -47,7 +47,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
                 .Returns(findByResult.AsQueryable);
 
             mockedUserRepository.Setup(r => r.GetAll())
-                  .Returns(findByResultApp.AsQueryable);
+                .Returns(findByResultApp.AsQueryable);
 
             var action = new GetAppUsers(mockedUserAppRepository.Object, mockedUserRepository.Object);
 
@@ -65,23 +65,23 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
         public void Invoke_InvalidDataReturnsEmptyList()
         {
             // prepare
-            var userapp1 = new DataAccess.Models.UserApps()
+            var userapp1 = new DataAccess.Models.UserApps
             {
                 Id = 1,
-                App = new DataAccess.Models.App() { Id = 1 },
-                User = new DataAccess.Models.User() { Id = 1 },
+                App = new DataAccess.Models.App { Id = 1 },
+                User = new DataAccess.Models.User { Id = 1 },
                 Role = UserRole.Manager
             };
 
-            var user = new DataAccess.Models.User()
+            var user = new DataAccess.Models.User
             {
                 Id = 1,
                 Name = "User1",
                 Email = "User1@gmail.com"
             };
 
-            var findByResult = new List<DataAccess.Models.UserApps>() { userapp1 };
-            var findByResultApp = new List<DataAccess.Models.User>() { user };
+            var findByResult = new List<DataAccess.Models.UserApps> { userapp1 };
+            var findByResultApp = new List<DataAccess.Models.User> { user };
 
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
             var mockedUserRepository = new Mock<IUserRepository>();
@@ -90,7 +90,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
                 .Returns(findByResult.AsQueryable);
 
             mockedUserRepository.Setup(r => r.GetAll())
-                 .Returns(findByResultApp.AsQueryable);
+                .Returns(findByResultApp.AsQueryable);
 
             var action = new GetAppUsers(mockedUserAppRepository.Object, mockedUserRepository.Object);
 
@@ -109,8 +109,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
 
             var user = new DataAccess.Models.User();
 
-            var findByResult = new List<DataAccess.Models.UserApps>() { userapp1 };
-            var findByResultApp = new List<DataAccess.Models.User>() { user };
+            var findByResult = new List<DataAccess.Models.UserApps> { userapp1 };
+            var findByResultApp = new List<DataAccess.Models.User> { user };
 
             var mockedUserAppRepository = new Mock<IUserAppRepository>();
             var mockedUserRepository = new Mock<IUserRepository>();
@@ -119,7 +119,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
                 .Returns(findByResult.AsQueryable);
 
             mockedUserRepository.Setup(r => r.GetAll())
-                 .Returns(findByResultApp.AsQueryable);
+                .Returns(findByResultApp.AsQueryable);
 
             var action = new GetAppUsers(mockedUserAppRepository.Object, mockedUserRepository.Object);
 
