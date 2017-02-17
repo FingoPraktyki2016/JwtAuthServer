@@ -25,6 +25,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             client.AuthenticationMechanisms.Remove("XOAUTH2");
         }
 
+        //TODO: Add logging on failed Task
         public async Task SendEmailAsync(string emailAddress, string subject, string message)
         {
             var emailMessage = new MimeMessage();
@@ -39,7 +40,7 @@ namespace LegnicaIT.BusinessLogic.Helpers
             };
 
             emailMessage.Body = builder.ToMessageBody();
-
+            
             client.Connect(settings.Value.Host, settings.Value.Port, settings.Value.UseSsl);
 
             // Note: only needed if the SMTP server requires authentication
