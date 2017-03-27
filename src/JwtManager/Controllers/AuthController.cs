@@ -58,8 +58,8 @@ namespace LegnicaIT.JwtManager.Controllers
             Breadcrumb.Add("Login", "Login", "Auth");
 
             ViewBag.ReturnUrl = returnUrl;
-            var LoginModel = new LoginModel();
-            return View(LoginModel);
+            
+            return View();
         }
 
         [AllowAnonymous]
@@ -169,7 +169,7 @@ namespace LegnicaIT.JwtManager.Controllers
         [HttpGet("resendconfirmationemail")]
         public IActionResult ResendConfirmationEmail()
         {
-            return View();
+            return View(); 
         }
 
         [HttpPost("resendconfirmationemail")]

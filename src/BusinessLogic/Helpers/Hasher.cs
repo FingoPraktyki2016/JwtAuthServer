@@ -13,23 +13,12 @@ namespace LegnicaIT.BusinessLogic.Helpers
 
         public string CreateHash(string password, string salt)
         {
-            try
-            {
-                if (password.Length > 0 && password.Length > 0)
-                {
-                    var byteArraySalt = Convert.FromBase64String(salt);
-                    var deriveBytes = new Rfc2898DeriveBytes(password, byteArraySalt, Iterations);
-                    var key = deriveBytes.GetBytes(KeySize);
+            if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(salt)) return null;
+            var byteArraySalt = Convert.FromBase64String(salt);
+            var deriveBytes = new Rfc2898DeriveBytes(password, byteArraySalt, Iterations);
+            var key = deriveBytes.GetBytes(KeySize);
 
-                    return Convert.ToBase64String(key);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-
-            return null;
+            return Convert.ToBase64String(key);
         }
 
         public string GenerateRandomSalt()
