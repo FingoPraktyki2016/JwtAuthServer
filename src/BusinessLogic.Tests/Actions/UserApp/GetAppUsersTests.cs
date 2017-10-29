@@ -16,7 +16,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             // prepare
             var userapp1 = new DataAccess.Models.UserApps
             {
-                Id= 1,
+                Id = 1,
                 App = new DataAccess.Models.App { Id = 1 },
                 User = new DataAccess.Models.User { Id = 1 },
                 Role = UserRole.Manager
