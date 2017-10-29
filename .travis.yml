@@ -26,12 +26,5 @@ before_script:
   - dotnet restore
 
 script:
-  - dotnet build #-c Release
-  - dotnet build ./src/BusinessLogic.Tests
-  - dotnet test
-  - dotnet test --no-build
-  - dotnet test ./src/BusinessLogic.Tests/BusinessLogic.Tests.csproj
-  - dotnet test ./src/BusinessLogic.Tests -c Release
-  - dotnet test -c Release --no-build
-  - cd ./src
-  - dotnet test
+  - dotnet build
+  - dotnet test ./src/BusinessLogic.Tests/BusinessLogic.Tests.csproj --no-build
