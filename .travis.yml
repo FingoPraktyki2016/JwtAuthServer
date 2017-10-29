@@ -24,4 +24,7 @@ global_env: ASPNETCORE_ENVIRONMENT=Staging
 script:
   - dotnet restore
   - dotnet build -c Release
+  - find /home/travis/build/FingoPraktyki2016/JwtAuthServer/src -name JwtManager -exec ls -l {} ;\
+  - dotnet test ./TrollChat.BusinessLogic.Tests
+  - dotnet test ./TrollChat.BusinessLogic.Tests -c Release
   - dotnet test -c Release --no-build
