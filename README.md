@@ -4,7 +4,7 @@
 
 * [Adam Stachowicz](https://github.com/Saibamen) <saibamenppl@gmail.com>
 * [Grzegorz Chybziński](https://github.com/gregleon)
-* [Grzegorz Łobodziński](https://github.com/flgf)
+* [Grzegorz Radziejewski](https://github.com/flgf)
 
 ## For add new migrations
  cd .\src\DataAccess
