@@ -8,7 +8,8 @@ mono:
   - 3.12.0
   - latest
 
-dotnet: 1.0.0-preview2-003131
+# .NET Core SDK
+dotnet: 1.0.3
 
 notifications:
   slack:
