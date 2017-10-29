@@ -27,10 +27,10 @@ before_script:
 
 script:
   - dotnet build #-c Release
-  - dotnet build ./TrollChat.BusinessLogic.Tests
+  - dotnet build ./src/BusinessLogic.Tests
   - find /home/travis/build/FingoPraktyki2016/JwtAuthServer/src -name JwtManager -exec ls -l {} ;\
   - dotnet test
   - dotnet test --no-build
-  - dotnet test ./TrollChat.BusinessLogic.Tests
-  - dotnet test ./TrollChat.BusinessLogic.Tests -c Release
+  - dotnet test ./src/BusinessLogic.Tests
+  - dotnet test ./src/BusinessLogic.Tests -c Release
   - dotnet test -c Release --no-build
