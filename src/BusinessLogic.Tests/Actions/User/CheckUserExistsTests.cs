@@ -36,7 +36,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var user = action.Invoke("email@dot.com", "plain");
 
             // check
-            Assert.Equal(true, user);
+            Assert.True(user);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var user = action.Invoke("email@dot.com", "test");
 
             // check
-            Assert.Equal(false, user);
+            Assert.False(user);
         }
     }
 }

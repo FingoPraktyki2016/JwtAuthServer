@@ -99,8 +99,8 @@ namespace LegnicaIT.BusinessLogic.Tests
 
             VerifyResultModel result = parser.Verify(token);
 
-            Assert.Equal(false, result.IsValid);
-            Assert.Equal(null, result.ExpiryDate);
+            Assert.False(result.IsValid);
+            Assert.Null(result.ExpiryDate);
         }
 
         [Fact]
@@ -111,7 +111,7 @@ namespace LegnicaIT.BusinessLogic.Tests
 
             VerifyResultModel result = parser.Verify(tokenModel.Token);
 
-            Assert.Equal(true, result.IsValid);
+            Assert.True(result.IsValid);
             Assert.NotNull(result.ExpiryDate);
         }
 

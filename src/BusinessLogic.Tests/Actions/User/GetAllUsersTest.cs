@@ -1,5 +1,4 @@
-﻿
-using LegnicaIT.BusinessLogic.Actions.User.Implementation;
+﻿using LegnicaIT.BusinessLogic.Actions.User.Implementation;
 using LegnicaIT.DataAccess.Repositories.Interfaces;
 using Moq;
 using System.Collections.Generic;
@@ -34,7 +33,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
 
             // check
             Assert.Equal(1, list.FirstOrDefault(x => x.Id == 1).Id);
-            Assert.Equal(1, list.Count);
+            Assert.Single(list);
         }
 
         [Fact]
@@ -54,7 +53,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.User
             var list = action.Invoke();
 
             // check
-            Assert.Equal(0, list.Count);
+            Assert.Empty(list);
          }
 
     }

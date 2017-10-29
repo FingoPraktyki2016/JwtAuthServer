@@ -118,7 +118,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
             Assert.Equal("api-verify-result", executedApiResult.ResponseMessage);
             Assert.Equal(HttpStatusCode.OK, executedApiResult.StatusCode);
             Assert.Equal("api/auth/verify", executedApiRoute);
-            Assert.Equal(1, executedApiParams.Count);
+            Assert.Single(executedApiParams);
             Assert.Equal("token-12340-abcd", executedApiParams["Token"]);
         }
 
@@ -181,7 +181,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
             // verify
             Assert.Equal("api-acquiretoken-result", executedApiResult.ResponseMessage);
             Assert.Equal(HttpStatusCode.OK, executedApiResult.StatusCode);
-            Assert.Equal(1, executedApiParams.Count);
+            Assert.Single(executedApiParams);
             Assert.Equal("1", executedApiParams["appId"]);
             Assert.Equal("api/auth/switchapp", executedApiRoute);
         }

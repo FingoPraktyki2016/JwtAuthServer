@@ -33,7 +33,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
         public void Constructor_SetsCallParametersEmpty()
         {
             Assert.NotNull(client.callParameters);
-            Assert.Equal(0, client.callParameters.Count);
+            Assert.Empty(client.callParameters);
         }
 
         [Fact]
@@ -49,8 +49,8 @@ namespace LegnicaIT.BusinessLogic.Tests.Helpers
         {
             client.AddParameter("key", "value");
 
-            Assert.Equal(1, client.callParameters.Count);
-            Assert.Equal(true, client.callParameters.ContainsKey("key"));
+            Assert.Single(client.callParameters);
+            Assert.True(client.callParameters.ContainsKey("key"));
             Assert.Equal("value", client.callParameters["key"]);
         }
 

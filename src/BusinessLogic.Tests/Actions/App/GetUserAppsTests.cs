@@ -54,7 +54,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var list = action.Invoke(2);
 
             // check
-            Assert.Equal(1, list.Count);
+            Assert.Single(list);
             Assert.Equal(2, list.FirstOrDefault(x => x.Id == 2).Id);
             Assert.Equal("app2", list.FirstOrDefault(x => x.Name == "app2").Name);
         }
@@ -148,7 +148,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var list = action.Invoke(999);
 
             // check
-            Assert.Equal(0, list.Count);
+            Assert.Empty(list);
         }
 
         [Fact]
@@ -174,7 +174,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.App
             var list = action.Invoke(999);
 
             // check
-            Assert.Equal(0, list.Count);
+            Assert.Empty(list);
         }
     }
 }

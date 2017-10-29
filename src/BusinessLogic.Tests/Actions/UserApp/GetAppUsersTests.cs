@@ -98,7 +98,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var list = action.Invoke(999);
 
             // check
-            Assert.Equal(0, list.Count);
+            Assert.Empty(list);
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace LegnicaIT.BusinessLogic.Tests.Actions.UserApp
             var list = action.Invoke(999);
 
             // check
-            Assert.Equal(0, list.Count);
+            Assert.Empty(list);
         }
 
     }
