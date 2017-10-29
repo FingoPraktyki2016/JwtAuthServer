@@ -28,9 +28,10 @@ before_script:
 script:
   - dotnet build #-c Release
   - dotnet build ./src/BusinessLogic.Tests
-  - find /home/travis/build/FingoPraktyki2016/JwtAuthServer/src -name JwtManager -exec ls -l {} ;\
   - dotnet test
   - dotnet test --no-build
-  - dotnet test ./src/BusinessLogic.Tests
+  - dotnet test ./src/BusinessLogic.Tests/BusinessLogic.Tests.csproj
   - dotnet test ./src/BusinessLogic.Tests -c Release
   - dotnet test -c Release --no-build
+  - cd ./src
+  - dotnet test
