@@ -9,7 +9,7 @@ mono:
   - latest
 
 # .NET Core SDK
-dotnet: 2.0.0
+dotnet: 1.0.4
 
 notifications:
   slack:
@@ -24,4 +24,4 @@ global_env: ASPNETCORE_ENVIRONMENT=Staging
 script:
   - dotnet restore
   - dotnet build -c Release
-  - dotnet test ./src/BusinessLogic.Tests -c Release --no-build
+  - dotnet test -c Release --no-build
