@@ -66,7 +66,6 @@ namespace LegnicaIT.JwtManager
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
                 app.UseStatusCodePages();
             }
             else
